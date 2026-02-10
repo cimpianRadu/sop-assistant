@@ -1,0 +1,226 @@
+{
+  "Common": {
+    "appName": "SOP Assistant",
+    "logIn": "Log in",
+    "logOut": "Log out",
+    "signUp": "Sign up",
+    "pricing": "Pricing",
+    "dashboard": "Dashboard",
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "email": "Email",
+    "password": "Password",
+    "role": "Role",
+    "manager": "Manager",
+    "operator": "Operator",
+    "loading": "Loading...",
+    "completed": "Completed",
+    "inProgress": "In Progress",
+    "started": "Started {date}",
+    "created": "Created {date}",
+    "contact": "Contact",
+    "contactUs": "Contact us",
+    "startFreeTrial": "Start free trial",
+    "day": "day",
+    "days": "days"
+  },
+
+  "Landing": {
+    "trialBadge": "14-day free trial — no credit card required",
+    "heroTitle": "Stop your seniors from being trainers",
+    "heroHighlight": "being trainers",
+    "heroSubtitle": "Turn your team's expertise into AI-generated procedures. New hires follow step-by-step checklists and get instant help — without interrupting anyone.",
+    "startTrial": "Start free trial",
+    "viewPricing": "View pricing",
+    "soundFamiliar": "Sound familiar?",
+    "painPoint1": "Seniors spending hours training new hires instead of doing their job",
+    "painPoint2": "Tribal knowledge lost when key people leave",
+    "painPoint3": "Inconsistent onboarding leading to costly mistakes",
+    "painPoint4": "No documented procedures, everything lives in someone's head",
+    "howItWorks": "How it works",
+    "howItWorksSubtitle": "Three steps to free your seniors from repetitive training.",
+    "feature1Title": "AI-Generated SOPs",
+    "feature1Desc": "Describe your process in plain language. Our AI creates a detailed, step-by-step Standard Operating Procedure in seconds.",
+    "feature2Title": "Step-by-Step Execution",
+    "feature2Desc": "Operators follow interactive checklists. Every step is tracked, so managers know exactly where things stand.",
+    "feature3Title": "Built-in Help System",
+    "feature3Desc": "Stuck on a step? Operators get instant AI guidance or can escalate to a manager. No more interrupting seniors.",
+    "ctaTitle": "Ready to stop wasting senior time?",
+    "ctaSubtitle": "Start your 14-day free trial. Full access, no credit card required.",
+    "getStarted": "Get started for free"
+  },
+
+  "Pricing": {
+    "title": "Simple, transparent pricing",
+    "subtitle": "Transform your team's expertise into clear, AI-generated procedures. New hires become productive from day one.",
+    "planName": "Growth",
+    "price": "€99",
+    "perMonth": "/month",
+    "planDescription": "Everything you need to onboard your team efficiently.",
+    "feature1": "Up to 3 Managers",
+    "feature2": "Up to 20 Operators",
+    "feature3": "30 AI-generated SOPs per month",
+    "feature4": "AI-powered help system",
+    "feature5": "Manager escalation workflow",
+    "feature6": "Execution tracking & analytics",
+    "feature7": "Email support",
+    "currentPlan": "You're on the Growth plan",
+    "trialRemaining": "Trial: {days} {days, plural, one {day} other {days}} remaining",
+    "upgradeNow": "Upgrade now",
+    "contactToSubscribe": "Contact us to subscribe",
+    "startTrial": "Start 14-day free trial",
+    "trialInfo": "14-day free trial. Full access. No credit card required.",
+    "questions": "Questions?"
+  },
+
+  "Auth": {
+    "loginTitle": "Log In",
+    "loginSubtitle": "Sign in to your SOP Assistant account",
+    "signupTitle": "Sign Up",
+    "signupSubtitle": "Create your SOP Assistant account",
+    "emailPlaceholder": "you@example.com",
+    "passwordPlaceholder": "••••••••",
+    "signingIn": "Signing in...",
+    "signIn": "Sign In",
+    "creatingAccount": "Creating account...",
+    "createAccount": "Create Account",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "roleDescription": "Managers create SOPs. Operators execute checklists.",
+    "signUpLink": "Sign up",
+    "logInLink": "Log in"
+  },
+
+  "TrialExpired": {
+    "title": "Your trial has ended",
+    "description": "Your 14-day free trial of SOP Assistant has expired.",
+    "duringTrial": "During your trial, you experienced:",
+    "feature1": "AI-generated Standard Operating Procedures",
+    "feature2": "Step-by-step process execution for your team",
+    "feature3": "AI-powered help system with manager escalation",
+    "viewPricing": "View pricing",
+    "contactToContinue": "Contact us to continue"
+  },
+
+  "Header": {
+    "trialDays": "Trial: {days} {days, plural, one {day} other {days}} left"
+  },
+
+  "Manager": {
+    "yourProcesses": "Your Processes",
+    "newProcess": "New Process",
+    "noProcesses": "No processes yet",
+    "noProcessesHint": "Create your first process to generate an SOP.",
+    "backToDashboard": "← Back to Dashboard",
+    "createNewProcess": "Create New Process",
+    "describeProcess": "Describe Your Process",
+    "processTitle": "Process Title",
+    "titlePlaceholder": "e.g., Employee Onboarding",
+    "processDescription": "Process Description",
+    "descriptionPlaceholder": "Describe the process in detail. Include the goal, who is involved, key steps, and any important considerations...",
+    "descriptionHint": "The more detail you provide, the better the generated SOP will be.",
+    "generateSOP": "Generate SOP",
+    "generatingSOP": "Generating your SOP... This may take a few seconds.",
+    "backToEdit": "Back to Edit",
+    "generatedSOP": "Generated SOP",
+    "checklist": "Checklist",
+    "checklistWithCount": "Checklist ({count} steps)",
+    "saving": "Saving...",
+    "saveProcess": "Save Process",
+    "standardProcedure": "Standard Operating Procedure",
+    "steps": "{count} steps",
+    "executionHistory": "Execution History",
+    "noExecutions": "No executions yet. Operators can start executing this process from their dashboard."
+  },
+
+  "Assignments": {
+    "assignedOperators": "Assigned Operators",
+    "operatorPlaceholder": "operator@example.com",
+    "assigning": "Assigning...",
+    "assign": "Assign",
+    "removing": "Removing...",
+    "remove": "Remove",
+    "noOperators": "No operators assigned yet. Add an operator by email above.",
+    "assignSuccess": "Operator {email} assigned successfully."
+  },
+
+  "Escalations": {
+    "title": "Escalations",
+    "operatorQuestion": "Operator's Question:",
+    "aiResponseGiven": "AI Response Given:",
+    "operatorNote": "Operator's Note:",
+    "resolving": "Resolving...",
+    "markResolved": "Mark as Resolved",
+    "from": "From: {email} · {date}",
+    "step": "Step {number}: {text}"
+  },
+
+  "Analytics": {
+    "totalProcesses": "Total Processes",
+    "sopsCreated": "SOPs created",
+    "totalExecutions": "Total Executions",
+    "acrossAll": "Across all processes",
+    "completed": "Completed",
+    "successfullyFinished": "Successfully finished",
+    "inProgress": "In Progress",
+    "currentlyRunning": "Currently running"
+  },
+
+  "Operator": {
+    "assignedProcesses": "Your Assigned Processes",
+    "noProcesses": "No processes assigned",
+    "noProcessesHint": "Processes will appear here once a manager assigns them to you.",
+    "backToDashboard": "← Back to Dashboard",
+    "backToProcess": "← Back to Process",
+    "yourExecutions": "Your Executions",
+    "continue": "Continue",
+    "executionStarted": "Execution started {date}",
+    "startExecution": "Start Execution",
+    "starting": "Starting...",
+    "standardProcedure": "Standard Operating Procedure"
+  },
+
+  "Checklist": {
+    "progress": "Progress",
+    "stepsProgress": "{completed}/{total} steps ({percent}%)",
+    "title": "Checklist",
+    "completing": "Completing...",
+    "completeExecution": "Complete Execution",
+    "stepsRemaining": "Complete all steps to finish ({remaining} remaining)"
+  },
+
+  "Help": {
+    "needHelp": "Need Help?",
+    "helpWithStep": "Help with Step {number}",
+    "whatHelp": "What do you need help with?",
+    "questionPlaceholder": "Describe what you're stuck on or need clarification about...",
+    "gettingHelp": "Getting help...",
+    "askAI": "Ask AI for Help",
+    "aiResponse": "AI Response:",
+    "thisHelped": "This Helped",
+    "stillStuck": "Still Stuck - Escalate",
+    "noteForManager": "Note for manager (optional)",
+    "notePlaceholder": "Add any additional context for the manager...",
+    "escalating": "Escalating...",
+    "escalateToManager": "Escalate to Manager",
+    "escalatedMessage": "Your question has been escalated to the manager. They will review it and get back to you.",
+    "defaultEscalationNote": "Operator needs additional assistance.",
+    "close": "Close"
+  },
+
+  "Errors": {
+    "unauthorized": "Unauthorized",
+    "titleRequired": "Title and description are required.",
+    "descriptionTooShort": "Please provide a more detailed description (at least 20 characters).",
+    "failedToGenerateSOP": "Failed to generate SOP",
+    "networkError": "Network error. Please check your connection and try again.",
+    "emailRequired": "Please enter an email address.",
+    "questionRequired": "Please enter your question.",
+    "failedToGetHelp": "Failed to get help.",
+    "noHelpRequest": "No help request to escalate.",
+    "operatorNotFound": "No account found with that email address.",
+    "notAnOperator": "That user is not an operator.",
+    "alreadyAssigned": "This operator is already assigned to this process."
+  }
+}

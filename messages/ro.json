@@ -1,0 +1,226 @@
+{
+  "Common": {
+    "appName": "SOP Assistant",
+    "logIn": "Autentificare",
+    "logOut": "Deconectare",
+    "signUp": "Inregistrare",
+    "pricing": "Preturi",
+    "dashboard": "Panou de control",
+    "save": "Salveaza",
+    "cancel": "Anuleaza",
+    "back": "Inapoi",
+    "email": "Email",
+    "password": "Parola",
+    "role": "Rol",
+    "manager": "Manager",
+    "operator": "Operator",
+    "loading": "Se incarca...",
+    "completed": "Finalizat",
+    "inProgress": "In desfasurare",
+    "started": "Inceput la {date}",
+    "created": "Creat la {date}",
+    "contact": "Contact",
+    "contactUs": "Contacteaza-ne",
+    "startFreeTrial": "Incepe gratuit",
+    "day": "zi",
+    "days": "zile"
+  },
+
+  "Landing": {
+    "trialBadge": "14 zile gratuit — nu necesita card",
+    "heroTitle": "Opreste-ti seniorii din a fi traineri",
+    "heroHighlight": "traineri",
+    "heroSubtitle": "Transforma expertiza echipei tale in proceduri generate de AI. Angajatii noi urmeaza checklist-uri pas cu pas si primesc ajutor instant — fara sa deranjeze pe nimeni.",
+    "startTrial": "Incepe gratuit",
+    "viewPricing": "Vezi preturile",
+    "soundFamiliar": "Iti suna cunoscut?",
+    "painPoint1": "Seniorii petrec ore intregi antrenand noii angajati in loc sa isi faca treaba",
+    "painPoint2": "Cunostintele se pierd cand pleaca oamenii cheie",
+    "painPoint3": "Onboarding inconsistent duce la greseli costisitoare",
+    "painPoint4": "Fara proceduri documentate, totul e in capul cuiva",
+    "howItWorks": "Cum functioneaza",
+    "howItWorksSubtitle": "Trei pasi pentru a-ti elibera seniorii de training-ul repetitiv.",
+    "feature1Title": "SOP-uri generate de AI",
+    "feature1Desc": "Descrie procesul tau in limbaj natural. AI-ul nostru creeaza o procedura detaliata, pas cu pas, in cateva secunde.",
+    "feature2Title": "Executie pas cu pas",
+    "feature2Desc": "Operatorii urmeaza checklist-uri interactive. Fiecare pas e urmarit, asa ca managerii stiu exact unde sunt lucrurile.",
+    "feature3Title": "Sistem de ajutor integrat",
+    "feature3Desc": "Blocat la un pas? Operatorii primesc ghidaj instant de la AI sau pot escalada catre manager. Fara sa intrerupa seniorii.",
+    "ctaTitle": "Gata sa opresti pierderea timpului seniorilor?",
+    "ctaSubtitle": "Incepe gratuit 14 zile. Acces complet, fara card.",
+    "getStarted": "Incepe gratuit"
+  },
+
+  "Pricing": {
+    "title": "Preturi simple, transparente",
+    "subtitle": "Transforma expertiza echipei tale in proceduri clare, generate de AI. Angajatii noi devin productivi din prima zi.",
+    "planName": "Growth",
+    "price": "€99",
+    "perMonth": "/luna",
+    "planDescription": "Tot ce ai nevoie pentru un onboarding eficient al echipei.",
+    "feature1": "Pana la 3 Manageri",
+    "feature2": "Pana la 20 Operatori",
+    "feature3": "30 SOP-uri generate de AI pe luna",
+    "feature4": "Sistem de ajutor alimentat de AI",
+    "feature5": "Flux de escaladare catre manager",
+    "feature6": "Urmarire executie si analize",
+    "feature7": "Suport prin email",
+    "currentPlan": "Esti pe planul Growth",
+    "trialRemaining": "Trial: {days} {days, plural, one {zi} other {zile}} ramase",
+    "upgradeNow": "Upgradeaza acum",
+    "contactToSubscribe": "Contacteaza-ne pentru abonament",
+    "startTrial": "Incepe gratuit 14 zile",
+    "trialInfo": "14 zile gratuit. Acces complet. Fara card.",
+    "questions": "Intrebari?"
+  },
+
+  "Auth": {
+    "loginTitle": "Autentificare",
+    "loginSubtitle": "Conecteaza-te la contul tau SOP Assistant",
+    "signupTitle": "Inregistrare",
+    "signupSubtitle": "Creeaza contul tau SOP Assistant",
+    "emailPlaceholder": "tu@exemplu.com",
+    "passwordPlaceholder": "••••••••",
+    "signingIn": "Se autentifica...",
+    "signIn": "Autentificare",
+    "creatingAccount": "Se creeaza contul...",
+    "createAccount": "Creeaza cont",
+    "noAccount": "Nu ai cont?",
+    "haveAccount": "Ai deja cont?",
+    "roleDescription": "Managerii creeaza SOP-uri. Operatorii executa checklist-uri.",
+    "signUpLink": "Inregistreaza-te",
+    "logInLink": "Autentifica-te"
+  },
+
+  "TrialExpired": {
+    "title": "Perioada de trial s-a incheiat",
+    "description": "Perioada ta gratuita de 14 zile pentru SOP Assistant a expirat.",
+    "duringTrial": "In timpul trial-ului, ai experimentat:",
+    "feature1": "Proceduri Standard de Operare generate de AI",
+    "feature2": "Executie pas cu pas a proceselor pentru echipa ta",
+    "feature3": "Sistem de ajutor AI cu escaladare catre manager",
+    "viewPricing": "Vezi preturile",
+    "contactToContinue": "Contacteaza-ne pentru a continua"
+  },
+
+  "Header": {
+    "trialDays": "Trial: {days} {days, plural, one {zi} other {zile}} ramase"
+  },
+
+  "Manager": {
+    "yourProcesses": "Procesele tale",
+    "newProcess": "Proces nou",
+    "noProcesses": "Niciun proces inca",
+    "noProcessesHint": "Creeaza primul tau proces pentru a genera un SOP.",
+    "backToDashboard": "← Inapoi la Panou",
+    "createNewProcess": "Creeaza proces nou",
+    "describeProcess": "Descrie-ti procesul",
+    "processTitle": "Titlul procesului",
+    "titlePlaceholder": "ex., Onboarding Angajati",
+    "processDescription": "Descrierea procesului",
+    "descriptionPlaceholder": "Descrie procesul in detaliu. Include scopul, cine e implicat, pasii cheie si orice consideratii importante...",
+    "descriptionHint": "Cu cat dai mai multe detalii, cu atat SOP-ul generat va fi mai bun.",
+    "generateSOP": "Genereaza SOP",
+    "generatingSOP": "Se genereaza SOP-ul... Poate dura cateva secunde.",
+    "backToEdit": "Inapoi la editare",
+    "generatedSOP": "SOP generat",
+    "checklist": "Checklist",
+    "checklistWithCount": "Checklist ({count} pasi)",
+    "saving": "Se salveaza...",
+    "saveProcess": "Salveaza proces",
+    "standardProcedure": "Procedura Standard de Operare",
+    "steps": "{count} pasi",
+    "executionHistory": "Istoricul executiilor",
+    "noExecutions": "Nicio executie inca. Operatorii pot incepe executarea din panoul lor."
+  },
+
+  "Assignments": {
+    "assignedOperators": "Operatori asignati",
+    "operatorPlaceholder": "operator@exemplu.com",
+    "assigning": "Se asigneaza...",
+    "assign": "Asigneaza",
+    "removing": "Se sterge...",
+    "remove": "Sterge",
+    "noOperators": "Niciun operator asignat inca. Adauga un operator dupa email mai sus.",
+    "assignSuccess": "Operatorul {email} a fost asignat cu succes."
+  },
+
+  "Escalations": {
+    "title": "Escaladari",
+    "operatorQuestion": "Intrebarea operatorului:",
+    "aiResponseGiven": "Raspunsul AI oferit:",
+    "operatorNote": "Nota operatorului:",
+    "resolving": "Se rezolva...",
+    "markResolved": "Marcheaza ca rezolvat",
+    "from": "De la: {email} · {date}",
+    "step": "Pasul {number}: {text}"
+  },
+
+  "Analytics": {
+    "totalProcesses": "Total procese",
+    "sopsCreated": "SOP-uri create",
+    "totalExecutions": "Total executii",
+    "acrossAll": "Din toate procesele",
+    "completed": "Finalizate",
+    "successfullyFinished": "Terminate cu succes",
+    "inProgress": "In desfasurare",
+    "currentlyRunning": "In curs de executie"
+  },
+
+  "Operator": {
+    "assignedProcesses": "Procesele tale asignate",
+    "noProcesses": "Niciun proces asignat",
+    "noProcessesHint": "Procesele vor aparea aici odata ce un manager ti le asigneaza.",
+    "backToDashboard": "← Inapoi la Panou",
+    "backToProcess": "← Inapoi la Proces",
+    "yourExecutions": "Executiile tale",
+    "continue": "Continua",
+    "executionStarted": "Executia inceputa la {date}",
+    "startExecution": "Incepe executia",
+    "starting": "Se porneste...",
+    "standardProcedure": "Procedura Standard de Operare"
+  },
+
+  "Checklist": {
+    "progress": "Progres",
+    "stepsProgress": "{completed}/{total} pasi ({percent}%)",
+    "title": "Checklist",
+    "completing": "Se finalizeaza...",
+    "completeExecution": "Finalizeaza executia",
+    "stepsRemaining": "Completeaza toti pasii pentru a termina ({remaining} ramasi)"
+  },
+
+  "Help": {
+    "needHelp": "Ai nevoie de ajutor?",
+    "helpWithStep": "Ajutor pentru Pasul {number}",
+    "whatHelp": "Cu ce ai nevoie de ajutor?",
+    "questionPlaceholder": "Descrie ce nu intelegi sau unde esti blocat...",
+    "gettingHelp": "Se obtine ajutor...",
+    "askAI": "Intreaba AI-ul",
+    "aiResponse": "Raspunsul AI:",
+    "thisHelped": "M-a ajutat",
+    "stillStuck": "Inca blocat - Escaleaza",
+    "noteForManager": "Nota pentru manager (optional)",
+    "notePlaceholder": "Adauga context suplimentar pentru manager...",
+    "escalating": "Se escaleaza...",
+    "escalateToManager": "Escaleaza catre Manager",
+    "escalatedMessage": "Intrebarea ta a fost escaladata catre manager. O va examina si te va contacta.",
+    "defaultEscalationNote": "Operatorul are nevoie de asistenta suplimentara.",
+    "close": "Inchide"
+  },
+
+  "Errors": {
+    "unauthorized": "Neautorizat",
+    "titleRequired": "Titlul si descrierea sunt obligatorii.",
+    "descriptionTooShort": "Te rugam sa oferi o descriere mai detaliata (minim 20 caractere).",
+    "failedToGenerateSOP": "Generarea SOP-ului a esuat",
+    "networkError": "Eroare de retea. Verifica conexiunea si incearca din nou.",
+    "emailRequired": "Te rugam introdu o adresa de email.",
+    "questionRequired": "Te rugam introdu intrebarea.",
+    "failedToGetHelp": "Nu s-a putut obtine ajutor.",
+    "noHelpRequest": "Nicio cerere de ajutor de escaladat.",
+    "operatorNotFound": "Nu s-a gasit niciun cont cu aceasta adresa de email.",
+    "notAnOperator": "Acel utilizator nu este operator.",
+    "alreadyAssigned": "Acest operator este deja asignat la acest proces."
+  }
+}
