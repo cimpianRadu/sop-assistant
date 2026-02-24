@@ -19,6 +19,8 @@
     "inProgress": "In desfasurare",
     "started": "Inceput la {date}",
     "created": "Creat la {date}",
+    "admin": "Admin",
+    "fullName": "Nume complet",
     "contact": "Contact",
     "contactUs": "Contacteaza-ne",
     "startFreeTrial": "Incepe gratuit",
@@ -87,9 +89,58 @@
     "createAccount": "Creeaza cont",
     "noAccount": "Nu ai cont?",
     "haveAccount": "Ai deja cont?",
-    "roleDescription": "Managerii creeaza SOP-uri. Operatorii executa checklist-uri.",
+    "fullNamePlaceholder": "Ion Popescu",
     "signUpLink": "Inregistreaza-te",
-    "logInLink": "Autentifica-te"
+    "logInLink": "Autentifica-te",
+    "checkEmailTitle": "Verifica-ti emailul",
+    "checkEmailDescription": "Ti-am trimis un link de confirmare. Verifica inbox-ul si apasa pe link pentru a-ti activa contul.",
+    "checkEmailSpam": "Nu l-ai primit? Verifica folderul de spam.",
+    "backToLogin": "Inapoi la autentificare"
+  },
+
+  "Onboarding": {
+    "createOrgTitle": "Creeaza organizatia ta",
+    "createOrgSubtitle": "Configureaza spatiul de lucru al echipei tale.",
+    "orgName": "Numele organizatiei",
+    "orgNamePlaceholder": "ex., Acme SRL",
+    "creating": "Se creeaza...",
+    "createOrg": "Creeaza organizatia"
+  },
+
+  "Invite": {
+    "title": "Ai fost invitat!",
+    "invitedTo": "Ai fost invitat sa te alaturi organizatiei {orgName} ca {role}.",
+    "accept": "Accepta invitatia",
+    "accepting": "Se accepta...",
+    "signupFirst": "Creeaza un cont pentru a accepta",
+    "loginFirst": "Autentifica-te pentru a accepta",
+    "invalidInvite": "Aceasta invitatie este invalida sau a expirat.",
+    "emailMismatch": "Email nepotrivit",
+    "emailMismatchDesc": "Aceasta invitatie a fost trimisa la {email}. Te rugam sa te autentifici cu acel email.",
+    "orgLabel": "Organizatie",
+    "roleLabel": "Rol"
+  },
+
+  "Admin": {
+    "dashboard": "Panoul organizatiei",
+    "members": "Membri",
+    "processes": "Procese",
+    "manageMembers": "Gestioneaza membrii",
+    "inviteMember": "Invita membru",
+    "inviting": "Se invita...",
+    "pendingInvites": "Invitatii in asteptare",
+    "memberRole": "Rol",
+    "removeMember": "Sterge",
+    "removing": "Se sterge...",
+    "cancelInvite": "Anuleaza",
+    "cancelling": "Se anuleaza...",
+    "noMembers": "Niciun membru inca. Invita-ti echipa pentru a incepe.",
+    "inviteLink": "Link de invitatie creat!",
+    "copyLink": "Copiaza link",
+    "linkCopied": "Copiat!",
+    "backToDashboard": "← Inapoi la Panou",
+    "totalExecutions": "Total executii",
+    "completedExecutions": "Finalizate"
   },
 
   "TrialExpired": {
@@ -136,13 +187,13 @@
 
   "Assignments": {
     "assignedOperators": "Operatori asignati",
-    "operatorPlaceholder": "operator@exemplu.com",
+    "selectOperator": "Selecteaza un operator...",
     "assigning": "Se asigneaza...",
     "assign": "Asigneaza",
     "removing": "Se sterge...",
     "remove": "Sterge",
-    "noOperators": "Niciun operator asignat inca. Adauga un operator dupa email mai sus.",
-    "assignSuccess": "Operatorul {email} a fost asignat cu succes."
+    "noOperators": "Niciun operator asignat inca.",
+    "noOrgOperators": "Niciun operator in organizatie. Invita operatori din pagina de Membri."
   },
 
   "Escalations": {
@@ -219,8 +270,20 @@
     "questionRequired": "Te rugam introdu intrebarea.",
     "failedToGetHelp": "Nu s-a putut obtine ajutor.",
     "noHelpRequest": "Nicio cerere de ajutor de escaladat.",
-    "operatorNotFound": "Nu s-a gasit niciun cont cu aceasta adresa de email.",
+    "operatorNotFound": "Nu s-a gasit niciun operator cu acest email in organizatia ta.",
     "notAnOperator": "Acel utilizator nu este operator.",
-    "alreadyAssigned": "Acest operator este deja asignat la acest proces."
+    "alreadyAssigned": "Acest operator este deja asignat la acest proces.",
+    "forbidden": "Nu ai permisiunea de a efectua aceasta actiune.",
+    "already_in_org": "Esti deja membru al unei organizatii.",
+    "name_required": "Numele organizatiei este obligatoriu.",
+    "already_member": "Aceasta persoana este deja membra a organizatiei tale.",
+    "already_invited": "O invitatie a fost deja trimisa la acest email.",
+    "member_not_found": "Membrul nu a fost gasit.",
+    "cannot_remove_self": "Nu te poti sterge pe tine din organizatie.",
+    "not_authenticated": "Trebuie sa fii autentificat.",
+    "invite_not_found_or_expired": "Invitatia nu a fost gasita sau a expirat.",
+    "email_mismatch": "Aceasta invitatie a fost trimisa la un alt email.",
+    "email_required": "Te rugam introdu o adresa de email.",
+    "invalid_role": "Te rugam selecteaza un rol valid."
   }
 }

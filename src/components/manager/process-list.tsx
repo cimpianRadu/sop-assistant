@@ -2,9 +2,9 @@
 
 import { useTranslations } from "next-intl";
 import { ProcessCard } from "./process-card";
-import type { Process } from "@/lib/types";
+import type { ProcessWithCreator } from "@/lib/types";
 
-export function ProcessList({ processes }: { processes: Process[] }) {
+export function ProcessList({ processes }: { processes: ProcessWithCreator[] }) {
   const t = useTranslations("Manager");
 
   if (processes.length === 0) {
@@ -18,7 +18,9 @@ export function ProcessList({ processes }: { processes: Process[] }) {
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {processes.map((process) => (<ProcessCard key={process.id} process={process} />))}
+      {processes.map((process) => (
+        <ProcessCard key={process.id} process={process} />
+      ))}
     </div>
   );
 }

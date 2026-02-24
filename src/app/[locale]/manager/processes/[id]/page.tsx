@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
 import { OperatorAssignments } from "@/components/manager/operator-assignments";
+import { StartExecutionButton } from "@/components/manager/start-execution-button";
+import { getSessionContext } from "@/lib/session";
 import type { ChecklistStep, ExecutionWithProfile, ProcessAssignmentWithProfile } from "@/lib/types";
 
 export default async function ProcessDetailPage({ params }: { params: Promise<{ id: string; locale: string }> }) {
@@ -23,20 +25,38 @@ export default async function ProcessDetailPage({ params }: { params: Promise<{ 
   const { data: executions } = await supabase.from("executions").select("*, profiles(email)").eq("process_id", id).order("started_at", { ascending: false });
   const { data: assignments } = await supabase.from("process_assignments").select("*, profiles(email)").eq("process_id", id).order("created_at", { ascending: false });
 
+  const session = await getSessionContext();
+  // Fetch operators in the org for the dropdown
+  const { data: orgOperators } = await supabase
+    .from("org_members")
+    .select("user_id, profiles!org_members_user_id_fkey(email, full_name)")
+    .eq("org_id", session!.org_id)
+    .eq("role", "operator");
+
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <Link href="/manager/dashboard"><Button variant="ghost" size="sm">{t("backToDashboard")}</Button></Link>
-      <div>
-        <h2 className="text-2xl font-bold">{process.title}</h2>
-        <p className="text-muted-foreground mt-1">{process.description}</p>
-        <p className="text-xs text-muted-foreground mt-2">{tc("created", { date: new Date(process.created_at).toLocaleDateString(locale) })}</p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">{process.title}</h2>
+          <p className="text-muted-foreground mt-1">{process.description}</p>
+          <p className="text-xs text-muted-foreground mt-2">{tc("created", { date: new Date(process.created_at).toLocaleDateString(locale) })}</p>
+        </div>
+        <StartExecutionButton processId={id} />
       </div>
       <Card><CardHeader><CardTitle>{t("standardProcedure")}</CardTitle></CardHeader><CardContent><MarkdownRenderer content={process.sop_text} /></CardContent></Card>
       <Card>
         <CardHeader><CardTitle>{t("checklistWithCount", { count: (steps as ChecklistStep[])?.length || 0 })}</CardTitle></CardHeader>
         <CardContent><ol className="list-decimal list-inside space-y-2">{(steps as ChecklistStep[])?.map((step) => (<li key={step.id} className="text-sm">{step.step_text}</li>))}</ol></CardContent>
       </Card>
-      <OperatorAssignments processId={id} assignments={(assignments as ProcessAssignmentWithProfile[]) || []} />
+      <OperatorAssignments
+        processId={id}
+        assignments={(assignments as ProcessAssignmentWithProfile[]) || []}
+        operators={(orgOperators || []).map((m) => {
+          const profile = m.profiles as unknown as { email: string; full_name: string | null };
+          return { id: m.user_id, email: profile.email, full_name: profile.full_name };
+        })}
+      />
       <Card>
         <CardHeader><CardTitle>{t("executionHistory")}</CardTitle></CardHeader>
         <CardContent>

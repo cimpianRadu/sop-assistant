@@ -56,18 +56,32 @@ export async function middleware(request: NextRequest) {
     return supabaseResponse;
   }
 
+  // Invite pages are accessible to everyone (page handles auth internally)
+  if (cleanPath.startsWith("/invite")) {
+    return supabaseResponse;
+  }
+
   // Allow auth pages for unauthenticated users
   if (cleanPath.startsWith("/auth")) {
     if (user) {
-      const { data: profile } = await supabase
-        .from("profiles")
+      // Logged in — check if they have an org
+      const { data: membership } = await supabase
+        .from("org_members")
         .select("role")
-        .eq("id", user.id)
+        .eq("user_id", user.id)
         .single();
 
-      const role = profile?.role || "operator";
+      if (!membership) {
+        return NextResponse.redirect(
+          new URL(localizedPath("/onboarding", locale), request.url)
+        );
+      }
+
       return NextResponse.redirect(
-        new URL(localizedPath(`/${role}/dashboard`, locale), request.url)
+        new URL(
+          localizedPath(`/${membership.role}/dashboard`, locale),
+          request.url
+        )
       );
     }
     return supabaseResponse;
@@ -80,22 +94,53 @@ export async function middleware(request: NextRequest) {
     );
   }
 
-  // Fetch user profile for role and trial status
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role, subscription_status, trial_ends_at")
-    .eq("id", user.id)
+  // Onboarding: requires auth but no org
+  if (cleanPath.startsWith("/onboarding")) {
+    const { data: membership } = await supabase
+      .from("org_members")
+      .select("role")
+      .eq("user_id", user.id)
+      .single();
+
+    if (membership) {
+      // Already has org — redirect to dashboard
+      return NextResponse.redirect(
+        new URL(
+          localizedPath(`/${membership.role}/dashboard`, locale),
+          request.url
+        )
+      );
+    }
+    return supabaseResponse;
+  }
+
+  // Fetch org membership and org details
+  const { data: membership } = await supabase
+    .from("org_members")
+    .select("role, organizations(subscription_status, trial_ends_at)")
+    .eq("user_id", user.id)
     .single();
 
-  const role = profile?.role || "operator";
+  // No org membership — redirect to onboarding
+  if (!membership) {
+    return NextResponse.redirect(
+      new URL(localizedPath("/onboarding", locale), request.url)
+    );
+  }
+
+  const role = membership.role;
+  const org = membership.organizations as unknown as {
+    subscription_status: string;
+    trial_ends_at: string | null;
+  };
 
   // Trial enforcement (exempt: /trial-expired)
   if (cleanPath !== "/trial-expired") {
-    const isActive = profile?.subscription_status === "active";
+    const isActive = org?.subscription_status === "active";
     const isTrialing =
-      profile?.subscription_status === "trialing" &&
-      profile?.trial_ends_at &&
-      new Date(profile.trial_ends_at) > new Date();
+      org?.subscription_status === "trialing" &&
+      org?.trial_ends_at &&
+      new Date(org.trial_ends_at) > new Date();
 
     if (!isActive && !isTrialing) {
       return NextResponse.redirect(
@@ -106,28 +151,38 @@ export async function middleware(request: NextRequest) {
 
   // Redirect away from /trial-expired if trial is still valid
   if (cleanPath === "/trial-expired") {
-    const isActive = profile?.subscription_status === "active";
+    const isActive = org?.subscription_status === "active";
     const isTrialing =
-      profile?.subscription_status === "trialing" &&
-      profile?.trial_ends_at &&
-      new Date(profile.trial_ends_at) > new Date();
+      org?.subscription_status === "trialing" &&
+      org?.trial_ends_at &&
+      new Date(org.trial_ends_at) > new Date();
 
     if (isActive || isTrialing) {
       return NextResponse.redirect(
-        new URL(localizedPath(`/${role}/dashboard`, locale), request.url)
+        new URL(
+          localizedPath(`/${role}/dashboard`, locale),
+          request.url
+        )
       );
     }
     return supabaseResponse;
   }
 
   // Role-based route protection
-  if (cleanPath.startsWith("/manager") && role !== "manager") {
+  if (cleanPath.startsWith("/admin") && role !== "admin") {
     return NextResponse.redirect(
       new URL(localizedPath(`/${role}/dashboard`, locale), request.url)
     );
   }
 
-  if (cleanPath.startsWith("/operator") && role !== "operator") {
+  // Admins can access manager routes
+  if (cleanPath.startsWith("/manager") && role !== "manager" && role !== "admin") {
+    return NextResponse.redirect(
+      new URL(localizedPath(`/${role}/dashboard`, locale), request.url)
+    );
+  }
+
+  if (cleanPath.startsWith("/operator") && role !== "operator" && role !== "manager" && role !== "admin") {
     return NextResponse.redirect(
       new URL(localizedPath(`/${role}/dashboard`, locale), request.url)
     );

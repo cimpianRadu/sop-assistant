@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { login } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2Icon } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -20,6 +22,8 @@ import {
 export function LoginForm() {
   const t = useTranslations("Auth");
   const tc = useTranslations("Common");
+  const searchParams = useSearchParams();
+  const inviteToken = searchParams.get("invite");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -39,7 +43,10 @@ export function LoginForm() {
         <CardTitle className="text-2xl">{t("loginTitle")}</CardTitle>
         <CardDescription>{t("loginSubtitle")}</CardDescription>
       </CardHeader>
-      <form action={handleSubmit}>
+      <form action={handleSubmit} className="flex flex-col gap-6">
+        {inviteToken && (
+          <input type="hidden" name="inviteToken" value={inviteToken} />
+        )}
         <CardContent className="space-y-4">
           {error && (
             <Alert variant="destructive">
@@ -70,6 +77,7 @@ export function LoginForm() {
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
           <Button type="submit" className="w-full" disabled={loading}>
+            {loading && <Loader2Icon className="h-4 w-4 animate-spin" />}
             {loading ? t("signingIn") : t("signIn")}
           </Button>
           <p className="text-sm text-muted-foreground">

@@ -1,9 +1,8 @@
 import { getTranslations } from "next-intl/server";
-import { createClient } from "@/lib/supabase/server";
-import { logout } from "@/lib/actions/auth";
+import { getSessionContext } from "@/lib/session";
 import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { LogoutButton } from "@/components/shared/logout-button";
 
 function getTrialDaysLeft(trialEndsAt: string | null): number | null {
   if (!trialEndsAt) return null;
@@ -15,32 +14,23 @@ export async function Header() {
   const tc = await getTranslations("Common");
   const th = await getTranslations("Header");
 
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const session = await getSessionContext();
+  if (!session) return null;
 
-  if (!user) return null;
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("email, role, subscription_status, trial_ends_at")
-    .eq("id", user.id)
-    .single();
-
-  const daysLeft = getTrialDaysLeft(profile?.trial_ends_at ?? null);
-  const isTrialing = profile?.subscription_status === "trialing";
+  const daysLeft = getTrialDaysLeft(session.trial_ends_at);
+  const isTrialing = session.subscription_status === "trialing";
 
   return (
     <header className="border-b bg-background">
       <div className="container mx-auto flex items-center justify-between h-14 px-4">
         <div className="flex items-center gap-3">
           <h1 className="font-semibold text-lg">{tc("appName")}</h1>
-          {profile && (
-            <Badge variant="secondary" className="capitalize">
-              {profile.role}
-            </Badge>
-          )}
+          <span className="text-sm text-muted-foreground">
+            {session.org_name}
+          </span>
+          <Badge variant="secondary" className="capitalize">
+            {session.role}
+          </Badge>
           {isTrialing && daysLeft !== null && (
             <Link href="/pricing">
               <Badge
@@ -54,13 +44,9 @@ export async function Header() {
         </div>
         <div className="flex items-center gap-4">
           <span className="text-sm text-muted-foreground">
-            {profile?.email}
+            {session.email}
           </span>
-          <form action={logout}>
-            <Button variant="outline" size="sm" type="submit">
-              {tc("logOut")}
-            </Button>
-          </form>
+          <LogoutButton />
         </div>
       </div>
     </header>

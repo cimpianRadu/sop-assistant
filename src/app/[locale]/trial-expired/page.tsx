@@ -1,7 +1,7 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { logout } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
+import { LogoutButton } from "@/components/shared/logout-button";
 import {
   Card,
   CardContent,
@@ -58,16 +58,11 @@ export default async function TrialExpiredPage({
                 {t("contactToContinue")}
               </Button>
             </a>
-            <form action={logout}>
-              <Button
-                variant="ghost"
-                className="w-full text-muted-foreground"
-                size="sm"
-                type="submit"
-              >
-                {tc("logOut")}
-              </Button>
-            </form>
+            <LogoutButton
+              variant="ghost"
+              size="sm"
+              className="w-full text-muted-foreground"
+            />
           </div>
         </CardContent>
       </Card>

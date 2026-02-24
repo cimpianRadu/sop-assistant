@@ -1,23 +1,73 @@
-export type UserRole = "manager" | "operator";
+export type UserRole = "admin" | "manager" | "operator";
+
+export type OrgRole = "admin" | "manager" | "operator";
 
 export type SubscriptionStatus = "trialing" | "active" | "expired";
 
 export type Profile = {
   id: string;
   email: string;
-  role: UserRole;
+  full_name: string | null;
+  created_at: string;
+};
+
+export type Organization = {
+  id: string;
+  name: string;
+  slug: string;
   trial_ends_at: string | null;
   subscription_status: SubscriptionStatus;
   created_at: string;
 };
 
+export type OrgMember = {
+  id: string;
+  org_id: string;
+  user_id: string;
+  role: OrgRole;
+  invited_by: string | null;
+  invited_at: string;
+  joined_at: string;
+};
+
+export type OrgMemberWithProfile = OrgMember & {
+  profiles: Pick<Profile, "email" | "full_name">;
+};
+
+export type OrgInvite = {
+  id: string;
+  org_id: string;
+  email: string;
+  role: Exclude<OrgRole, "admin">;
+  token: string;
+  invited_by: string;
+  created_at: string;
+  expires_at: string;
+  accepted_at: string | null;
+};
+
+export type SessionContext = {
+  user_id: string;
+  email: string;
+  org_id: string;
+  org_name: string;
+  role: OrgRole;
+  trial_ends_at: string | null;
+  subscription_status: SubscriptionStatus;
+};
+
 export type Process = {
   id: string;
-  manager_id: string;
+  org_id: string;
+  created_by: string;
   title: string;
   description: string;
   sop_text: string;
   created_at: string;
+};
+
+export type ProcessWithCreator = Process & {
+  profiles: Pick<Profile, "email" | "full_name">;
 };
 
 export type ChecklistStep = {

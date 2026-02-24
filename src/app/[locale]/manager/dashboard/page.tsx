@@ -1,11 +1,12 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
+import { getSessionContext } from "@/lib/session";
 import { Link } from "@/i18n/navigation";
 import { ProcessList } from "@/components/manager/process-list";
 import { AnalyticsCards } from "@/components/manager/analytics-cards";
 import { EscalationList } from "@/components/manager/escalation-list";
 import { Button } from "@/components/ui/button";
-import type { Process, HelpRequestWithDetails } from "@/lib/types";
+import type { ProcessWithCreator, HelpRequestWithDetails } from "@/lib/types";
 
 export default async function ManagerDashboard({
   params,
@@ -16,13 +17,16 @@ export default async function ManagerDashboard({
   setRequestLocale(locale);
   const t = await getTranslations("Manager");
 
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const session = await getSessionContext();
+  if (!session) return null;
 
+  const supabase = await createClient();
+
+  // All processes in the org (managers and admins can see all)
   const { data: processes } = await supabase
     .from("processes")
-    .select("*")
-    .eq("manager_id", user!.id)
+    .select("*, profiles!created_by(email, full_name)")
+    .eq("org_id", session.org_id)
     .order("created_at", { ascending: false });
 
   const processIds = (processes || []).map((p) => p.id);
@@ -44,6 +48,7 @@ export default async function ManagerDashboard({
     .select("*, profiles(email), processes(title), checklist_steps(step_text, step_number)")
     .eq("escalated", true)
     .eq("resolved", false)
+    .in("process_id", processIds.length > 0 ? processIds : ["none"])
     .order("created_at", { ascending: false });
 
   return (
@@ -54,7 +59,7 @@ export default async function ManagerDashboard({
         <h2 className="text-2xl font-bold">{t("yourProcesses")}</h2>
         <Link href="/manager/processes/new"><Button>{t("newProcess")}</Button></Link>
       </div>
-      <ProcessList processes={(processes as Process[]) || []} />
+      <ProcessList processes={(processes as ProcessWithCreator[]) || []} />
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getSessionContext } from "@/lib/session";
 
 export async function saveProcess(data: {
   title: string;
@@ -9,20 +10,23 @@ export async function saveProcess(data: {
   sopText: string;
   checklist: string[];
 }) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
+  const session = await getSessionContext();
+  if (!session) {
     return { error: "unauthorized" };
   }
+
+  if (session.role !== "admin" && session.role !== "manager") {
+    return { error: "forbidden" };
+  }
+
+  const supabase = await createClient();
 
   // Insert process
   const { data: process, error: processError } = await supabase
     .from("processes")
     .insert({
-      manager_id: user.id,
+      org_id: session.org_id,
+      created_by: session.user_id,
       title: data.title,
       description: data.description,
       sop_text: data.sopText,

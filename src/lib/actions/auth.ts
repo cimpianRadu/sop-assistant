@@ -2,20 +2,19 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { UserRole } from "@/lib/types";
 
 export async function signup(formData: FormData) {
   const supabase = await createClient();
 
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  const role = formData.get("role") as UserRole;
+  const fullName = formData.get("fullName") as string;
 
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      data: { role },
+      data: { full_name: fullName || "" },
     },
   });
 
@@ -23,7 +22,7 @@ export async function signup(formData: FormData) {
     return { error: error.message };
   }
 
-  redirect(`/${role}/dashboard`);
+  return { success: true };
 }
 
 export async function login(formData: FormData) {
@@ -41,15 +40,23 @@ export async function login(formData: FormData) {
     return { error: error.message };
   }
 
-  // Get role from profile
-  const { data: profile } = await supabase
-    .from("profiles")
+  // Check org membership
+  const { data: membership } = await supabase
+    .from("org_members")
     .select("role")
-    .eq("id", data.user.id)
+    .eq("user_id", data.user.id)
     .single();
 
-  const role = profile?.role || "operator";
-  redirect(`/${role}/dashboard`);
+  if (!membership) {
+    // Check if there's an invite token
+    const inviteToken = formData.get("inviteToken") as string | null;
+    if (inviteToken) {
+      redirect(`/invite/${inviteToken}`);
+    }
+    redirect("/onboarding");
+  }
+
+  redirect(`/${membership.role}/dashboard`);
 }
 
 export async function logout() {

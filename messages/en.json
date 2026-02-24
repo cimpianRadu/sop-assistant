@@ -19,6 +19,8 @@
     "inProgress": "In Progress",
     "started": "Started {date}",
     "created": "Created {date}",
+    "admin": "Admin",
+    "fullName": "Full Name",
     "contact": "Contact",
     "contactUs": "Contact us",
     "startFreeTrial": "Start free trial",
@@ -87,9 +89,58 @@
     "createAccount": "Create Account",
     "noAccount": "Don't have an account?",
     "haveAccount": "Already have an account?",
-    "roleDescription": "Managers create SOPs. Operators execute checklists.",
+    "fullNamePlaceholder": "John Doe",
     "signUpLink": "Sign up",
-    "logInLink": "Log in"
+    "logInLink": "Log in",
+    "checkEmailTitle": "Check your email",
+    "checkEmailDescription": "We've sent you a confirmation link. Please check your inbox and click the link to activate your account.",
+    "checkEmailSpam": "Didn't receive it? Check your spam folder.",
+    "backToLogin": "Back to log in"
+  },
+
+  "Onboarding": {
+    "createOrgTitle": "Create your organization",
+    "createOrgSubtitle": "Set up your team workspace to get started.",
+    "orgName": "Organization name",
+    "orgNamePlaceholder": "e.g., Acme Inc.",
+    "creating": "Creating...",
+    "createOrg": "Create Organization"
+  },
+
+  "Invite": {
+    "title": "You're invited!",
+    "invitedTo": "You've been invited to join {orgName} as {role}.",
+    "accept": "Accept Invitation",
+    "accepting": "Accepting...",
+    "signupFirst": "Create an account to accept",
+    "loginFirst": "Log in to accept",
+    "invalidInvite": "This invite is invalid or has expired.",
+    "emailMismatch": "Email mismatch",
+    "emailMismatchDesc": "This invite was sent to {email}. Please log in with that email.",
+    "orgLabel": "Organization",
+    "roleLabel": "Role"
+  },
+
+  "Admin": {
+    "dashboard": "Organization Dashboard",
+    "members": "Members",
+    "processes": "Processes",
+    "manageMembers": "Manage Members",
+    "inviteMember": "Invite Member",
+    "inviting": "Inviting...",
+    "pendingInvites": "Pending Invitations",
+    "memberRole": "Role",
+    "removeMember": "Remove",
+    "removing": "Removing...",
+    "cancelInvite": "Cancel",
+    "cancelling": "Cancelling...",
+    "noMembers": "No members yet. Invite your team to get started.",
+    "inviteLink": "Invite link created!",
+    "copyLink": "Copy Link",
+    "linkCopied": "Copied!",
+    "backToDashboard": "← Back to Dashboard",
+    "totalExecutions": "Total Executions",
+    "completedExecutions": "Completed"
   },
 
   "TrialExpired": {
@@ -136,13 +187,13 @@
 
   "Assignments": {
     "assignedOperators": "Assigned Operators",
-    "operatorPlaceholder": "operator@example.com",
+    "selectOperator": "Select an operator...",
     "assigning": "Assigning...",
     "assign": "Assign",
     "removing": "Removing...",
     "remove": "Remove",
-    "noOperators": "No operators assigned yet. Add an operator by email above.",
-    "assignSuccess": "Operator {email} assigned successfully."
+    "noOperators": "No operators assigned yet.",
+    "noOrgOperators": "No operators in your organization yet. Invite operators from the Members page."
   },
 
   "Escalations": {
@@ -219,8 +270,20 @@
     "questionRequired": "Please enter your question.",
     "failedToGetHelp": "Failed to get help.",
     "noHelpRequest": "No help request to escalate.",
-    "operatorNotFound": "No account found with that email address.",
+    "operatorNotFound": "No operator found with that email in your organization.",
     "notAnOperator": "That user is not an operator.",
-    "alreadyAssigned": "This operator is already assigned to this process."
+    "alreadyAssigned": "This operator is already assigned to this process.",
+    "forbidden": "You don't have permission to perform this action.",
+    "already_in_org": "You are already a member of an organization.",
+    "name_required": "Organization name is required.",
+    "already_member": "This person is already a member of your organization.",
+    "already_invited": "An invite has already been sent to this email.",
+    "member_not_found": "Member not found.",
+    "cannot_remove_self": "You cannot remove yourself from the organization.",
+    "not_authenticated": "You must be logged in.",
+    "invite_not_found_or_expired": "Invite not found or has expired.",
+    "email_mismatch": "This invite was sent to a different email address.",
+    "email_required": "Please enter an email address.",
+    "invalid_role": "Please select a valid role."
   }
 }

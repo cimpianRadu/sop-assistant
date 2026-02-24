@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { signup } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2Icon } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -20,8 +22,11 @@ import {
 export function SignupForm() {
   const t = useTranslations("Auth");
   const tc = useTranslations("Common");
+  const searchParams = useSearchParams();
+  const inviteToken = searchParams.get("invite");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   async function handleSubmit(formData: FormData) {
     setLoading(true);
@@ -30,7 +35,31 @@ export function SignupForm() {
     if (result?.error) {
       setError(result.error);
       setLoading(false);
+    } else if (result?.success) {
+      setSuccess(true);
+      setLoading(false);
     }
+  }
+
+  if (success) {
+    return (
+      <Card className="w-full max-w-md text-center">
+        <CardHeader>
+          <CardTitle className="text-2xl">{t("checkEmailTitle")}</CardTitle>
+          <CardDescription>{t("checkEmailDescription")}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">
+            {t("checkEmailSpam")}
+          </p>
+        </CardContent>
+        <CardFooter className="justify-center">
+          <Link href="/auth/login" className="text-sm text-primary underline">
+            {t("backToLogin")}
+          </Link>
+        </CardFooter>
+      </Card>
+    );
   }
 
   return (
@@ -39,13 +68,25 @@ export function SignupForm() {
         <CardTitle className="text-2xl">{t("signupTitle")}</CardTitle>
         <CardDescription>{t("signupSubtitle")}</CardDescription>
       </CardHeader>
-      <form action={handleSubmit}>
+      <form action={handleSubmit} className="flex flex-col gap-6">
+        {inviteToken && (
+          <input type="hidden" name="inviteToken" value={inviteToken} />
+        )}
         <CardContent className="space-y-4">
           {error && (
             <Alert variant="destructive">
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
+          <div className="space-y-2">
+            <Label htmlFor="fullName">{tc("fullName")}</Label>
+            <Input
+              id="fullName"
+              name="fullName"
+              type="text"
+              placeholder={t("fullNamePlaceholder")}
+            />
+          </div>
           <div className="space-y-2">
             <Label htmlFor="email">{tc("email")}</Label>
             <Input
@@ -67,36 +108,10 @@ export function SignupForm() {
               minLength={6}
             />
           </div>
-          <div className="space-y-2">
-            <Label>{tc("role")}</Label>
-            <div className="flex gap-4">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  name="role"
-                  value="manager"
-                  defaultChecked
-                  className="accent-primary"
-                />
-                <span className="text-sm">{tc("manager")}</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  name="role"
-                  value="operator"
-                  className="accent-primary"
-                />
-                <span className="text-sm">{tc("operator")}</span>
-              </label>
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {t("roleDescription")}
-            </p>
-          </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
           <Button type="submit" className="w-full" disabled={loading}>
+            {loading && <Loader2Icon className="h-4 w-4 animate-spin" />}
             {loading ? t("creatingAccount") : t("createAccount")}
           </Button>
           <p className="text-sm text-muted-foreground">

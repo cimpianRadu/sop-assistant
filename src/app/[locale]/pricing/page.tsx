@@ -27,29 +27,40 @@ export default async function PricingPage({
     data: { user },
   } = await supabase.auth.getUser();
 
-  let profile: {
+  let session: {
     subscription_status: string;
     trial_ends_at: string | null;
     role: string;
   } | null = null;
 
   if (user) {
-    const { data } = await supabase
-      .from("profiles")
-      .select("subscription_status, trial_ends_at, role")
-      .eq("id", user.id)
+    const { data: membership } = await supabase
+      .from("org_members")
+      .select("role, organizations(subscription_status, trial_ends_at)")
+      .eq("user_id", user.id)
       .single();
-    profile = data;
+
+    if (membership) {
+      const org = membership.organizations as unknown as {
+        subscription_status: string;
+        trial_ends_at: string | null;
+      };
+      session = {
+        role: membership.role,
+        subscription_status: org.subscription_status,
+        trial_ends_at: org.trial_ends_at,
+      };
+    }
   }
 
-  const isTrialing = profile?.subscription_status === "trialing";
-  const isActive = profile?.subscription_status === "active";
+  const isTrialing = session?.subscription_status === "trialing";
+  const isActive = session?.subscription_status === "active";
   const daysLeft =
-    isTrialing && profile?.trial_ends_at
+    isTrialing && session?.trial_ends_at
       ? Math.max(
           0,
           Math.ceil(
-            (new Date(profile.trial_ends_at).getTime() - Date.now()) /
+            (new Date(session.trial_ends_at).getTime() - Date.now()) /
               (1000 * 60 * 60 * 24)
           )
         )
@@ -74,7 +85,7 @@ export default async function PricingPage({
           </Link>
           <div className="flex items-center gap-3">
             {user ? (
-              <Link href={`/${profile?.role || "operator"}/dashboard`}>
+              <Link href={`/${session?.role || "operator"}/dashboard`}>
                 <Button variant="outline" size="sm">
                   {tc("dashboard")}
                 </Button>

@@ -19,14 +19,16 @@ export default async function Home({
   } = await supabase.auth.getUser();
 
   if (user) {
-    const { data: profile } = await supabase
-      .from("profiles")
+    const { data: membership } = await supabase
+      .from("org_members")
       .select("role")
-      .eq("id", user.id)
+      .eq("user_id", user.id)
       .single();
 
-    const role = profile?.role || "operator";
-    redirect(`/${role}/dashboard`);
+    if (!membership) {
+      redirect("/onboarding");
+    }
+    redirect(`/${membership.role}/dashboard`);
   }
 
   const t = await getTranslations("Landing");

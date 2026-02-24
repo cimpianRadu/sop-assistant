@@ -1,0 +1,65 @@
+"use client";
+
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { cancelInvite } from "@/lib/actions/organizations";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { OrgInvite } from "@/lib/types";
+
+export function PendingInvites({ invites }: { invites: OrgInvite[] }) {
+  const t = useTranslations("Admin");
+  const [cancelling, setCancelling] = useState<string | null>(null);
+
+  async function handleCancel(inviteId: string) {
+    setCancelling(inviteId);
+    await cancelInvite(inviteId);
+    setCancelling(null);
+  }
+
+  const pending = invites.filter((i) => !i.accepted_at);
+
+  if (pending.length === 0) return null;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{t("pendingInvites")}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-3">
+          {pending.map((invite) => (
+            <div
+              key={invite.id}
+              className="flex items-center justify-between border rounded-lg p-3"
+            >
+              <div>
+                <p className="text-sm font-medium">{invite.email}</p>
+                <p className="text-xs text-muted-foreground">
+                  {new Date(invite.created_at).toLocaleDateString()}
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Badge variant="outline" className="capitalize">
+                  {invite.role}
+                </Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-destructive hover:text-destructive"
+                  onClick={() => handleCancel(invite.id)}
+                  disabled={cancelling === invite.id}
+                >
+                  {cancelling === invite.id
+                    ? t("cancelling")
+                    : t("cancelInvite")}
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
