@@ -298,7 +298,21 @@
     "email_not_confirmed": "Please confirm your email address before logging in.",
     "user_already_registered": "An account with this email already exists.",
     "email_rate_limit": "Too many attempts. Please wait a few minutes and try again.",
-    "weak_password": "Password is too weak. Use at least 6 characters.",
+    "weak_password": "Password is too weak. Use at least 8 characters with uppercase, lowercase, and a number.",
+    "password_too_weak": "Password must be at least 8 characters and include uppercase, lowercase, and a number.",
+    "invalid_email_format": "Please enter a valid email address.",
     "unknown_error": "Something went wrong. Please try again."
+  },
+
+  "PasswordRules": {
+    "strength": "Password strength",
+    "empty": "",
+    "weak": "Weak",
+    "fair": "Fair",
+    "strong": "Strong",
+    "minLength": "At least 8 characters",
+    "uppercase": "At least one uppercase letter",
+    "lowercase": "At least one lowercase letter",
+    "number": "At least one number"
   }
 }

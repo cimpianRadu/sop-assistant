@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { allRulesPass } from "@/lib/password-validation";
 
 export async function signup(formData: FormData) {
   const supabase = await createClient();
@@ -9,6 +10,14 @@ export async function signup(formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const fullName = formData.get("fullName") as string;
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { error: "invalid_email_format" };
+  }
+
+  if (!password || !allRulesPass(password)) {
+    return { error: "password_too_weak" };
+  }
 
   const { error } = await supabase.auth.signUp({
     email,

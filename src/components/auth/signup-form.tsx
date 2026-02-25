@@ -19,6 +19,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { translateAuthError } from "@/lib/auth-errors";
+import { PasswordRules } from "@/components/auth/password-rules";
 
 export function SignupForm() {
   const t = useTranslations("Auth");
@@ -29,6 +30,13 @@ export function SignupForm() {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [success, setSuccess] = useState(false);
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailTouched, setEmailTouched] = useState(false);
+
+  const isEmailValid =
+    email.length === 0 || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const showEmailError = emailTouched && email.length > 0 && !isEmailValid;
 
   function handleSubmit(formData: FormData) {
     setError(null);
@@ -97,7 +105,15 @@ export function SignupForm() {
               type="email"
               placeholder={t("emailPlaceholder")}
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onBlur={() => setEmailTouched(true)}
             />
+            {showEmailError && (
+              <p className="text-xs text-destructive">
+                {te("invalid_email_format")}
+              </p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">{tc("password")}</Label>
@@ -107,8 +123,11 @@ export function SignupForm() {
               type="password"
               placeholder={t("passwordPlaceholder")}
               required
-              minLength={6}
+              minLength={8}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
+            <PasswordRules password={password} />
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">

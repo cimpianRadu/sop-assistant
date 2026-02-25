@@ -24,7 +24,12 @@ export async function Header() {
     <header className="border-b bg-background">
       <div className="container mx-auto flex items-center justify-between h-14 px-4">
         <div className="flex items-center gap-3">
-          <h1 className="font-semibold text-lg">{tc("appName")}</h1>
+          <Link
+            href={`/${session.role}/dashboard`}
+            className="font-semibold text-lg hover:opacity-80 transition-opacity"
+          >
+            {tc("appName")}
+          </Link>
           <span className="text-sm text-muted-foreground">
             {session.org_name}
           </span>

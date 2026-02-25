@@ -35,7 +35,7 @@ export default async function ProcessDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      <Link href="/manager/dashboard"><Button variant="ghost" size="sm">{t("backToDashboard")}</Button></Link>
+      <Link href={`/${session!.role}/dashboard`}><Button variant="ghost" size="sm">{t("backToDashboard")}</Button></Link>
       <div className="flex items-start justify-between">
         <div>
           <h2 className="text-2xl font-bold">{process.title}</h2>

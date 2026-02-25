@@ -298,7 +298,21 @@
     "email_not_confirmed": "Te rugam sa confirmi adresa de email inainte de autentificare.",
     "user_already_registered": "Un cont cu acest email exista deja.",
     "email_rate_limit": "Prea multe incercari. Te rugam sa astepti cateva minute si sa incerci din nou.",
-    "weak_password": "Parola este prea slaba. Foloseste cel putin 6 caractere.",
+    "weak_password": "Parola este prea slaba. Foloseste cel putin 8 caractere cu litere mari, litere mici si un numar.",
+    "password_too_weak": "Parola trebuie sa aiba cel putin 8 caractere si sa includa litere mari, litere mici si un numar.",
+    "invalid_email_format": "Te rugam introdu o adresa de email valida.",
     "unknown_error": "Ceva nu a functionat corect. Te rugam sa incerci din nou."
+  },
+
+  "PasswordRules": {
+    "strength": "Puterea parolei",
+    "empty": "",
+    "weak": "Slaba",
+    "fair": "Medie",
+    "strong": "Puternica",
+    "minLength": "Cel putin 8 caractere",
+    "uppercase": "Cel putin o litera mare",
+    "lowercase": "Cel putin o litera mica",
+    "number": "Cel putin un numar"
   }
 }

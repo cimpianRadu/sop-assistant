@@ -10,6 +10,8 @@ const ERROR_MAP: Record<string, string> = {
   "Email rate limit exceeded": "email_rate_limit",
   "Password should be at least 6 characters": "weak_password",
   "Password should be at least 6 characters.": "weak_password",
+  password_too_weak: "password_too_weak",
+  invalid_email_format: "invalid_email_format",
 };
 
 export function translateAuthError(
