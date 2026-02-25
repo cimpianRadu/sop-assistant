@@ -293,6 +293,12 @@
     "invite_not_found_or_expired": "Invite not found or has expired.",
     "email_mismatch": "This invite was sent to a different email address.",
     "email_required": "Please enter an email address.",
-    "invalid_role": "Please select a valid role."
+    "invalid_role": "Please select a valid role.",
+    "invalid_credentials": "Invalid email or password. Please try again.",
+    "email_not_confirmed": "Please confirm your email address before logging in.",
+    "user_already_registered": "An account with this email already exists.",
+    "email_rate_limit": "Too many attempts. Please wait a few minutes and try again.",
+    "weak_password": "Password is too weak. Use at least 6 characters.",
+    "unknown_error": "Something went wrong. Please try again."
   }
 }

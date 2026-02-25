@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
@@ -18,23 +18,25 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { translateAuthError } from "@/lib/auth-errors";
 
 export function LoginForm() {
   const t = useTranslations("Auth");
   const tc = useTranslations("Common");
+  const te = useTranslations("Errors");
   const searchParams = useSearchParams();
   const inviteToken = searchParams.get("invite");
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
-  async function handleSubmit(formData: FormData) {
-    setLoading(true);
+  function handleSubmit(formData: FormData) {
     setError(null);
-    const result = await login(formData);
-    if (result?.error) {
-      setError(result.error);
-      setLoading(false);
-    }
+    startTransition(async () => {
+      const result = await login(formData);
+      if (result?.error) {
+        setError(translateAuthError(result.error, te));
+      }
+    });
   }
 
   return (
@@ -76,9 +78,9 @@ export function LoginForm() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading && <Loader2Icon className="h-4 w-4 animate-spin" />}
-            {loading ? t("signingIn") : t("signIn")}
+          <Button type="submit" className="w-full" disabled={isPending}>
+            {isPending && <Loader2Icon className="h-4 w-4 animate-spin" />}
+            {isPending ? t("signingIn") : t("signIn")}
           </Button>
           <p className="text-sm text-muted-foreground">
             {t("noAccount")}{" "}
