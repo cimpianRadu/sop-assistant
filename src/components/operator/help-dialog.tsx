@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import {
   Dialog,
   DialogContent,
@@ -40,6 +40,7 @@ export function HelpDialog({
 }: HelpDialogProps) {
   const t = useTranslations("Help");
   const te = useTranslations("Errors");
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
@@ -70,6 +71,7 @@ export function HelpDialog({
           stepText,
           stepNumber,
           question,
+          locale,
         }),
       });
 

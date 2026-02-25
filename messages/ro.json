@@ -145,13 +145,22 @@
 
   "TrialExpired": {
     "title": "Perioada de trial s-a incheiat",
-    "description": "Perioada ta gratuita de 14 zile pentru SOP Assistant a expirat.",
-    "duringTrial": "In timpul trial-ului, ai experimentat:",
-    "feature1": "Proceduri Standard de Operare generate de AI",
-    "feature2": "Executie pas cu pas a proceselor pentru echipa ta",
-    "feature3": "Sistem de ajutor AI cu escaladare catre manager",
-    "viewPricing": "Vezi preturile",
-    "contactToContinue": "Contacteaza-ne pentru a continua"
+    "description": "Perioada ta gratuita de 14 zile pentru SOP Assistant a expirat. Upgradeaza pentru a mentine echipa in functiune.",
+    "dataIsSafe": "Datele tale sunt in siguranta",
+    "dataIsSafeDesc": "Toate SOP-urile, checklist-urile si istoricul executiilor sunt pastrate. Upgradeaza oricand pentru a continua de unde ai ramas.",
+    "whatYouBuilt": "Ce ai construit in timpul trial-ului",
+    "processes": "{count} {count, plural, one {SOP} other {SOP-uri}} create",
+    "members": "{count} {count, plural, one {membru} other {membri}} in echipa",
+    "executions": "{count} {count, plural, one {executie} other {executii}} finalizate",
+    "continueWith": "Continua cu planul Growth",
+    "planPrice": "€99/luna",
+    "planFeature1": "Pana la 3 Manageri + 20 Operatori",
+    "planFeature2": "30 SOP-uri generate de AI pe luna",
+    "planFeature3": "Sistem de ajutor AI + flux de escaladare",
+    "planFeature4": "Urmarire executie si analize",
+    "upgradeCta": "Upgradeaza acum",
+    "contactToContinue": "Ai intrebari? Contacteaza-ne",
+    "viewFullPricing": "Vezi toate detaliile de pret"
   },
 
   "Header": {

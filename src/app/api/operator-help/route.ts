@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { processTitle, sopText, stepText, stepNumber, question } =
+  const { processTitle, sopText, stepText, stepNumber, question, locale } =
     await request.json();
 
   if (!question || !sopText || !stepText) {
@@ -36,6 +36,11 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     );
   }
+
+  const languageInstruction =
+    locale === "en"
+      ? "Respond in English."
+      : "Respond in Romanian. Use clear, professional Romanian language.";
 
   try {
     const message = await anthropic.messages.create({
@@ -53,6 +58,7 @@ My question: ${question}`,
         },
       ],
       system: `You are a helpful assistant for operators executing Standard Operating Procedures (SOPs).
+${languageInstruction}
 You have access to the full SOP for context. Provide clear, practical guidance to help the operator complete their current step.
 
 Here is the full SOP for reference:

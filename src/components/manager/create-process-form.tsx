@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +15,7 @@ import type { GenerateSopResponse } from "@/lib/types";
 export function CreateProcessForm() {
   const t = useTranslations("Manager");
   const te = useTranslations("Errors");
+  const locale = useLocale();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [generating, setGenerating] = useState(false);
@@ -33,7 +34,7 @@ export function CreateProcessForm() {
       const response = await fetch("/api/generate-sop", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description }),
+        body: JSON.stringify({ title, description, locale }),
       });
       const data = await response.json();
       if (!response.ok) { setError(data.error || te("failedToGenerateSOP")); return; }

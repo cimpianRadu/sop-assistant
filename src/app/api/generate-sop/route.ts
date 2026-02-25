@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { title, description } = await request.json();
+  const { title, description, locale } = await request.json();
 
   if (!title || !description) {
     return NextResponse.json(
@@ -36,6 +36,11 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     );
   }
+
+  const languageInstruction =
+    locale === "en"
+      ? "Write ALL content (SOP text and checklist steps) in English."
+      : "Write ALL content (SOP text and checklist steps) in Romanian. Use clear, professional Romanian language.";
 
   try {
     const message = await anthropic.messages.create({
@@ -48,6 +53,7 @@ export async function POST(request: NextRequest) {
         },
       ],
       system: `You are an expert at creating Standard Operating Procedures.
+${languageInstruction}
 Given a process description, return ONLY valid JSON with no markdown formatting:
 {
   "sop": "Detailed procedure text (markdown formatted, 200-500 words)",

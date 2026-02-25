@@ -145,13 +145,22 @@
 
   "TrialExpired": {
     "title": "Your trial has ended",
-    "description": "Your 14-day free trial of SOP Assistant has expired.",
-    "duringTrial": "During your trial, you experienced:",
-    "feature1": "AI-generated Standard Operating Procedures",
-    "feature2": "Step-by-step process execution for your team",
-    "feature3": "AI-powered help system with manager escalation",
-    "viewPricing": "View pricing",
-    "contactToContinue": "Contact us to continue"
+    "description": "Your 14-day free trial of SOP Assistant has expired. Upgrade to keep your team running smoothly.",
+    "dataIsSafe": "Your data is safe",
+    "dataIsSafeDesc": "All your SOPs, checklists, and execution history are preserved. Upgrade anytime to pick up right where you left off.",
+    "whatYouBuilt": "What you built during your trial",
+    "processes": "{count} {count, plural, one {SOP} other {SOPs}} created",
+    "members": "{count} team {count, plural, one {member} other {members}}",
+    "executions": "{count} {count, plural, one {execution} other {executions}} completed",
+    "continueWith": "Continue with the Growth plan",
+    "planPrice": "€99/month",
+    "planFeature1": "Up to 3 Managers + 20 Operators",
+    "planFeature2": "30 AI-generated SOPs per month",
+    "planFeature3": "AI help system + escalation workflow",
+    "planFeature4": "Execution tracking & analytics",
+    "upgradeCta": "Upgrade now",
+    "contactToContinue": "Have questions? Contact us",
+    "viewFullPricing": "View full pricing details"
   },
 
   "Header": {
