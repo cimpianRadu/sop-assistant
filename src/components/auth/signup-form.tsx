@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2Icon } from "lucide-react";
+import { AlertCircleIcon, Loader2Icon } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -76,6 +76,7 @@ export function SignupForm() {
         <CardContent className="space-y-4">
           {error && (
             <Alert variant="destructive">
+              <AlertCircleIcon />
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
