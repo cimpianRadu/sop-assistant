@@ -94,7 +94,10 @@
     "logInLink": "Log in",
     "checkEmailTitle": "Check your email",
     "checkEmailDescription": "We've sent you a confirmation link. Please check your inbox and click the link to activate your account.",
-    "checkEmailSpam": "Didn't receive it? Check your spam folder.",
+    "checkEmailSpam": "Didn't receive it? Check your spam folder or resend the confirmation email.",
+    "resendEmail": "Resend confirmation email",
+    "resending": "Sending...",
+    "resentSuccess": "Email sent!",
     "backToLogin": "Back to log in"
   },
 

@@ -9,7 +9,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircleIcon, Loader2Icon } from "lucide-react";
+import {
+  AlertCircleIcon,
+  Loader2Icon,
+  MailIcon,
+  CheckCircleIcon,
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -20,6 +25,7 @@ import {
 } from "@/components/ui/card";
 import { translateAuthError } from "@/lib/auth-errors";
 import { PasswordRules } from "@/components/auth/password-rules";
+import { createClient } from "@/lib/supabase/client";
 
 export function SignupForm() {
   const t = useTranslations("Auth");
@@ -34,9 +40,21 @@ export function SignupForm() {
   const [email, setEmail] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
 
+  const [resending, setResending] = useState(false);
+  const [resent, setResent] = useState(false);
+
   const isEmailValid =
     email.length === 0 || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const showEmailError = emailTouched && email.length > 0 && !isEmailValid;
+
+  async function handleResend() {
+    if (!email || resending) return;
+    setResending(true);
+    const supabase = createClient();
+    await supabase.auth.resend({ type: "signup", email });
+    setResending(false);
+    setResent(true);
+  }
 
   function handleSubmit(formData: FormData) {
     setError(null);
@@ -53,14 +71,34 @@ export function SignupForm() {
   if (success) {
     return (
       <Card className="w-full max-w-md text-center">
-        <CardHeader>
+        <CardHeader className="space-y-4">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+            <MailIcon className="h-8 w-8 text-primary" />
+          </div>
           <CardTitle className="text-2xl">{t("checkEmailTitle")}</CardTitle>
           <CardDescription>{t("checkEmailDescription")}</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
+          <div className="rounded-lg bg-muted px-4 py-3">
+            <p className="text-sm font-medium">{email}</p>
+          </div>
           <p className="text-sm text-muted-foreground">
             {t("checkEmailSpam")}
           </p>
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={handleResend}
+            disabled={resending || resent}
+          >
+            {resending && <Loader2Icon className="h-4 w-4 animate-spin" />}
+            {resent && <CheckCircleIcon className="h-4 w-4 text-green-600" />}
+            {resending
+              ? t("resending")
+              : resent
+                ? t("resentSuccess")
+                : t("resendEmail")}
+          </Button>
         </CardContent>
         <CardFooter className="justify-center">
           <Link href="/auth/login" className="text-sm text-primary underline">

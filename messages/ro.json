@@ -94,7 +94,10 @@
     "logInLink": "Autentifica-te",
     "checkEmailTitle": "Verifica-ti emailul",
     "checkEmailDescription": "Ti-am trimis un link de confirmare. Verifica inbox-ul si apasa pe link pentru a-ti activa contul.",
-    "checkEmailSpam": "Nu l-ai primit? Verifica folderul de spam.",
+    "checkEmailSpam": "Nu l-ai primit? Verifica folderul de spam sau retrimite emailul de confirmare.",
+    "resendEmail": "Retrimite emailul de confirmare",
+    "resending": "Se trimite...",
+    "resentSuccess": "Email trimis!",
     "backToLogin": "Inapoi la autentificare"
   },
 
