@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SOP Assistant
 
-## Getting Started
+AI-powered Standard Operating Procedure management. Create SOPs, assign operators, and track execution with checklists.
 
-First, run the development server:
+Built with Next.js 16, Supabase (PostgreSQL + Auth), next-intl (EN/RO), and shadcn/ui.
+
+## Prerequisites
+
+- Node.js 18+
+- A Supabase account (two projects: dev and prod)
+- An Anthropic API key
+
+## Environment Setup
+
+This project uses **two Supabase projects** to separate development and production data.
+
+| Environment | Supabase Project | Used When |
+|-------------|-----------------|-----------|
+| **Dev** | SOP Assistant Dev (`obdiggtvvchlnyecchgm`) | `next dev` locally |
+| **Prod** | SOP AI Assistant (`eguixceaxwezabxaggtb`) | Vercel deployment |
+
+### Local development
+
+1. Copy the env template and fill in your values:
+
+```bash
+cp .env.example .env.local
+```
+
+2. `.env.local` should contain your **dev** Supabase credentials:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://<dev-project-ref>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<dev-anon-key>
+ANTHROPIC_API_KEY=<your-anthropic-key>
+```
+
+3. Start the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Production (Vercel)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Set these environment variables in the [Vercel dashboard](https://vercel.com/dashboard) under your project's Settings > Environment Variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `NEXT_PUBLIC_SUPABASE_URL` — prod Supabase URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` — prod anon key
+- `ANTHROPIC_API_KEY` — your Anthropic API key
 
-## Learn More
+### Testing prod locally (optional)
 
-To learn more about Next.js, take a look at the following resources:
+To test against the production database locally:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# .env.production.local is gitignored and contains prod credentials
+# next build && next start will pick it up automatically
+npm run build && npm run start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Database
 
-## Deploy on Vercel
+### Migrations
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Migration files are in `supabase/migrations/`. They are numbered sequentially:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Migration | Description |
+|-----------|-------------|
+| 001 | Initial schema (profiles, processes, checklist_steps, executions, execution_steps) |
+| 002 | Feature additions (process_assignments, help_requests) |
+| 003 | Fix RLS recursion (SECURITY DEFINER helpers) |
+| 004 | Trial and pricing columns |
+| 005 | Organization-based model (organizations, org_members, org_invites) |
+| 006 | Cleanup deprecated columns |
+| 007 | Managers create executions policy |
+
+Migrations are applied via the Supabase MCP tool (`apply_migration`) or the Supabase SQL Editor.
+
+### Seed data (dev only)
+
+After creating a user and organization through the app:
+
+1. Open the Supabase SQL Editor for the **dev** project
+2. Paste and run `supabase/seed.sql`
+3. This creates 3 sample SOPs with checklist steps
+
+## Project Structure
+
+```
+src/
+  app/[locale]/          # Next.js app router (i18n routes)
+  components/            # React components
+  lib/                   # Utilities (Supabase client, session, actions)
+  messages/              # i18n translation files (en.json, ro.json)
+supabase/
+  migrations/            # SQL migration files
+  seed.sql               # Dev seed data
+```
