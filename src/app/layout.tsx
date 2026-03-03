@@ -35,14 +35,16 @@ export const metadata: Metadata = {
 };
 
 function EnvBanner() {
-  const env = process.env.NEXT_PUBLIC_VERCEL_ENV;
-  if (env === "production" || env === undefined) return null;
+  const vercelEnv = process.env.NEXT_PUBLIC_VERCEL_ENV;
+  const isDev = !vercelEnv && process.env.NODE_ENV === "development";
+  const isPreview = vercelEnv === "preview";
 
-  const label = env === "preview" ? "STAGING" : "DEV";
-  const color =
-    env === "preview"
-      ? "bg-orange-500 text-white"
-      : "bg-violet-600 text-white";
+  if (!isDev && !isPreview) return null;
+
+  const label = isPreview ? "STAGING" : "DEV";
+  const color = isPreview
+    ? "bg-orange-500 text-white"
+    : "bg-violet-600 text-white";
 
   return (
     <div className={`${color} text-center text-xs font-bold py-1 tracking-wider`}>
