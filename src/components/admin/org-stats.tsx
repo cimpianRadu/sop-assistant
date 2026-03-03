@@ -24,17 +24,13 @@ export function OrgStats({
   ];
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
       {stats.map((stat) => (
-        <Card key={stat.label}>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              {stat.label}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{stat.value}</p>
-          </CardContent>
+        <Card key={stat.label} className="gap-0 px-4 py-3">
+          <p className="text-xs font-medium text-muted-foreground">
+            {stat.label}
+          </p>
+          <p className="text-xl font-bold">{stat.value}</p>
         </Card>
       ))}
     </div>

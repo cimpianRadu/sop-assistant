@@ -25,7 +25,8 @@
     "contactUs": "Contact us",
     "startFreeTrial": "Start free trial",
     "day": "day",
-    "days": "days"
+    "days": "days",
+    "viewAll": "View all"
   },
 
   "Landing": {
@@ -164,7 +165,9 @@
     "linkCopied": "Copied!",
     "backToDashboard": "← Back to Dashboard",
     "totalExecutions": "Total Executions",
-    "completedExecutions": "Completed"
+    "completedExecutions": "Completed",
+    "inProgressExecutions": "In Progress",
+    "createdAt": "Created {date}"
   },
 
   "TrialExpired": {
@@ -265,7 +268,8 @@
     "executionStarted": "Execution started {date}",
     "startExecution": "Start Execution",
     "starting": "Starting...",
-    "standardProcedure": "Standard Operating Procedure"
+    "standardProcedure": "Standard Operating Procedure",
+    "assignedBy": "Assigned by {name}"
   },
 
   "Checklist": {

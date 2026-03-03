@@ -3,6 +3,7 @@ import { getSessionContext } from "@/lib/session";
 import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { LogoutButton } from "@/components/shared/logout-button";
+import { LanguageSwitcher } from "@/components/shared/language-switcher";
 
 function getTrialDaysLeft(trialEndsAt: string | null): number | null {
   if (!trialEndsAt) return null;
@@ -66,6 +67,7 @@ export async function Header() {
             </Badge>
           </div>
           <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+            <LanguageSwitcher />
             <Link
               href="/profile"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors truncate max-w-[120px] sm:max-w-none"

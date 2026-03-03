@@ -31,9 +31,6 @@ export function MemberList({
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>{t("members")}</CardTitle>
-      </CardHeader>
       <CardContent>
         {members.length === 0 ? (
           <EmptyState icon={UsersIcon} title={t("noMembers")} />

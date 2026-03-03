@@ -25,7 +25,8 @@
     "contactUs": "Contacteaza-ne",
     "startFreeTrial": "Incepe gratuit",
     "day": "zi",
-    "days": "zile"
+    "days": "zile",
+    "viewAll": "Vezi toate"
   },
 
   "Landing": {
@@ -164,7 +165,9 @@
     "linkCopied": "Copiat!",
     "backToDashboard": "← Inapoi la Panou",
     "totalExecutions": "Total executii",
-    "completedExecutions": "Finalizate"
+    "completedExecutions": "Finalizate",
+    "inProgressExecutions": "In desfasurare",
+    "createdAt": "Creat la {date}"
   },
 
   "TrialExpired": {
@@ -265,7 +268,8 @@
     "executionStarted": "Executia inceputa la {date}",
     "startExecution": "Incepe executia",
     "starting": "Se porneste...",
-    "standardProcedure": "Procedura Standard de Operare"
+    "standardProcedure": "Procedura Standard de Operare",
+    "assignedBy": "Asignat de {name}"
   },
 
   "Checklist": {

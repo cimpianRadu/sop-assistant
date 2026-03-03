@@ -100,7 +100,7 @@ export default async function PricingPage({
             </svg>
             {tc("appName")}
           </Link>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <LanguageSwitcher />
             {user ? (
               <Link href={`/${session?.role || "operator"}/dashboard`}>
@@ -110,7 +110,7 @@ export default async function PricingPage({
               </Link>
             ) : (
               <>
-                <Link href="/auth/login">
+                <Link href="/auth/login" className="hidden sm:block">
                   <Button variant="ghost" size="sm">
                     {tc("logIn")}
                   </Button>

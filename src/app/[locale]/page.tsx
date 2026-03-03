@@ -83,12 +83,12 @@ export default async function Home({
             </svg>
             {tc("appName")}
           </span>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <LanguageSwitcher />
-            <Link href="/pricing">
+            <Link href="/pricing" className="hidden sm:block">
               <Button variant="ghost" size="sm">{tc("pricing")}</Button>
             </Link>
-            <Link href="/auth/login">
+            <Link href="/auth/login" className="hidden sm:block">
               <Button variant="ghost" size="sm">{tc("logIn")}</Button>
             </Link>
             <Link href="/auth/signup">

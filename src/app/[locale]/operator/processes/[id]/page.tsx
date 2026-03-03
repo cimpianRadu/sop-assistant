@@ -53,10 +53,7 @@ export default async function OperatorProcessPage({
         </Button>
       </Link>
 
-      <div>
-        <h2 className="text-2xl font-bold">{process.title}</h2>
-        <p className="text-muted-foreground mt-1">{process.description}</p>
-      </div>
+      <h2 className="text-2xl font-bold">{process.title}</h2>
 
       {myExecutions && myExecutions.length > 0 && (
         <div className="space-y-3">
