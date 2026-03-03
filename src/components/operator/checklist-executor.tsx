@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { HelpDialog } from "./help-dialog";
+import { ChatPanel } from "./chat-panel";
 import type { ExecutionStepWithDetails } from "@/lib/types";
+import { MessageCircleIcon, HelpCircleIcon } from "lucide-react";
 
 type ChecklistExecutorProps = {
   executionId: string;
@@ -16,6 +17,12 @@ type ChecklistExecutorProps = {
   processTitle: string;
   sopText: string;
   steps: ExecutionStepWithDetails[];
+};
+
+type StepContext = {
+  stepId: string;
+  stepText: string;
+  stepNumber: number;
 };
 
 export function ChecklistExecutor({
@@ -26,15 +33,21 @@ export function ChecklistExecutor({
   steps: initialSteps,
 }: ChecklistExecutorProps) {
   const t = useTranslations("Checklist");
+  const tc = useTranslations("Chat");
   const te = useTranslations("Errors");
   const [steps, setSteps] = useState(initialSteps);
   const [completing, setCompleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatStepContext, setChatStepContext] = useState<StepContext | null>(
+    null
+  );
 
   const completedCount = steps.filter((s) => s.completed).length;
   const totalSteps = steps.length;
   const allCompleted = completedCount === totalSteps;
-  const progress = totalSteps > 0 ? Math.round((completedCount / totalSteps) * 100) : 0;
+  const progress =
+    totalSteps > 0 ? Math.round((completedCount / totalSteps) * 100) : 0;
 
   async function handleToggle(stepId: string, currentCompleted: boolean) {
     const newCompleted = !currentCompleted;
@@ -66,6 +79,24 @@ export function ChecklistExecutor({
     }
   }
 
+  function openChatForStep(step: {
+    id: string;
+    step_text: string;
+    step_number: number;
+  }) {
+    setChatStepContext({
+      stepId: step.id,
+      stepText: step.step_text,
+      stepNumber: step.step_number,
+    });
+    setChatOpen(true);
+  }
+
+  function openChat() {
+    setChatStepContext(null);
+    setChatOpen(true);
+  }
+
   return (
     <div className="space-y-4">
       {error && (
@@ -79,7 +110,11 @@ export function ChecklistExecutor({
           <CardTitle className="flex items-center justify-between">
             <span>{t("progress")}</span>
             <span className="text-sm font-normal text-muted-foreground">
-              {t("stepsProgress", { completed: completedCount, total: totalSteps, percent: progress })}
+              {t("stepsProgress", {
+                completed: completedCount,
+                total: totalSteps,
+                percent: progress,
+              })}
             </span>
           </CardTitle>
         </CardHeader>
@@ -92,6 +127,13 @@ export function ChecklistExecutor({
           </div>
         </CardContent>
       </Card>
+
+      <div className="flex justify-end">
+        <Button variant="outline" onClick={openChat} className="gap-2">
+          <MessageCircleIcon className="size-4" />
+          {tc("chatWithAI")}
+        </Button>
+      </div>
 
       <Card>
         <CardHeader>
@@ -120,15 +162,15 @@ export function ChecklistExecutor({
                 </span>
               </label>
               {!step.completed && (
-                <HelpDialog
-                  executionId={executionId}
-                  processId={processId}
-                  processTitle={processTitle}
-                  sopText={sopText}
-                  stepId={step.checklist_steps.id}
-                  stepText={step.checklist_steps.step_text}
-                  stepNumber={step.checklist_steps.step_number}
-                />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => openChatForStep(step.checklist_steps)}
+                  className="gap-1.5 shrink-0"
+                >
+                  <HelpCircleIcon className="size-3.5" />
+                  <span className="hidden sm:inline">{tc("chatWithAI")}</span>
+                </Button>
               )}
             </div>
           ))}
@@ -146,6 +188,16 @@ export function ChecklistExecutor({
           ? t("completeExecution")
           : t("stepsRemaining", { remaining: totalSteps - completedCount })}
       </Button>
+
+      <ChatPanel
+        open={chatOpen}
+        onOpenChange={setChatOpen}
+        initialStepContext={chatStepContext}
+        executionId={executionId}
+        processId={processId}
+        processTitle={processTitle}
+        sopText={sopText}
+      />
     </div>
   );
 }

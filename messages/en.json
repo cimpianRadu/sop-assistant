@@ -360,6 +360,29 @@
     "totalExecutionsDesc": "Across all org processes"
   },
 
+  "Chat": {
+    "chatWithAI": "Chat with AI",
+    "title": "AI Assistant",
+    "subtitle": "Ask about: {processTitle}",
+    "askingAboutStep": "Asking about Step {number}",
+    "clearStepContext": "Clear",
+    "inputPlaceholder": "Ask a question about this procedure...",
+    "send": "Send",
+    "thinking": "Thinking...",
+    "errorOccurred": "An error occurred. Please try again.",
+    "retry": "Retry",
+    "escalateToManager": "Escalate to Manager",
+    "escalationNote": "Note for manager (optional)",
+    "escalationNotePlaceholder": "Add any additional context...",
+    "escalate": "Escalate",
+    "escalating": "Escalating...",
+    "escalated": "Your conversation has been escalated to the manager.",
+    "welcome": "Hi! I can help you with any step in this procedure. Ask me anything, or click \"Need Help?\" on a specific step.",
+    "you": "You",
+    "assistant": "AI",
+    "stepBadge": "Step {number}"
+  },
+
   "PasswordRules": {
     "strength": "Password strength",
     "empty": "",

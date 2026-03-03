@@ -360,6 +360,29 @@
     "totalExecutionsDesc": "Din toate procesele organizatiei"
   },
 
+  "Chat": {
+    "chatWithAI": "Chat cu AI",
+    "title": "Asistent AI",
+    "subtitle": "Intreaba despre: {processTitle}",
+    "askingAboutStep": "Intrebi despre Pasul {number}",
+    "clearStepContext": "Sterge",
+    "inputPlaceholder": "Pune o intrebare despre aceasta procedura...",
+    "send": "Trimite",
+    "thinking": "Se gandeste...",
+    "errorOccurred": "A aparut o eroare. Te rugam sa incerci din nou.",
+    "retry": "Reincearca",
+    "escalateToManager": "Escaleaza catre Manager",
+    "escalationNote": "Nota pentru manager (optional)",
+    "escalationNotePlaceholder": "Adauga context suplimentar...",
+    "escalate": "Escaleaza",
+    "escalating": "Se escaleaza...",
+    "escalated": "Conversatia ta a fost escaladata catre manager.",
+    "welcome": "Buna! Te pot ajuta cu orice pas din aceasta procedura. Intreaba-ma orice, sau apasa \"Ai nevoie de ajutor?\" pe un pas specific.",
+    "you": "Tu",
+    "assistant": "AI",
+    "stepBadge": "Pasul {number}"
+  },
+
   "PasswordRules": {
     "strength": "Puterea parolei",
     "empty": "",
