@@ -14,8 +14,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sopia",
-  description: "Senior expertise where it matters. AI guidance everywhere else.",
+  metadataBase: new URL("https://sopia.xyz"),
+  title: {
+    default: "Sopia",
+    template: "%s | Sopia",
+  },
+  description: "Senior expertise where it matters. AI guidance everywhere else. Sopia walks your team through every procedure step by step.",
+  openGraph: {
+    title: "Sopia",
+    description: "Senior expertise where it matters. AI guidance everywhere else.",
+    siteName: "Sopia",
+    locale: "en",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sopia",
+    description: "Senior expertise where it matters. AI guidance everywhere else.",
+  },
 };
 
 export default function RootLayout({

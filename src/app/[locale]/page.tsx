@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { LanguageSwitcher } from "@/components/shared/language-switcher";
 
 export default async function Home({
   params,
@@ -33,6 +34,7 @@ export default async function Home({
 
   const t = await getTranslations("Landing");
   const tc = await getTranslations("Common");
+  const tf = await getTranslations("FAQ");
 
   const features = [
     { title: t("feature1Title"), desc: t("feature1Desc") },
@@ -47,12 +49,42 @@ export default async function Home({
     t("painPoint4"),
   ];
 
+  const faqs = [
+    { q: tf("faq1Q"), a: tf("faq1A") },
+    { q: tf("faq2Q"), a: tf("faq2A") },
+    { q: tf("faq3Q"), a: tf("faq3A") },
+    { q: tf("faq4Q"), a: tf("faq4A") },
+    { q: tf("faq5Q"), a: tf("faq5A") },
+    { q: tf("faq6Q"), a: tf("faq6A") },
+    { q: tf("faq7Q"), a: tf("faq7A") },
+    { q: tf("faq8Q"), a: tf("faq8A") },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b">
         <div className="container mx-auto flex items-center justify-between h-14 px-4">
-          <span className="font-semibold text-lg">{tc("appName")}</span>
+          <span className="flex items-center gap-1.5 font-semibold text-lg">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 40 40"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="shrink-0"
+            >
+              <circle cx="20" cy="20" r="17.5" stroke="#2AA5A0" strokeWidth="2" fill="none" />
+              <line x1="20" y1="2.5" x2="20" y2="5.5" stroke="#2AA5A0" strokeWidth="1.5" />
+              <line x1="37.5" y1="20" x2="34.5" y2="20" stroke="#2AA5A0" strokeWidth="1.5" />
+              <line x1="20" y1="37.5" x2="20" y2="34.5" stroke="#2AA5A0" strokeWidth="1.5" />
+              <line x1="2.5" y1="20" x2="5.5" y2="20" stroke="#2AA5A0" strokeWidth="1.5" />
+              <path d="M20 6 L26 20 L20 34 L14 20 Z" fill="#2AA5A0" />
+              <path d="M20 6 L26 20 L20 20 L14 20 Z" fill="#1D7A76" />
+            </svg>
+            {tc("appName")}
+          </span>
           <div className="flex items-center gap-3">
+            <LanguageSwitcher />
             <Link href="/pricing">
               <Button variant="ghost" size="sm">{tc("pricing")}</Button>
             </Link>
@@ -67,7 +99,9 @@ export default async function Home({
       </header>
 
       <section className="container mx-auto px-4 py-20 max-w-4xl text-center">
-        <Badge variant="secondary" className="mb-4">{t("trialBadge")}</Badge>
+        <span className="inline-block mb-6 px-4 py-2 text-sm font-semibold rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shadow-[0_0_15px_rgba(42,165,160,0.3)]">
+          {t("trialBadge")}
+        </span>
         <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6">
           {t("heroTitle")}
         </h1>
@@ -128,12 +162,48 @@ export default async function Home({
         </div>
       </section>
 
+      <section className="border-t">
+        <div className="container mx-auto px-4 py-16 max-w-3xl">
+          <h2 className="text-2xl font-bold text-center mb-10">{tf("title")}</h2>
+          <div className="space-y-0 divide-y">
+            {faqs.map((faq, i) => (
+              <details key={i} className="group py-4">
+                <summary className="flex cursor-pointer items-center justify-between text-sm font-medium hover:text-foreground text-foreground/90">
+                  {faq.q}
+                  <span className="ml-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                  {faq.a}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <footer className="border-t">
         <div className="container mx-auto px-4 py-6 flex items-center justify-between text-sm text-muted-foreground">
-          <span>{tc("appName")}</span>
+          <span className="flex items-center gap-1.5">
+            <svg width="18" height="18" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+              <circle cx="20" cy="20" r="17.5" stroke="#2AA5A0" strokeWidth="2" fill="none" />
+              <line x1="20" y1="2.5" x2="20" y2="5.5" stroke="#2AA5A0" strokeWidth="1.5" />
+              <line x1="37.5" y1="20" x2="34.5" y2="20" stroke="#2AA5A0" strokeWidth="1.5" />
+              <line x1="20" y1="37.5" x2="20" y2="34.5" stroke="#2AA5A0" strokeWidth="1.5" />
+              <line x1="2.5" y1="20" x2="5.5" y2="20" stroke="#2AA5A0" strokeWidth="1.5" />
+              <path d="M20 6 L26 20 L20 34 L14 20 Z" fill="#2AA5A0" />
+              <path d="M20 6 L26 20 L20 20 L14 20 Z" fill="#1D7A76" />
+            </svg>
+            {tc("appName")}
+          </span>
           <div className="flex items-center gap-4">
-            <Link href="/pricing" className="hover:text-foreground">{tc("pricing")}</Link>
-            <a href="mailto:contact@sopassistant.com" className="hover:text-foreground">{tc("contact")}</a>
+            <Link href="/pricing" className="flex items-center gap-1.5 hover:text-foreground">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              {tc("pricing")}
+            </Link>
+            <a href="mailto:hello@sopia.xyz" className="flex items-center gap-1.5 hover:text-foreground">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              {tc("contact")}
+            </a>
           </div>
         </div>
       </footer>

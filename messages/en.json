@@ -52,6 +52,26 @@
     "getStarted": "Get started for free"
   },
 
+  "FAQ": {
+    "title": "Frequently Asked Questions",
+    "faq1Q": "What is a Standard Operating Procedure (SOP)?",
+    "faq1A": "An SOP is a step-by-step document that describes how to perform a specific task or process. It ensures consistency, reduces errors, and makes it easy for new team members to follow established procedures without relying on tribal knowledge.",
+    "faq2Q": "How does Sopia generate SOPs with AI?",
+    "faq2A": "Describe your process in plain language — what the goal is, who's involved, and the key steps. Sopia's AI generates a detailed, structured SOP with an actionable checklist in seconds. You can review and edit it before publishing.",
+    "faq3Q": "Who is Sopia for?",
+    "faq3A": "Sopia is built for growing teams (10-50 people) where senior staff spend too much time training new hires. It's especially effective for sales teams, customer support, operations, and any department with repeatable processes.",
+    "faq4Q": "How do operators follow procedures?",
+    "faq4A": "Operators receive assigned procedures and follow them through interactive checklists. Each step is tracked in real-time, so managers always know exactly where things stand — without having to ask.",
+    "faq5Q": "What happens if an operator gets stuck on a step?",
+    "faq5A": "Operators can ask the built-in AI assistant for instant guidance. If they're still stuck, they can escalate directly to their manager with one click. No more interrupting seniors for routine questions.",
+    "faq6Q": "Is my data secure?",
+    "faq6A": "Yes. Sopia is hosted on Supabase with servers in the EU. All data is encrypted in transit and at rest. Row-level security policies ensure each organization can only access its own data.",
+    "faq7Q": "What happens after the 14-day free trial?",
+    "faq7A": "After your trial ends, your data is safely preserved. You can upgrade to the Growth plan (€99/month) to continue. There's no pressure — your SOPs, checklists, and execution history stay intact.",
+    "faq8Q": "Can I use Sopia in Romanian?",
+    "faq8A": "Yes! Sopia is fully available in both English and Romanian. The AI generates SOPs in the language you write your description in, and the entire interface switches seamlessly between languages."
+  },
+
   "Pricing": {
     "title": "Simple, transparent pricing",
     "subtitle": "Transform your team's expertise into clear, AI-generated procedures. New hires become productive from day one.",
@@ -168,7 +188,8 @@
   },
 
   "Header": {
-    "trialDays": "Trial: {days} {days, plural, one {day} other {days}} left"
+    "trialDays": "Trial: {days} {days, plural, one {day} other {days}} left",
+    "upgradeNow": "Upgrade now"
   },
 
   "Manager": {

@@ -98,42 +98,12 @@ export function ChecklistExecutor({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-32">
       {error && (
         <Alert variant="destructive">
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            <span>{t("progress")}</span>
-            <span className="text-sm font-normal text-muted-foreground">
-              {t("stepsProgress", {
-                completed: completedCount,
-                total: totalSteps,
-                percent: progress,
-              })}
-            </span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="w-full bg-muted rounded-full h-2">
-            <div
-              className="bg-primary h-2 rounded-full transition-all duration-300"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      <div className="flex justify-end">
-        <Button variant="outline" onClick={openChat} className="gap-2">
-          <MessageCircleIcon className="size-4" />
-          {tc("chatWithAI")}
-        </Button>
-      </div>
 
       <Card>
         <CardHeader>
@@ -177,17 +147,46 @@ export function ChecklistExecutor({
         </CardContent>
       </Card>
 
-      <Button
-        onClick={handleComplete}
-        disabled={!allCompleted || completing}
-        className="w-full"
-      >
-        {completing
-          ? t("completing")
-          : allCompleted
-          ? t("completeExecution")
-          : t("stepsRemaining", { remaining: totalSteps - completedCount })}
-      </Button>
+      {/* Sticky bottom bar: progress + actions */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="container mx-auto max-w-3xl px-4 py-3 space-y-3">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-sm font-medium">{t("progress")}</span>
+                <span className="text-xs text-muted-foreground">
+                  {t("stepsProgress", {
+                    completed: completedCount,
+                    total: totalSteps,
+                    percent: progress,
+                  })}
+                </span>
+              </div>
+              <div className="w-full bg-muted rounded-full h-2">
+                <div
+                  className="bg-primary h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
+            <Button variant="outline" onClick={openChat} className="gap-2 shrink-0">
+              <MessageCircleIcon className="size-4" />
+              {tc("chatWithAI")}
+            </Button>
+          </div>
+          <Button
+            onClick={handleComplete}
+            disabled={!allCompleted || completing}
+            className="w-full"
+          >
+            {completing
+              ? t("completing")
+              : allCompleted
+              ? t("completeExecution")
+              : t("stepsRemaining", { remaining: totalSteps - completedCount })}
+          </Button>
+        </div>
+      </div>
 
       <ChatPanel
         open={chatOpen}
