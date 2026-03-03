@@ -14,25 +14,37 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export function InviteForm() {
   const t = useTranslations("Admin");
   const tc = useTranslations("Common");
+  const te = useTranslations("Errors");
   const tt = useTranslations("Toast");
   const [error, setError] = useState<string | null>(null);
   const [inviteLink, setInviteLink] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     setLoading(true);
     setError(null);
     setInviteLink(null);
 
-    const result = await inviteMember(formData);
-    if (result?.error) {
-      setError(result.error);
-    } else if (result?.token) {
-      const link = `${window.location.origin}/invite/${result.token}`;
-      setInviteLink(link);
-      toast.success(tt("inviteSent"));
+    try {
+      const formData = new FormData(e.currentTarget);
+      const result = await inviteMember(formData);
+      if (result?.error) {
+        setError(result.error);
+      } else if (result?.token) {
+        const link = `${window.location.origin}/invite/${result.token}`;
+        setInviteLink(link);
+        if (result.emailError) {
+          toast.error(tt("emailFailed"));
+        } else {
+          toast.success(tt("inviteSent"));
+        }
+      }
+    } catch {
+      setError("unknown_error");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   async function handleCopy() {
@@ -48,10 +60,10 @@ export function InviteForm() {
         <CardTitle>{t("inviteMember")}</CardTitle>
       </CardHeader>
       <CardContent>
-        <form action={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
             <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
+              <AlertDescription>{te(error)}</AlertDescription>
             </Alert>
           )}
 

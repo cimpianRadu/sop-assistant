@@ -1,6 +1,6 @@
 {
   "Common": {
-    "appName": "SOP Assistant",
+    "appName": "Sopia",
     "logIn": "Autentificare",
     "logOut": "Deconectare",
     "signUp": "Inregistrare",
@@ -30,9 +30,8 @@
 
   "Landing": {
     "trialBadge": "14 zile gratuit — nu necesita card",
-    "heroTitle": "Opreste-ti seniorii din a fi traineri",
-    "heroHighlight": "traineri",
-    "heroSubtitle": "Transforma expertiza echipei tale in proceduri generate de AI. Angajatii noi urmeaza checklist-uri pas cu pas si primesc ajutor instant — fara sa deranjeze pe nimeni.",
+    "heroTitle": "Expertiza seniorilor unde conteaza. Ghidaj AI pentru restul.",
+    "heroSubtitle": "Sopia ghideaza echipa ta prin fiecare procedura, pas cu pas — ca oamenii tai cei mai buni sa nu mai repete aceleasi lucruri si sa se concentreze pe munca care conteaza cu adevarat.",
     "startTrial": "Incepe gratuit",
     "viewPricing": "Vezi preturile",
     "soundFamiliar": "Iti suna cunoscut?",
@@ -78,9 +77,9 @@
 
   "Auth": {
     "loginTitle": "Autentificare",
-    "loginSubtitle": "Conecteaza-te la contul tau SOP Assistant",
+    "loginSubtitle": "Conecteaza-te la contul tau Sopia",
     "signupTitle": "Inregistrare",
-    "signupSubtitle": "Creeaza contul tau SOP Assistant",
+    "signupSubtitle": "Creeaza contul tau Sopia",
     "emailPlaceholder": "tu@exemplu.com",
     "passwordPlaceholder": "••••••••",
     "signingIn": "Se autentifica...",
@@ -137,6 +136,8 @@
     "removing": "Se sterge...",
     "cancelInvite": "Anuleaza",
     "cancelling": "Se anuleaza...",
+    "resendInvite": "Retrimite",
+    "resending": "Se trimite...",
     "noMembers": "Niciun membru inca. Invita-ti echipa pentru a incepe.",
     "inviteLink": "Link de invitatie creat!",
     "copyLink": "Copiaza link",
@@ -148,7 +149,7 @@
 
   "TrialExpired": {
     "title": "Perioada de trial s-a incheiat",
-    "description": "Perioada ta gratuita de 14 zile pentru SOP Assistant a expirat. Upgradeaza pentru a mentine echipa in functiune.",
+    "description": "Perioada ta gratuita de 14 zile pentru Sopia a expirat. Upgradeaza pentru a mentine echipa in functiune.",
     "dataIsSafe": "Datele tale sunt in siguranta",
     "dataIsSafeDesc": "Toate SOP-urile, checklist-urile si istoricul executiilor sunt pastrate. Upgradeaza oricand pentru a continua de unde ai ramas.",
     "whatYouBuilt": "Ce ai construit in timpul trial-ului",
@@ -330,6 +331,8 @@
     "operatorRemoved": "Operatorul a fost sters din proces",
     "profileUpdated": "Profilul a fost actualizat cu succes",
     "executionCompleted": "Executia a fost finalizata!",
+    "emailFailed": "Invitatia a fost creata, dar emailul nu a putut fi trimis. Distribuie linkul manual.",
+    "inviteResent": "Emailul de invitatie a fost retrimis",
     "linkCopied": "Linkul a fost copiat"
   },
 

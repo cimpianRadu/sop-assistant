@@ -1,6 +1,6 @@
-# SOP Assistant
+# Sopia
 
-AI-powered Standard Operating Procedure management. Create SOPs, assign operators, and track execution with checklists.
+Senior expertise where it matters. AI guidance everywhere else. Create SOPs, assign operators, and track execution with checklists.
 
 Built with Next.js 16, Supabase (PostgreSQL + Auth), next-intl (EN/RO), and shadcn/ui.
 
@@ -16,8 +16,8 @@ This project uses **two Supabase projects** to separate development and producti
 
 | Environment | Supabase Project | Used When |
 |-------------|-----------------|-----------|
-| **Dev** | SOP Assistant Dev (`obdiggtvvchlnyecchgm`) | `next dev` locally |
-| **Prod** | SOP AI Assistant (`eguixceaxwezabxaggtb`) | Vercel deployment |
+| **Dev** | Sopia Dev (`obdiggtvvchlnyecchgm`) | `next dev` locally |
+| **Prod** | Sopia (`eguixceaxwezabxaggtb`) | Vercel deployment |
 
 ### Local development
 

@@ -1,6 +1,6 @@
 {
   "Common": {
-    "appName": "SOP Assistant",
+    "appName": "Sopia",
     "logIn": "Log in",
     "logOut": "Log out",
     "signUp": "Sign up",
@@ -30,9 +30,8 @@
 
   "Landing": {
     "trialBadge": "14-day free trial — no credit card required",
-    "heroTitle": "Stop your seniors from being trainers",
-    "heroHighlight": "being trainers",
-    "heroSubtitle": "Turn your team's expertise into AI-generated procedures. New hires follow step-by-step checklists and get instant help — without interrupting anyone.",
+    "heroTitle": "Senior expertise where it matters. AI guidance everywhere else.",
+    "heroSubtitle": "Sopia walks your team through every procedure step by step — so your best people stop repeating themselves and start doing the work that actually moves the needle.",
     "startTrial": "Start free trial",
     "viewPricing": "View pricing",
     "soundFamiliar": "Sound familiar?",
@@ -78,9 +77,9 @@
 
   "Auth": {
     "loginTitle": "Log In",
-    "loginSubtitle": "Sign in to your SOP Assistant account",
+    "loginSubtitle": "Sign in to your Sopia account",
     "signupTitle": "Sign Up",
-    "signupSubtitle": "Create your SOP Assistant account",
+    "signupSubtitle": "Create your Sopia account",
     "emailPlaceholder": "you@example.com",
     "passwordPlaceholder": "••••••••",
     "signingIn": "Signing in...",
@@ -137,6 +136,8 @@
     "removing": "Removing...",
     "cancelInvite": "Cancel",
     "cancelling": "Cancelling...",
+    "resendInvite": "Resend",
+    "resending": "Sending...",
     "noMembers": "No members yet. Invite your team to get started.",
     "inviteLink": "Invite link created!",
     "copyLink": "Copy Link",
@@ -148,7 +149,7 @@
 
   "TrialExpired": {
     "title": "Your trial has ended",
-    "description": "Your 14-day free trial of SOP Assistant has expired. Upgrade to keep your team running smoothly.",
+    "description": "Your 14-day free trial of Sopia has expired. Upgrade to keep your team running smoothly.",
     "dataIsSafe": "Your data is safe",
     "dataIsSafeDesc": "All your SOPs, checklists, and execution history are preserved. Upgrade anytime to pick up right where you left off.",
     "whatYouBuilt": "What you built during your trial",
@@ -330,6 +331,8 @@
     "operatorRemoved": "Operator removed from process",
     "profileUpdated": "Profile updated successfully",
     "executionCompleted": "Execution completed!",
+    "emailFailed": "Invite created, but the email could not be sent. Share the link manually.",
+    "inviteResent": "Invite email resent",
     "linkCopied": "Link copied to clipboard"
   },
 

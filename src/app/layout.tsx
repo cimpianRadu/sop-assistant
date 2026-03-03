@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SOP Assistant",
-  description: "AI-powered Standard Operating Procedures",
+  title: "Sopia",
+  description: "Senior expertise where it matters. AI guidance everywhere else.",
 };
 
 export default function RootLayout({

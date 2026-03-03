@@ -3,15 +3,17 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { cancelInvite } from "@/lib/actions/organizations";
+import { cancelInvite, resendInvite } from "@/lib/actions/organizations";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader2Icon, MailIcon } from "lucide-react";
 import type { OrgInvite } from "@/lib/types";
 
 export function PendingInvites({ invites }: { invites: OrgInvite[] }) {
   const t = useTranslations("Admin");
   const [cancelling, setCancelling] = useState<string | null>(null);
+  const [resending, setResending] = useState<string | null>(null);
 
   const tt = useTranslations("Toast");
 
@@ -20,6 +22,17 @@ export function PendingInvites({ invites }: { invites: OrgInvite[] }) {
     await cancelInvite(inviteId);
     toast.success(tt("inviteCancelled"));
     setCancelling(null);
+  }
+
+  async function handleResend(inviteId: string) {
+    setResending(inviteId);
+    const result = await resendInvite(inviteId);
+    if (result?.error) {
+      toast.error(result.error);
+    } else {
+      toast.success(tt("inviteResent"));
+    }
+    setResending(null);
   }
 
   const pending = invites.filter((i) => !i.accepted_at);
@@ -48,6 +61,21 @@ export function PendingInvites({ invites }: { invites: OrgInvite[] }) {
                 <Badge variant="outline" className="capitalize">
                   {invite.role}
                 </Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleResend(invite.id)}
+                  disabled={resending === invite.id}
+                >
+                  {resending === invite.id ? (
+                    <Loader2Icon className="size-4 animate-spin" />
+                  ) : (
+                    <MailIcon className="size-4" />
+                  )}
+                  {resending === invite.id
+                    ? t("resending")
+                    : t("resendInvite")}
+                </Button>
                 <Button
                   variant="ghost"
                   size="sm"

@@ -1,5 +1,5 @@
 -- =============================================
--- Date seed pentru mediul DEV al SOP Assistant
+-- Date seed pentru mediul DEV al Sopia
 --
 -- Acest script creeaza date de test pentru dezvoltare locala.
 -- Ruleaza DOAR pe proiectul Supabase DEV!

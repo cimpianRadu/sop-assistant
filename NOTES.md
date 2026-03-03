@@ -1,4 +1,4 @@
-# SOP Assistant - Notes & Future Plans
+# Sopia - Notes & Future Plans
 
 ## Current MVP Architecture
 - **Roles**: Manager, Operator (selected at signup)

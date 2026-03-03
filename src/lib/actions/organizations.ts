@@ -2,8 +2,17 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { getSessionContext } from "@/lib/session";
+import { sendInviteEmail } from "@/lib/email";
+
+async function getBaseUrl() {
+  const h = await headers();
+  const host = h.get("host") ?? "localhost:3000";
+  const proto = h.get("x-forwarded-proto") ?? "http";
+  return `${proto}://${host}`;
+}
 
 export async function createOrganization(formData: FormData) {
   const supabase = await createClient();
@@ -109,8 +118,27 @@ export async function inviteMember(formData: FormData) {
     return { error: inviteError.message };
   }
 
+  // Send invite email — invite is created even if email fails
+  let emailError: string | null = null;
+  try {
+    const baseUrl = await getBaseUrl();
+    const inviteUrl = `${baseUrl}/invite/${invite.token}`;
+    const emailResult = await sendInviteEmail({
+      to: email,
+      orgName: session.org_name,
+      role,
+      inviteUrl,
+    });
+    if (emailResult.error) {
+      emailError = emailResult.error;
+    }
+  } catch (e) {
+    console.error("Failed to send invite email:", e);
+    emailError = "email_send_failed";
+  }
+
   revalidatePath("/admin/members");
-  return { success: true, token: invite.token };
+  return { success: true, token: invite.token, emailError };
 }
 
 export async function acceptInvite(token: string) {
@@ -196,5 +224,44 @@ export async function cancelInvite(inviteId: string) {
   }
 
   revalidatePath("/admin/members");
+  return { success: true };
+}
+
+export async function resendInvite(inviteId: string) {
+  const session = await getSessionContext();
+  if (!session || session.role !== "admin") {
+    return { error: "unauthorized" };
+  }
+
+  const supabase = await createClient();
+
+  const { data: invite } = await supabase
+    .from("org_invites")
+    .select("email, role, token, accepted_at")
+    .eq("id", inviteId)
+    .eq("org_id", session.org_id)
+    .single();
+
+  if (!invite) {
+    return { error: "invite_not_found_or_expired" };
+  }
+
+  if (invite.accepted_at) {
+    return { error: "already_member" };
+  }
+
+  const baseUrl = await getBaseUrl();
+  const inviteUrl = `${baseUrl}/invite/${invite.token}`;
+  const result = await sendInviteEmail({
+    to: invite.email,
+    orgName: session.org_name,
+    role: invite.role,
+    inviteUrl,
+  });
+
+  if (result.error) {
+    return { error: result.error };
+  }
+
   return { success: true };
 }
