@@ -1,5 +1,5 @@
-import { LoadingSpinner } from "@/components/shared/loading-spinner";
+import { OperatorDashboardSkeleton } from "@/components/shared/dashboard-skeleton";
 
 export default function Loading() {
-  return <LoadingSpinner className="py-20" />;
+  return <OperatorDashboardSkeleton />;
 }

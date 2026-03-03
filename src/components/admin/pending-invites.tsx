@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { cancelInvite } from "@/lib/actions/organizations";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,9 +13,12 @@ export function PendingInvites({ invites }: { invites: OrgInvite[] }) {
   const t = useTranslations("Admin");
   const [cancelling, setCancelling] = useState<string | null>(null);
 
+  const tt = useTranslations("Toast");
+
   async function handleCancel(inviteId: string) {
     setCancelling(inviteId);
     await cancelInvite(inviteId);
+    toast.success(tt("inviteCancelled"));
     setCancelling(null);
   }
 
@@ -32,7 +36,7 @@ export function PendingInvites({ invites }: { invites: OrgInvite[] }) {
           {pending.map((invite) => (
             <div
               key={invite.id}
-              className="flex items-center justify-between border rounded-lg p-3"
+              className="flex items-center justify-between flex-wrap gap-2 border rounded-lg p-3"
             >
               <div>
                 <p className="text-sm font-medium">{invite.email}</p>

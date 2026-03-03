@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { inviteMember } from "@/lib/actions/organizations";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,16 +14,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export function InviteForm() {
   const t = useTranslations("Admin");
   const tc = useTranslations("Common");
+  const tt = useTranslations("Toast");
   const [error, setError] = useState<string | null>(null);
   const [inviteLink, setInviteLink] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [copied, setCopied] = useState(false);
 
   async function handleSubmit(formData: FormData) {
     setLoading(true);
     setError(null);
     setInviteLink(null);
-    setCopied(false);
 
     const result = await inviteMember(formData);
     if (result?.error) {
@@ -30,6 +30,7 @@ export function InviteForm() {
     } else if (result?.token) {
       const link = `${window.location.origin}/invite/${result.token}`;
       setInviteLink(link);
+      toast.success(tt("inviteSent"));
     }
     setLoading(false);
   }
@@ -37,8 +38,7 @@ export function InviteForm() {
   async function handleCopy() {
     if (inviteLink) {
       await navigator.clipboard.writeText(inviteLink);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      toast.success(tt("linkCopied"));
     }
   }
 
@@ -67,15 +67,15 @@ export function InviteForm() {
                     size="sm"
                     onClick={handleCopy}
                   >
-                    {copied ? t("linkCopied") : t("copyLink")}
+                    {t("copyLink")}
                   </Button>
                 </div>
               </AlertDescription>
             </Alert>
           )}
 
-          <div className="flex gap-3">
-            <div className="flex-1">
+          <div className="flex flex-wrap gap-3">
+            <div className="w-full sm:flex-1">
               <Label htmlFor="invite-email" className="sr-only">
                 {tc("email")}
               </Label>

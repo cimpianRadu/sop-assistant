@@ -36,7 +36,7 @@ export default async function ProcessDetailPage({ params }: { params: Promise<{ 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <Link href={`/${session!.role}/dashboard`}><Button variant="ghost" size="sm">{t("backToDashboard")}</Button></Link>
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold">{process.title}</h2>
           <p className="text-muted-foreground mt-1">{process.description}</p>
@@ -61,11 +61,11 @@ export default async function ProcessDetailPage({ params }: { params: Promise<{ 
         <CardHeader><CardTitle>{t("executionHistory")}</CardTitle></CardHeader>
         <CardContent>
           {!executions || executions.length === 0 ? (
-            <p className="text-sm text-muted-foreground">{t("noExecutions")}</p>
+            <p className="text-sm text-muted-foreground text-center py-6">{t("noExecutions")}</p>
           ) : (
             <div className="space-y-3">
               {(executions as ExecutionWithProfile[]).map((execution) => (
-                <div key={execution.id} className="flex items-center justify-between border rounded-lg p-3">
+                <div key={execution.id} className="flex items-center justify-between flex-wrap gap-2 border rounded-lg p-3">
                   <div>
                     <p className="text-sm font-medium">{execution.profiles?.email}</p>
                     <p className="text-xs text-muted-foreground">{tc("started", { date: new Date(execution.started_at).toLocaleDateString(locale) })}</p>

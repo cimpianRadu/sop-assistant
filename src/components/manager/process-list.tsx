@@ -1,7 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { FileTextIcon } from "lucide-react";
 import { ProcessCard } from "./process-card";
+import { EmptyState } from "@/components/shared/empty-state";
 import type { ProcessWithCreator } from "@/lib/types";
 
 export function ProcessList({ processes }: { processes: ProcessWithCreator[] }) {
@@ -9,10 +11,11 @@ export function ProcessList({ processes }: { processes: ProcessWithCreator[] }) 
 
   if (processes.length === 0) {
     return (
-      <div className="text-center py-12 text-muted-foreground">
-        <p className="text-lg font-medium">{t("noProcesses")}</p>
-        <p className="text-sm mt-1">{t("noProcessesHint")}</p>
-      </div>
+      <EmptyState
+        icon={FileTextIcon}
+        title={t("noProcesses")}
+        description={t("noProcessesHint")}
+      />
     );
   }
 

@@ -216,7 +216,9 @@
     "resolving": "Se rezolva...",
     "markResolved": "Marcheaza ca rezolvat",
     "from": "De la: {email} · {date}",
-    "step": "Pasul {number}: {text}"
+    "step": "Pasul {number}: {text}",
+    "noEscalations": "Nicio escaladare deschisa",
+    "noEscalationsHint": "Toate escaladarile au fost rezolvate."
   },
 
   "Analytics": {
@@ -305,6 +307,57 @@
     "password_too_weak": "Parola trebuie sa aiba cel putin 8 caractere si sa includa litere mari, litere mici si un numar.",
     "invalid_email_format": "Te rugam introdu o adresa de email valida.",
     "unknown_error": "Ceva nu a functionat corect. Te rugam sa incerci din nou."
+  },
+
+  "ErrorBoundary": {
+    "title": "Ceva nu a functionat",
+    "description": "A aparut o eroare neasteptata. Te rugam sa incerci din nou.",
+    "tryAgain": "Incearca din nou"
+  },
+
+  "NotFound": {
+    "title": "Pagina nu a fost gasita",
+    "description": "Pagina pe care o cauti nu exista sau a fost mutata.",
+    "goHome": "Inapoi la panou"
+  },
+
+  "Toast": {
+    "inviteSent": "Invitatia a fost trimisa cu succes",
+    "memberRemoved": "Membrul a fost sters",
+    "inviteCancelled": "Invitatia a fost anulata",
+    "escalationResolved": "Escaladarea a fost marcata ca rezolvata",
+    "operatorAssigned": "Operatorul a fost asignat cu succes",
+    "operatorRemoved": "Operatorul a fost sters din proces",
+    "profileUpdated": "Profilul a fost actualizat cu succes",
+    "executionCompleted": "Executia a fost finalizata!",
+    "linkCopied": "Linkul a fost copiat"
+  },
+
+  "Profile": {
+    "title": "Profil",
+    "personalInfo": "Informatii personale",
+    "memberSince": "Membru din {date}",
+    "fullName": "Nume complet",
+    "fullNamePlaceholder": "Numele tau complet",
+    "saving": "Se salveaza...",
+    "saveChanges": "Salveaza modificarile",
+    "yourStats": "Statisticile tale",
+    "sopsCreated": "SOP-uri create",
+    "sopsCreatedDesc": "Procesele create de tine",
+    "executionsManaged": "Executii gestionate",
+    "executionsManagedDesc": "Din toate procesele tale",
+    "completionRate": "Rata de finalizare",
+    "completionRateDesc": "Din toate executiile",
+    "executionsCompleted": "Executii finalizate",
+    "executionsCompletedDesc": "Procesele pe care le-ai terminat",
+    "helpRequests": "Cereri de ajutor",
+    "helpRequestsDesc": "Intrebarile pe care le-ai pus",
+    "orgMembers": "Membrii organizatiei",
+    "orgMembersDesc": "Persoanele din echipa ta",
+    "orgProcesses": "Procesele organizatiei",
+    "orgProcessesDesc": "Total SOP-uri in organizatie",
+    "totalExecutions": "Total executii",
+    "totalExecutionsDesc": "Din toate procesele organizatiei"
   },
 
   "PasswordRules": {

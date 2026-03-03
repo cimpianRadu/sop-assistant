@@ -216,7 +216,9 @@
     "resolving": "Resolving...",
     "markResolved": "Mark as Resolved",
     "from": "From: {email} · {date}",
-    "step": "Step {number}: {text}"
+    "step": "Step {number}: {text}",
+    "noEscalations": "No open escalations",
+    "noEscalationsHint": "All escalations have been resolved."
   },
 
   "Analytics": {
@@ -305,6 +307,57 @@
     "password_too_weak": "Password must be at least 8 characters and include uppercase, lowercase, and a number.",
     "invalid_email_format": "Please enter a valid email address.",
     "unknown_error": "Something went wrong. Please try again."
+  },
+
+  "ErrorBoundary": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Please try again.",
+    "tryAgain": "Try again"
+  },
+
+  "NotFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "goHome": "Go to dashboard"
+  },
+
+  "Toast": {
+    "inviteSent": "Invitation sent successfully",
+    "memberRemoved": "Member removed",
+    "inviteCancelled": "Invitation cancelled",
+    "escalationResolved": "Escalation marked as resolved",
+    "operatorAssigned": "Operator assigned successfully",
+    "operatorRemoved": "Operator removed from process",
+    "profileUpdated": "Profile updated successfully",
+    "executionCompleted": "Execution completed!",
+    "linkCopied": "Link copied to clipboard"
+  },
+
+  "Profile": {
+    "title": "Profile",
+    "personalInfo": "Personal Information",
+    "memberSince": "Member since {date}",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Your full name",
+    "saving": "Saving...",
+    "saveChanges": "Save changes",
+    "yourStats": "Your Statistics",
+    "sopsCreated": "SOPs Created",
+    "sopsCreatedDesc": "Processes you created",
+    "executionsManaged": "Executions Managed",
+    "executionsManagedDesc": "Across your processes",
+    "completionRate": "Completion Rate",
+    "completionRateDesc": "Of all executions",
+    "executionsCompleted": "Executions Completed",
+    "executionsCompletedDesc": "Processes you finished",
+    "helpRequests": "Help Requests",
+    "helpRequestsDesc": "Questions you asked",
+    "orgMembers": "Organization Members",
+    "orgMembersDesc": "People in your team",
+    "orgProcesses": "Organization Processes",
+    "orgProcessesDesc": "Total SOPs in your org",
+    "totalExecutions": "Total Executions",
+    "totalExecutionsDesc": "Across all org processes"
   },
 
   "PasswordRules": {

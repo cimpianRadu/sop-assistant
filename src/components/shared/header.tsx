@@ -23,14 +23,14 @@ export async function Header() {
   return (
     <header className="border-b bg-background">
       <div className="container mx-auto flex items-center justify-between h-14 px-4">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <Link
             href={`/${session.role}/dashboard`}
-            className="font-semibold text-lg hover:opacity-80 transition-opacity"
+            className="font-semibold text-lg hover:opacity-80 transition-opacity shrink-0"
           >
             {tc("appName")}
           </Link>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm text-muted-foreground hidden sm:inline">
             {session.org_name}
           </span>
           <Badge variant="secondary" className="capitalize">
@@ -47,10 +47,13 @@ export async function Header() {
             </Link>
           )}
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-muted-foreground">
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+          <Link
+            href="/profile"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors truncate max-w-[120px] sm:max-w-none"
+          >
             {session.email}
-          </span>
+          </Link>
           <LogoutButton />
         </div>
       </div>

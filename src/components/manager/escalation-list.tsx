@@ -2,11 +2,14 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { resolveHelpRequest } from "@/lib/actions/help-requests";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { CheckCircle2Icon } from "lucide-react";
+import { EmptyState } from "@/components/shared/empty-state";
 import type { HelpRequestWithDetails } from "@/lib/types";
 
 export function EscalationList({ escalations: initialEscalations }: { escalations: HelpRequestWithDetails[] }) {
@@ -16,14 +19,31 @@ export function EscalationList({ escalations: initialEscalations }: { escalation
   const [resolving, setResolving] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const tt = useTranslations("Toast");
+
   async function handleResolve(id: string) {
     setResolving(id); setError(null);
     const result = await resolveHelpRequest(id);
-    if (result.error) { setError(te(result.error)); } else { setEscalations((prev) => prev.filter((e) => e.id !== id)); }
+    if (result.error) { setError(te(result.error)); } else {
+      setEscalations((prev) => prev.filter((e) => e.id !== id));
+      toast.success(tt("escalationResolved"));
+    }
     setResolving(null);
   }
 
-  if (escalations.length === 0) return null;
+  if (escalations.length === 0) {
+    return (
+      <Card>
+        <CardContent className="pt-6">
+          <EmptyState
+            icon={CheckCircle2Icon}
+            title={t("noEscalations")}
+            description={t("noEscalationsHint")}
+          />
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="border-destructive/50">
