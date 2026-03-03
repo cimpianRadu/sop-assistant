@@ -34,6 +34,23 @@ export const metadata: Metadata = {
   },
 };
 
+function EnvBanner() {
+  const env = process.env.NEXT_PUBLIC_VERCEL_ENV;
+  if (env === "production" || env === undefined) return null;
+
+  const label = env === "preview" ? "STAGING" : "DEV";
+  const color =
+    env === "preview"
+      ? "bg-orange-500 text-white"
+      : "bg-violet-600 text-white";
+
+  return (
+    <div className={`${color} text-center text-xs font-bold py-1 tracking-wider`}>
+      {label} BUILD
+    </div>
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -44,6 +61,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <EnvBanner />
         {children}
         <Toaster />
       </body>
