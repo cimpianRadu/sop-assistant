@@ -3,6 +3,44 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
+export async function saveAiInteraction(data: {
+  executionId: string;
+  checklistStepId: string | null;
+  processId: string;
+  question: string;
+  aiResponse: string;
+}) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "unauthorized" };
+  }
+
+  const { data: record, error } = await supabase
+    .from("help_requests")
+    .insert({
+      execution_id: data.executionId,
+      checklist_step_id: data.checklistStepId,
+      operator_id: user.id,
+      process_id: data.processId,
+      question: data.question,
+      ai_response: data.aiResponse,
+      escalated: false,
+      resolved: false,
+    })
+    .select("id")
+    .single();
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  return { helpRequestId: record.id };
+}
+
 export async function createHelpRequest(data: {
   executionId: string;
   checklistStepId: string;

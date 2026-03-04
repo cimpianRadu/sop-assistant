@@ -219,7 +219,10 @@
     "standardProcedure": "Procedura Standard de Operare",
     "steps": "{count} pasi",
     "executionHistory": "Istoricul executiilor",
-    "noExecutions": "Nicio executie inca. Operatorii pot incepe executarea din panoul lor."
+    "noExecutions": "Nicio executie inca. Operatorii pot incepe executarea din panoul lor.",
+    "aiHelpCount": "{count} AI",
+    "viewExecution": "Vezi",
+    "duration": "{hours}h {minutes}m"
   },
 
   "Assignments": {
@@ -269,7 +272,11 @@
     "startExecution": "Incepe executia",
     "starting": "Se porneste...",
     "standardProcedure": "Procedura Standard de Operare",
-    "assignedBy": "Asignat de {name}"
+    "assignedBy": "Asignat de {name}",
+    "inProgressSection": "In desfasurare",
+    "continueExecution": "Continua",
+    "startedOn": "Inceput la {date}",
+    "allAssignedProcesses": "Toate procesele asignate"
   },
 
   "Checklist": {
@@ -409,6 +416,27 @@
     "you": "Tu",
     "assistant": "AI",
     "stepBadge": "Pasul {number}"
+  },
+
+  "ExecutionDetail": {
+    "title": "Detalii executie",
+    "operator": "Operator",
+    "status": "Status",
+    "startedAt": "Inceput la",
+    "completedAt": "Finalizat la",
+    "duration": "Durata",
+    "totalAiInteractions": "Interactiuni AI",
+    "stepTimeline": "Cronologia pasilor",
+    "step": "Pasul {number}",
+    "completedStep": "Finalizat la {date}",
+    "pendingStep": "In asteptare",
+    "aiInteractions": "{count} {count, plural, one {interactiune} other {interactiuni}} AI",
+    "noAiInteractions": "Nicio interactiune AI",
+    "question": "Intrebare",
+    "aiResponse": "Raspuns AI",
+    "generalQuestions": "Intrebari generale",
+    "backToProcess": "← Inapoi la proces",
+    "noSteps": "Niciun pas inregistrat"
   },
 
   "PasswordRules": {

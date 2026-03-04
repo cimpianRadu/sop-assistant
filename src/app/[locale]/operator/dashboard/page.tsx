@@ -7,8 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ClipboardListIcon } from "lucide-react";
+import { ClipboardListIcon, PlayIcon, ArrowRightIcon } from "lucide-react";
 import { EmptyState } from "@/components/shared/empty-state";
 
 export default async function OperatorDashboard({
@@ -71,31 +72,42 @@ export default async function OperatorDashboard({
   const completedExecutions = completedCount || 0;
   const inProgressExecutions = inProgressCount || 0;
 
+  // Fetch in-progress executions with process info
+  const { data: activeExecutions } = await supabase
+    .from("executions")
+    .select("id, process_id, started_at, processes(title)")
+    .eq("operator_id", session.user_id)
+    .eq("status", "in_progress")
+    .order("started_at", { ascending: false });
+
+  type ActiveExecution = {
+    id: string;
+    process_id: string;
+    started_at: string;
+    processes: { title: string };
+  };
+
   return (
     <div className="space-y-6">
-      {/* Header with process count */}
-      <div className="flex items-center gap-2">
-        <h2 className="text-2xl font-bold">{t("assignedProcesses")}</h2>
-        <Badge variant="secondary">{processCount}</Badge>
-      </div>
+      <h2 className="text-2xl font-bold">{t("assignedProcesses")}</h2>
 
       {/* Execution stats */}
       {totalExecutions > 0 && (
-        <div className="inline-flex flex-wrap gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-muted-foreground dark:border-amber-900/50 dark:bg-amber-950/20">
+        <div className="inline-flex flex-col sm:flex-row gap-1 sm:gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-muted-foreground dark:border-amber-900/50 dark:bg-amber-950/20">
           <span>
             {ta("totalExecutions")}:{" "}
             <span className="font-medium text-foreground">
               {totalExecutions}
             </span>
           </span>
-          <span className="text-amber-300 dark:text-amber-800">|</span>
+          <span className="text-amber-300 dark:text-amber-800 hidden sm:inline">|</span>
           <span>
             {ta("completedExecutions")}:{" "}
             <span className="font-medium text-foreground">
               {completedExecutions}
             </span>
           </span>
-          <span className="text-amber-300 dark:text-amber-800">|</span>
+          <span className="text-amber-300 dark:text-amber-800 hidden sm:inline">|</span>
           <span>
             {ta("inProgressExecutions")}:{" "}
             <span className="font-medium text-foreground">
@@ -105,7 +117,44 @@ export default async function OperatorDashboard({
         </div>
       )}
 
-      {/* Process cards */}
+      {/* In Progress section */}
+      {activeExecutions && activeExecutions.length > 0 && (
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <PlayIcon className="size-4 text-primary" />
+            <h3 className="font-semibold">{t("inProgressSection")}</h3>
+            <Badge variant="secondary">{activeExecutions.length}</Badge>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {(activeExecutions as unknown as ActiveExecution[]).map((exec) => (
+              <Link
+                key={exec.id}
+                href={`/operator/processes/${exec.process_id}/execute/${exec.id}`}
+              >
+                <Card className="border-primary/30 bg-primary/5 hover:shadow-md transition-shadow cursor-pointer">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base">{exec.processes.title}</CardTitle>
+                    <p className="text-xs text-muted-foreground">
+                      {t("startedOn", { date: new Date(exec.started_at).toLocaleDateString(locale) })}
+                    </p>
+                    <Button size="sm" variant="default" className="mt-2 gap-1.5 w-fit">
+                      {t("continueExecution")}
+                      <ArrowRightIcon className="size-3.5" />
+                    </Button>
+                  </CardHeader>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* All Assigned Processes */}
+      <div className="flex items-center gap-2">
+        <h3 className="font-semibold">{t("allAssignedProcesses")}</h3>
+        <Badge variant="secondary">{processCount}</Badge>
+      </div>
+
       {processCount === 0 ? (
         <EmptyState
           icon={ClipboardListIcon}

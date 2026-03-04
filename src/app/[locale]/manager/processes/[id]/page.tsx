@@ -9,6 +9,7 @@ import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
 import { OperatorAssignments } from "@/components/manager/operator-assignments";
 import { StartExecutionButton } from "@/components/manager/start-execution-button";
 import { getSessionContext } from "@/lib/session";
+import { BotIcon, ClockIcon, ArrowRightIcon } from "lucide-react";
 import type { ChecklistStep, ExecutionWithProfile, ProcessAssignmentWithProfile } from "@/lib/types";
 
 export default async function ProcessDetailPage({ params }: { params: Promise<{ id: string; locale: string }> }) {
@@ -22,8 +23,19 @@ export default async function ProcessDetailPage({ params }: { params: Promise<{ 
   if (!process) notFound();
 
   const { data: steps } = await supabase.from("checklist_steps").select("*").eq("process_id", id).order("step_number");
-  const { data: executions } = await supabase.from("executions").select("*, profiles(email)").eq("process_id", id).order("started_at", { ascending: false });
-  const { data: assignments } = await supabase.from("process_assignments").select("*, profiles(email)").eq("process_id", id).order("created_at", { ascending: false });
+  const { data: executions } = await supabase.from("executions").select("*, profiles!executions_operator_id_fkey(email)").eq("process_id", id).order("started_at", { ascending: false });
+  const { data: assignments } = await supabase.from("process_assignments").select("*, profiles!process_assignments_operator_id_fkey(email)").eq("process_id", id).order("created_at", { ascending: false });
+
+  // Get help request counts per execution
+  const { data: helpCounts } = await supabase
+    .from("help_requests")
+    .select("execution_id")
+    .eq("process_id", id);
+
+  const helpCountMap = new Map<string, number>();
+  (helpCounts || []).forEach((hr) => {
+    helpCountMap.set(hr.execution_id, (helpCountMap.get(hr.execution_id) || 0) + 1);
+  });
 
   const session = await getSessionContext();
   // Fetch operators in the org for the dropdown
@@ -64,15 +76,43 @@ export default async function ProcessDetailPage({ params }: { params: Promise<{ 
             <p className="text-sm text-muted-foreground text-center py-6">{t("noExecutions")}</p>
           ) : (
             <div className="space-y-3">
-              {(executions as ExecutionWithProfile[]).map((execution) => (
-                <div key={execution.id} className="flex items-center justify-between flex-wrap gap-2 border rounded-lg p-3">
-                  <div>
-                    <p className="text-sm font-medium">{execution.profiles?.email}</p>
-                    <p className="text-xs text-muted-foreground">{tc("started", { date: new Date(execution.started_at).toLocaleDateString(locale) })}</p>
-                  </div>
-                  <Badge variant={execution.status === "completed" ? "default" : "secondary"}>{execution.status === "completed" ? tc("completed") : tc("inProgress")}</Badge>
-                </div>
-              ))}
+              {(executions as ExecutionWithProfile[]).map((execution) => {
+                const aiCount = helpCountMap.get(execution.id) || 0;
+                let duration: string | null = null;
+                if (execution.completed_at) {
+                  const ms = new Date(execution.completed_at).getTime() - new Date(execution.started_at).getTime();
+                  const totalMinutes = Math.floor(ms / 60000);
+                  const hours = Math.floor(totalMinutes / 60);
+                  const minutes = totalMinutes % 60;
+                  duration = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+                }
+                return (
+                  <Link key={execution.id} href={`/manager/processes/${id}/executions/${execution.id}`}>
+                    <div className="flex items-center justify-between flex-wrap gap-2 border rounded-lg p-3 hover:bg-muted/50 transition-colors cursor-pointer">
+                      <div>
+                        <p className="text-sm font-medium">{execution.profiles?.email}</p>
+                        <p className="text-xs text-muted-foreground">{tc("started", { date: new Date(execution.started_at).toLocaleDateString(locale) })}</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {duration && (
+                          <Badge variant="outline" className="text-xs gap-1">
+                            <ClockIcon className="size-3" />
+                            {duration}
+                          </Badge>
+                        )}
+                        {aiCount > 0 && (
+                          <Badge variant="outline" className="text-xs gap-1">
+                            <BotIcon className="size-3" />
+                            {t("aiHelpCount", { count: aiCount })}
+                          </Badge>
+                        )}
+                        <Badge variant={execution.status === "completed" ? "default" : "secondary"}>{execution.status === "completed" ? tc("completed") : tc("inProgress")}</Badge>
+                        <ArrowRightIcon className="size-4 text-muted-foreground" />
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           )}
         </CardContent>

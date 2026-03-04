@@ -219,7 +219,10 @@
     "standardProcedure": "Standard Operating Procedure",
     "steps": "{count} steps",
     "executionHistory": "Execution History",
-    "noExecutions": "No executions yet. Operators can start executing this process from their dashboard."
+    "noExecutions": "No executions yet. Operators can start executing this process from their dashboard.",
+    "aiHelpCount": "{count} AI",
+    "viewExecution": "View",
+    "duration": "{hours}h {minutes}m"
   },
 
   "Assignments": {
@@ -269,7 +272,11 @@
     "startExecution": "Start Execution",
     "starting": "Starting...",
     "standardProcedure": "Standard Operating Procedure",
-    "assignedBy": "Assigned by {name}"
+    "assignedBy": "Assigned by {name}",
+    "inProgressSection": "In Progress",
+    "continueExecution": "Continue",
+    "startedOn": "Started {date}",
+    "allAssignedProcesses": "All Assigned Processes"
   },
 
   "Checklist": {
@@ -409,6 +416,27 @@
     "you": "You",
     "assistant": "AI",
     "stepBadge": "Step {number}"
+  },
+
+  "ExecutionDetail": {
+    "title": "Execution Details",
+    "operator": "Operator",
+    "status": "Status",
+    "startedAt": "Started",
+    "completedAt": "Completed",
+    "duration": "Duration",
+    "totalAiInteractions": "AI Interactions",
+    "stepTimeline": "Step Timeline",
+    "step": "Step {number}",
+    "completedStep": "Completed at {date}",
+    "pendingStep": "Pending",
+    "aiInteractions": "{count} AI {count, plural, one {interaction} other {interactions}}",
+    "noAiInteractions": "No AI interactions",
+    "question": "Question",
+    "aiResponse": "AI Response",
+    "generalQuestions": "General Questions",
+    "backToProcess": "← Back to Process",
+    "noSteps": "No steps recorded"
   },
 
   "PasswordRules": {

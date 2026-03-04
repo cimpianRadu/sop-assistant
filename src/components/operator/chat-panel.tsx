@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
-import { createHelpRequest, escalateHelpRequest } from "@/lib/actions/help-requests";
+import { saveAiInteraction, escalateHelpRequest } from "@/lib/actions/help-requests";
 import { SendIcon, Loader2Icon, XIcon, AlertTriangleIcon, BotIcon, UserIcon } from "lucide-react";
 
 type StepContext = {
@@ -45,6 +45,8 @@ export function ChatPanel({ open, onOpenChange, initialStepContext, executionId,
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const activeStepRef = useRef<StepContext | null>(null);
   const stepContextMap = useRef<Map<string, StepContext>>(new Map());
+  const savedMessageIds = useRef<Set<string>>(new Set());
+  const helpRequestIdMap = useRef<Map<string, string>>(new Map());
 
   // Keep ref in sync with state
   activeStepRef.current = activeStep;
@@ -81,6 +83,42 @@ export function ChatPanel({ open, onOpenChange, initialStepContext, executionId,
       setTimeout(() => textareaRef.current?.focus(), 100);
     }
   }, [open]);
+
+  // Auto-save AI interactions when response completes
+  useEffect(() => {
+    if (status !== "ready" || messages.length < 2) return;
+
+    const lastAiMsg = [...messages].reverse().find((m) => m.role === "assistant");
+    if (!lastAiMsg || savedMessageIds.current.has(lastAiMsg.id)) return;
+
+    const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
+    if (!lastUserMsg) return;
+
+    savedMessageIds.current.add(lastAiMsg.id);
+
+    const question = lastUserMsg.parts
+      .filter((p) => p.type === "text")
+      .map((p) => (p as { type: "text"; text: string }).text)
+      .join("");
+    const aiResponse = lastAiMsg.parts
+      .filter((p) => p.type === "text")
+      .map((p) => (p as { type: "text"; text: string }).text)
+      .join("");
+
+    const stepCtx = stepContextMap.current.get(lastUserMsg.id);
+
+    saveAiInteraction({
+      executionId,
+      checklistStepId: stepCtx?.stepId ?? null,
+      processId,
+      question,
+      aiResponse,
+    }).then((result) => {
+      if (result.helpRequestId) {
+        helpRequestIdMap.current.set(lastAiMsg.id, result.helpRequestId);
+      }
+    });
+  }, [status, messages, executionId, processId]);
 
   const isLoading = status === "submitted" || status === "streaming";
 
@@ -127,33 +165,11 @@ export function ChatPanel({ open, onOpenChange, initialStepContext, executionId,
     if (messages.length < 2) return;
 
     setEscalating(true);
-    const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
     const lastAiMsg = [...messages].reverse().find((m) => m.role === "assistant");
+    const helpRequestId = lastAiMsg ? helpRequestIdMap.current.get(lastAiMsg.id) : null;
 
-    const question =
-      lastUserMsg?.parts
-        .filter((p) => p.type === "text")
-        .map((p) => (p as { type: "text"; text: string }).text)
-        .join("") ?? "";
-    const aiResponse =
-      lastAiMsg?.parts
-        .filter((p) => p.type === "text")
-        .map((p) => (p as { type: "text"; text: string }).text)
-        .join("") ?? "";
-
-    // Find the step context for escalation
-    const stepCtx = lastUserMsg ? stepContextMap.current.get(lastUserMsg.id) : null;
-
-    const saveResult = await createHelpRequest({
-      executionId,
-      checklistStepId: stepCtx?.stepId ?? "",
-      processId,
-      question,
-      aiResponse,
-    });
-
-    if (saveResult.helpRequestId) {
-      await escalateHelpRequest(saveResult.helpRequestId, escalationNote.trim() || te("noHelpRequest"));
+    if (helpRequestId) {
+      await escalateHelpRequest(helpRequestId, escalationNote.trim() || te("noHelpRequest"));
       setEscalated(true);
     }
     setEscalating(false);
@@ -161,7 +177,7 @@ export function ChatPanel({ open, onOpenChange, initialStepContext, executionId,
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="right" className="flex flex-col w-full sm:max-w-lg p-0">
+      <SheetContent side="right" className="flex flex-col w-full sm:max-w-lg p-0 h-dvh">
         <SheetHeader className="p-4 border-b shrink-0">
           <SheetTitle>{t("title")}</SheetTitle>
           <SheetDescription>{t("subtitle", { processTitle })}</SheetDescription>

@@ -127,7 +127,7 @@ export type ProcessAssignmentWithProfile = ProcessAssignment & {
 export type HelpRequest = {
   id: string;
   execution_id: string;
-  checklist_step_id: string;
+  checklist_step_id: string | null;
   operator_id: string;
   process_id: string;
   question: string;
@@ -142,5 +142,5 @@ export type HelpRequest = {
 export type HelpRequestWithDetails = HelpRequest & {
   profiles: Pick<Profile, "email">;
   processes: Pick<Process, "title">;
-  checklist_steps: Pick<ChecklistStep, "step_text" | "step_number">;
+  checklist_steps: Pick<ChecklistStep, "step_text" | "step_number"> | null;
 };

@@ -56,7 +56,9 @@ export function EscalationList({ escalations: initialEscalations }: { escalation
           <div key={escalation.id} className="border rounded-lg p-4 space-y-3">
             <div>
               <p className="text-sm font-medium">{escalation.processes.title}</p>
-              <p className="text-xs text-muted-foreground">{t("step", { number: escalation.checklist_steps.step_number, text: escalation.checklist_steps.step_text })}</p>
+              {escalation.checklist_steps && (
+                <p className="text-xs text-muted-foreground">{t("step", { number: escalation.checklist_steps.step_number, text: escalation.checklist_steps.step_text })}</p>
+              )}
               <p className="text-xs text-muted-foreground">{t("from", { email: escalation.profiles.email, date: new Date(escalation.created_at).toLocaleDateString() })}</p>
             </div>
             <div className="bg-muted rounded p-3">
