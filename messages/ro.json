@@ -120,7 +120,19 @@
     "resendEmail": "Retrimite emailul de confirmare",
     "resending": "Se trimite...",
     "resentSuccess": "Email trimis!",
-    "backToLogin": "Inapoi la autentificare"
+    "backToLogin": "Inapoi la autentificare",
+    "forgotPassword": "Ai uitat parola?",
+    "forgotPasswordTitle": "Ai uitat parola?",
+    "forgotPasswordSubtitle": "Introdu adresa de email si iti vom trimite un link pentru a-ti reseta parola.",
+    "sendResetLink": "Trimite link de resetare",
+    "sendingResetLink": "Se trimite...",
+    "resetEmailSent": "Verifica-ti emailul",
+    "resetEmailSentDesc": "Ti-am trimis un link de resetare a parolei. Verifica inbox-ul si apasa pe link pentru a seta o parola noua.",
+    "resetPasswordTitle": "Seteaza parola noua",
+    "resetPasswordSubtitle": "Introdu noua parola mai jos.",
+    "newPassword": "Parola noua",
+    "resetPassword": "Reseteaza parola",
+    "resettingPassword": "Se reseteaza..."
   },
 
   "Onboarding": {

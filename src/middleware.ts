@@ -63,6 +63,11 @@ export async function middleware(request: NextRequest) {
 
   // Allow auth pages for unauthenticated users
   if (cleanPath.startsWith("/auth")) {
+    // Reset password page requires an authenticated session (from the email link)
+    if (cleanPath === "/auth/reset-password" && user) {
+      return supabaseResponse;
+    }
+
     if (user) {
       // Logged in — check if they have an org
       const { data: membership } = await supabase

@@ -120,7 +120,19 @@
     "resendEmail": "Resend confirmation email",
     "resending": "Sending...",
     "resentSuccess": "Email sent!",
-    "backToLogin": "Back to log in"
+    "backToLogin": "Back to log in",
+    "forgotPassword": "Forgot password?",
+    "forgotPasswordTitle": "Forgot your password?",
+    "forgotPasswordSubtitle": "Enter your email and we'll send you a link to reset your password.",
+    "sendResetLink": "Send reset link",
+    "sendingResetLink": "Sending...",
+    "resetEmailSent": "Check your email",
+    "resetEmailSentDesc": "We've sent you a password reset link. Please check your inbox and click the link to set a new password.",
+    "resetPasswordTitle": "Set new password",
+    "resetPasswordSubtitle": "Enter your new password below.",
+    "newPassword": "New password",
+    "resetPassword": "Reset password",
+    "resettingPassword": "Resetting..."
   },
 
   "Onboarding": {
