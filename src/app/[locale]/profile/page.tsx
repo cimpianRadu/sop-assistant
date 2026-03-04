@@ -1,6 +1,7 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getSessionContext } from "@/lib/session";
+import { Link } from "@/i18n/navigation";
 import { ProfileForm } from "@/components/shared/profile-form";
 import { ProfileStats } from "@/components/shared/profile-stats";
 
@@ -13,6 +14,7 @@ export default async function ProfilePage({
   setRequestLocale(locale);
 
   const t = await getTranslations("Profile");
+  const tc = await getTranslations("Common");
   const session = await getSessionContext();
   if (!session) return null;
 
@@ -48,6 +50,18 @@ export default async function ProfilePage({
 
       <h2 className="text-lg font-semibold">{t("yourStats")}</h2>
       <ProfileStats stats={stats} />
+
+      <div className="pt-4 border-t text-sm text-muted-foreground flex items-center gap-4">
+        <Link href="/terms" className="hover:text-foreground">
+          {tc("terms")}
+        </Link>
+        <Link href="/privacy" className="hover:text-foreground">
+          {tc("privacy")}
+        </Link>
+        <a href="mailto:hello@sopia.xyz" className="hover:text-foreground">
+          {tc("contactUs")}
+        </a>
+      </div>
     </div>
   );
 }
