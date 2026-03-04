@@ -65,7 +65,7 @@ export default async function OperatorProcessPage({
             >
               <div>
                 <p className="text-sm">
-                  {tc("started", { date: new Date(execution.started_at).toLocaleDateString() })}
+                  {tc("started", { date: new Date(execution.started_at).toLocaleDateString(locale) })}
                 </p>
               </div>
               <div className="flex items-center gap-2">

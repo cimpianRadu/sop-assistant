@@ -25,8 +25,8 @@ function localizedPath(path: string, locale: string): string {
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // Skip i18n for API routes
-  if (pathname.startsWith("/api")) {
+  // Skip i18n for API routes and auth callback
+  if (pathname.startsWith("/api") || pathname === "/auth/callback") {
     return NextResponse.next();
   }
 

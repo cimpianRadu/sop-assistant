@@ -75,7 +75,7 @@ export function OperatorAssignments({
         )}
 
         {availableOperators.length > 0 ? (
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <select
               value={selectedOperatorId}
               onChange={(e) => setSelectedOperatorId(e.target.value)}
@@ -91,6 +91,7 @@ export function OperatorAssignments({
             <Button
               onClick={handleAssign}
               disabled={assigning || !selectedOperatorId}
+              className="shrink-0"
             >
               {assigning && <Loader2Icon className="h-4 w-4 animate-spin" />}
               {assigning ? t("assigning") : t("assign")}

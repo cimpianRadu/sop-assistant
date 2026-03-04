@@ -135,21 +135,21 @@ export default async function AdminDashboard({
             </Link>
           </div>
         </div>
-        <div className="inline-flex flex-wrap gap-3 mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-muted-foreground dark:border-amber-900/50 dark:bg-amber-950/20">
+        <div className="inline-flex flex-col sm:flex-row gap-1 sm:gap-3 mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-muted-foreground dark:border-amber-900/50 dark:bg-amber-950/20">
           <span>
             {t("totalExecutions")}:{" "}
             <span className="font-medium text-foreground">
               {totalExecutions}
             </span>
           </span>
-          <span className="text-amber-300 dark:text-amber-800">|</span>
+          <span className="text-amber-300 dark:text-amber-800 hidden sm:inline">|</span>
           <span>
             {t("completedExecutions")}:{" "}
             <span className="font-medium text-foreground">
               {completedExecutions}
             </span>
           </span>
-          <span className="text-amber-300 dark:text-amber-800">|</span>
+          <span className="text-amber-300 dark:text-amber-800 hidden sm:inline">|</span>
           <span>
             {t("inProgressExecutions")}:{" "}
             <span className="font-medium text-foreground">
