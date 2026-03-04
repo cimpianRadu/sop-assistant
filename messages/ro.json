@@ -26,7 +26,9 @@
     "startFreeTrial": "Incepe gratuit",
     "day": "zi",
     "days": "zile",
-    "viewAll": "Vezi toate"
+    "viewAll": "Vezi toate",
+    "terms": "Termeni",
+    "privacy": "Confidentialitate"
   },
 
   "Landing": {
@@ -437,6 +439,60 @@
     "generalQuestions": "Intrebari generale",
     "backToProcess": "← Inapoi la proces",
     "noSteps": "Niciun pas inregistrat"
+  },
+
+  "Terms": {
+    "title": "Termeni si Conditii",
+    "lastUpdated": "Ultima actualizare: 4 martie 2026",
+    "privacyLink": "Politica de Confidentialitate",
+    "questions": "Intrebari despre acesti termeni?",
+    "section1Title": "Introducere",
+    "section1Content": "Bine ati venit pe Sopia (\"Serviciul\"), operat de Sopia (\"noi\", \"nostru\"). Prin accesarea sau utilizarea Serviciului nostru la sopia.xyz, sunteti de acord sa respectati acesti Termeni si Conditii. Daca nu sunteti de acord cu vreo parte a acestor termeni, nu puteti utiliza Serviciul.",
+    "section2Title": "Descrierea Serviciului",
+    "section2Content": "Sopia este o platforma SaaS care ajuta organizatiile sa creeze, gestioneze si execute Proceduri Standard de Operare (SOP-uri) folosind instrumente asistate de AI. Serviciul include crearea de SOP-uri generate de AI, checklist-uri interactive, ghidare pas cu pas pentru operatori, sistem de ajutor bazat pe AI, fluxuri de escaladare catre manageri si monitorizare si analiza a executiilor.",
+    "section3Title": "Inregistrarea Contului",
+    "section3Content": "Pentru a utiliza Serviciul, trebuie sa creati un cont cu o adresa de email valida si o parola. Sunteti responsabil pentru mentinerea confidentialitatii datelor de autentificare ale contului. Trebuie sa furnizati informatii corecte si complete la inregistrare. Trebuie sa aveti cel putin 18 ani pentru a utiliza Serviciul. Sunteti responsabil pentru toate activitatile care au loc in contul dumneavoastra.",
+    "section4Title": "Organizatii si Roluri",
+    "section4Content": "Serviciul functioneaza pe un model bazat pe organizatii. Fiecare utilizator apartine unei organizatii. Organizatiile au trei roluri: Admin, Manager si Operator. Adminul este responsabil pentru gestionarea membrilor si setarilor organizatiei. Prin invitarea utilizatorilor in organizatia dumneavoastra, confirmati ca aveti autoritatea necesara.",
+    "section5Title": "Perioada de Proba si Abonament",
+    "section5Content": "Oferim o perioada de proba gratuita de 14 zile cu acces complet la toate functiile. Nu este necesar un card de credit pentru a incepe. Dupa perioada de proba, trebuie sa va abonati la planul Growth (€99/luna) pentru a continua sa utilizati Serviciul. Datele dumneavoastra sunt pastrate dupa expirarea perioadei de proba si raman accesibile la abonare. Preturile pot fi modificate cu un preaviz de 30 de zile.",
+    "section6Title": "Continut Generat de AI",
+    "section6Content": "Serviciul utilizeaza inteligenta artificiala pentru a genera SOP-uri si a oferi ajutor operatorilor. Continutul generat de AI este furnizat ca punct de plecare si trebuie revizuit de personal calificat inainte de utilizare. Nu garantam acuratetea, completitudinea sau adecvarea continutului generat de AI. Sunteti responsabil pentru revizuirea si validarea tuturor procedurilor generate de AI inainte de a fi utilizate in organizatia dumneavoastra. Nu suntem responsabili pentru niciun prejudiciu rezultat din utilizarea continutului generat de AI.",
+    "section7Title": "Date si Confidentialitate",
+    "section7Content": "Utilizarea Serviciului este guvernata si de Politica noastra de Confidentialitate. Pastrati proprietatea asupra tuturor datelor pe care le introduceti in Serviciu. Procesam datele dumneavoastra doar pentru a furniza si imbunatati Serviciul. Datele fiecarei organizatii sunt izolate si nu pot fi accesate de alte organizatii. Pentru mai multe detalii, va rugam sa cititi Politica noastra de Confidentialitate.",
+    "section8Title": "Utilizare Acceptabila",
+    "section8Content": "Va obligati sa nu utilizati Serviciul pentru: incalcarea oricaror legi sau reglementari aplicabile; incarcarea de continut daunator, ofensator sau ilegal; incercarea de a obtine acces neautorizat la Serviciu sau la sistemele sale; interferarea cu sau perturbarea Serviciului; ingineria inversa sau incercarea de a extrage codul sursa al Serviciului; utilizarea Serviciului in orice scop care ar putea cauza prejudicii altora. Ne rezervam dreptul de a suspenda sau inceta contul dumneavoastra daca incalcati acesti termeni.",
+    "section9Title": "Limitarea Responsabilitatii",
+    "section9Content": "Serviciul este furnizat \"ca atare\" fara garantii de niciun fel. In masura maxima permisa de lege, nu vom fi responsabili pentru niciun prejudiciu indirect, incidental, special, consecvent sau punitiv. Responsabilitatea noastra totala nu va depasi suma pe care ati platit-o pentru Serviciu in cele 12 luni anterioare cererii. Aceasta limitare se aplica tuturor cauzelor de actiune, inclusiv incalcarea contractului, neglijenta si alte delicte.",
+    "section10Title": "Modificari si Incetare",
+    "section10Content": "Putem actualiza acesti Termeni in orice moment. Va vom notifica despre modificarile semnificative prin email sau prin Serviciu. Continuarea utilizarii Serviciului dupa modificari constituie acceptarea termenilor actualizati. Puteti inceta contul dumneavoastra oricand contactandu-ne la hello@sopia.xyz. Putem inceta sau suspenda contul dumneavoastra pentru incalcarea acestor termeni. La incetare, dreptul dumneavoastra de a utiliza Serviciul inceteaza, dar vom pastra datele dumneavoastra pentru o perioada rezonabila."
+  },
+
+  "Privacy": {
+    "title": "Politica de Confidentialitate",
+    "lastUpdated": "Ultima actualizare: 4 martie 2026",
+    "termsLink": "Termeni si Conditii",
+    "questions": "Intrebari despre confidentialitatea datelor?",
+    "section1Title": "Introducere",
+    "section1Content": "Aceasta Politica de Confidentialitate explica modul in care Sopia (\"noi\", \"nostru\") colecteaza, utilizeaza si protejeaza datele dumneavoastra personale cand utilizati Serviciul nostru la sopia.xyz. Suntem dedicati protejarii confidentialitatii dumneavoastra si respectarii legilor aplicabile de protectie a datelor, inclusiv Regulamentul General privind Protectia Datelor (GDPR).",
+    "section2Title": "Datele pe Care le Colectam",
+    "section2Content": "Colectam urmatoarele categorii de date:\n\nDate de cont: adresa de email, numele complet si parola (criptata).\nDate organizationale: numele organizatiei, rolurile membrilor si invitatiile.\nDate de utilizare: SOP-uri create, checklist-uri, istoricul executiilor, interactiuni AI si cereri de ajutor.\nDate tehnice: tipul browserului, adresa IP (anonimizata) si informatii de sesiune.\n\nNu colectam informatii de plata direct — platile sunt gestionate de procesatori terti.",
+    "section3Title": "Cum Utilizam Datele",
+    "section3Content": "Utilizam datele dumneavoastra pentru:\n\nA furniza si opera Serviciul, inclusiv crearea de SOP-uri generate de AI si ghidarea operatorilor.\nA gestiona contul si apartenenta la organizatie.\nA trimite emailuri tranzactionale (confirmare cont, invitatii, notificari de escaladare).\nA imbunatati Serviciul prin analize agregate si anonimizate.\nA respecta obligatiile legale.\n\nNu vindem datele dumneavoastra personale catre terti. Nu utilizam datele dumneavoastra in scopuri publicitare.",
+    "section4Title": "Procesarea Datelor prin AI",
+    "section4Content": "Cand utilizati functiile noastre AI (generarea SOP-urilor, sistemul de ajutor AI), descrierile proceselor si intrebarile dumneavoastra sunt trimise catre furnizori AI terti (Anthropic) pentru procesare. Aceste date sunt utilizate exclusiv pentru generarea raspunsurilor si nu sunt folosite pentru antrenarea modelelor AI. Nu partajam datele organizationale sau informatiile personale identificabile cu furnizorii AI dincolo de ceea ce este necesar pentru generarea continutului solicitat.",
+    "section5Title": "Stocarea si Securitatea Datelor",
+    "section5Content": "Datele dumneavoastra sunt stocate pe serverele Supabase situate in Uniunea Europeana (EU-West-1, Irlanda). Toate datele sunt criptate in tranzit (TLS) si in repaus. Politicile de securitate la nivel de rand asigura ca fiecare organizatie poate accesa doar propriile date. Implementam masuri de securitate conform standardelor industriei pentru a proteja impotriva accesului neautorizat, modificarii, dezvaluirii sau distrugerii datelor dumneavoastra.",
+    "section6Title": "Retentia Datelor",
+    "section6Content": "Pastram datele dumneavoastra atat timp cat contul este activ sau cat este necesar pentru furnizarea Serviciului. Dupa expirarea perioadei de proba, datele sunt pastrate si raman accesibile daca va abonati. Daca solicitati stergerea contului, vom sterge datele dumneavoastra personale in termen de 30 de zile, cu exceptia cazurilor in care retentia este ceruta de lege. Datele anonimizate si agregate pot fi pastrate pe termen nelimitat in scopuri de analiza.",
+    "section7Title": "Drepturile Dumneavoastra (GDPR)",
+    "section7Content": "In conformitate cu GDPR, aveti urmatoarele drepturi:\n\nDreptul de acces: solicitati o copie a datelor dumneavoastra personale.\nDreptul la rectificare: corectati datele personale inexacte.\nDreptul la stergere: solicitati stergerea datelor dumneavoastra personale.\nDreptul la portabilitatea datelor: primiti datele intr-un format structurat, citibil automat.\nDreptul la restrictionarea prelucrarii: limitati modul in care utilizam datele dumneavoastra.\nDreptul la opozitie: opuneti-va prelucrarii datelor dumneavoastra.\n\nPentru a exercita oricare dintre aceste drepturi, contactati-ne la hello@sopia.xyz. Vom raspunde in termen de 30 de zile.",
+    "section8Title": "Cookie-uri si Urmarire",
+    "section8Content": "Utilizam cookie-uri esentiale necesare pentru functionarea Serviciului (autentificare, gestionarea sesiunilor, preferinte de limba). Nu utilizam cookie-uri publicitare sau cookie-uri de urmarire ale tertilor. Nu este necesar un banner de consimtamant pentru cookie-uri deoarece utilizam doar cookie-uri strict necesare.",
+    "section9Title": "Servicii Terte",
+    "section9Content": "Utilizam urmatoarele servicii terte pentru a opera Sopia:\n\nSupabase: gazduire baza de date, autentificare si stocare fisiere (servere UE).\nVercel: gazduire aplicatie si implementare.\nAnthropic: procesare AI pentru generarea SOP-urilor si sistemul de ajutor.\nResend: livrare emailuri tranzactionale.\n\nFiecare dintre acesti furnizori are propriile politici de confidentialitate si acorduri de prelucrare a datelor.",
+    "section10Title": "Modificari si Contact",
+    "section10Content": "Putem actualiza aceasta Politica de Confidentialitate periodic. Va vom notifica despre modificarile semnificative prin email sau prin Serviciu. Data \"ultima actualizare\" din partea de sus reflecta cea mai recenta revizie.\n\nPentru orice intrebari sau preocupari legate de confidentialitate, contactati-ne la:\nEmail: hello@sopia.xyz\n\nDaca considerati ca drepturile dumneavoastra de protectie a datelor au fost incalcate, aveti dreptul de a depune o plangere la autoritatea locala de protectie a datelor."
   },
 
   "PasswordRules": {

@@ -26,7 +26,9 @@
     "startFreeTrial": "Start free trial",
     "day": "day",
     "days": "days",
-    "viewAll": "View all"
+    "viewAll": "View all",
+    "terms": "Terms",
+    "privacy": "Privacy"
   },
 
   "Landing": {
@@ -437,6 +439,60 @@
     "generalQuestions": "General Questions",
     "backToProcess": "← Back to Process",
     "noSteps": "No steps recorded"
+  },
+
+  "Terms": {
+    "title": "Terms and Conditions",
+    "lastUpdated": "Last updated: March 4, 2026",
+    "privacyLink": "Privacy Policy",
+    "questions": "Questions about these terms?",
+    "section1Title": "Introduction",
+    "section1Content": "Welcome to Sopia (\"Service\"), operated by Sopia (\"we\", \"us\", \"our\"). By accessing or using our Service at sopia.xyz, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you may not use the Service.",
+    "section2Title": "Description of Service",
+    "section2Content": "Sopia is a SaaS platform that helps organizations create, manage, and execute Standard Operating Procedures (SOPs) using AI-assisted tools. The Service includes AI-generated SOP creation, interactive checklists, step-by-step operator guidance, AI-powered help system, manager escalation workflows, and execution tracking and analytics.",
+    "section3Title": "Account Registration",
+    "section3Content": "To use the Service, you must create an account with a valid email address and password. You are responsible for maintaining the confidentiality of your account credentials. You must provide accurate and complete information during registration. You must be at least 18 years old to use the Service. You are responsible for all activities that occur under your account.",
+    "section4Title": "Organizations and Roles",
+    "section4Content": "The Service operates on an organization-based model. Each user belongs to one organization. Organizations have three roles: Admin, Manager, and Operator. The Admin is responsible for managing organization membership and settings. By inviting users to your organization, you confirm that you have the authority to do so.",
+    "section5Title": "Free Trial and Subscription",
+    "section5Content": "We offer a 14-day free trial with full access to all features. No credit card is required to start a trial. After the trial period, you must subscribe to the Growth plan (€99/month) to continue using the Service. Your data is preserved after the trial ends and remains accessible upon subscription. Pricing is subject to change with 30 days notice.",
+    "section6Title": "AI-Generated Content",
+    "section6Content": "The Service uses artificial intelligence to generate SOPs and provide help to operators. AI-generated content is provided as a starting point and should be reviewed by qualified personnel before use. We do not guarantee the accuracy, completeness, or suitability of AI-generated content. You are responsible for reviewing and validating all AI-generated procedures before they are used in your organization. We are not liable for any damages resulting from reliance on AI-generated content.",
+    "section7Title": "Data and Privacy",
+    "section7Content": "Your use of the Service is also governed by our Privacy Policy. You retain ownership of all data you input into the Service. We process your data only to provide and improve the Service. Each organization's data is isolated and cannot be accessed by other organizations. For more details, please read our Privacy Policy.",
+    "section8Title": "Acceptable Use",
+    "section8Content": "You agree not to use the Service to: violate any applicable laws or regulations; upload harmful, offensive, or illegal content; attempt to gain unauthorized access to the Service or its systems; interfere with or disrupt the Service; reverse-engineer or attempt to extract the source code of the Service; use the Service for any purpose that could cause harm to others. We reserve the right to suspend or terminate your account if you violate these terms.",
+    "section9Title": "Limitation of Liability",
+    "section9Content": "The Service is provided \"as is\" without warranties of any kind. To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, special, consequential, or punitive damages. Our total liability shall not exceed the amount you paid for the Service in the 12 months preceding the claim. This limitation applies to all causes of action, including breach of contract, negligence, and other torts.",
+    "section10Title": "Changes and Termination",
+    "section10Content": "We may update these Terms at any time. We will notify you of significant changes via email or through the Service. Continued use of the Service after changes constitutes acceptance of the updated terms. You may terminate your account at any time by contacting us at hello@sopia.xyz. We may terminate or suspend your account for violation of these terms. Upon termination, your right to use the Service ceases, but we will preserve your data for a reasonable period."
+  },
+
+  "Privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: March 4, 2026",
+    "termsLink": "Terms and Conditions",
+    "questions": "Questions about your privacy?",
+    "section1Title": "Introduction",
+    "section1Content": "This Privacy Policy explains how Sopia (\"we\", \"us\", \"our\") collects, uses, and protects your personal data when you use our Service at sopia.xyz. We are committed to protecting your privacy and complying with applicable data protection laws, including the General Data Protection Regulation (GDPR).",
+    "section2Title": "Data We Collect",
+    "section2Content": "We collect the following categories of data:\n\nAccount data: email address, full name, and password (hashed).\nOrganization data: organization name, member roles, and invitations.\nUsage data: SOPs created, checklists, execution history, AI interactions, and help requests.\nTechnical data: browser type, IP address (anonymized), and session information.\n\nWe do not collect payment information directly — payments are handled by third-party processors.",
+    "section3Title": "How We Use Your Data",
+    "section3Content": "We use your data to:\n\nProvide and operate the Service, including AI-generated SOP creation and operator guidance.\nManage your account and organization membership.\nSend transactional emails (account confirmation, invitations, escalation notifications).\nImprove the Service through aggregated, anonymized analytics.\nComply with legal obligations.\n\nWe do not sell your personal data to third parties. We do not use your data for advertising purposes.",
+    "section4Title": "AI Data Processing",
+    "section4Content": "When you use our AI features (SOP generation, AI help system), your process descriptions and questions are sent to third-party AI providers (Anthropic) for processing. This data is used solely to generate responses and is not used to train AI models. We do not share your organizational data or personally identifiable information with AI providers beyond what is necessary to generate the requested content.",
+    "section5Title": "Data Storage and Security",
+    "section5Content": "Your data is stored on Supabase servers located in the European Union (EU-West-1, Ireland). All data is encrypted in transit (TLS) and at rest. Row-level security policies ensure that each organization can only access its own data. We implement industry-standard security measures to protect against unauthorized access, alteration, disclosure, or destruction of your data.",
+    "section6Title": "Data Retention",
+    "section6Content": "We retain your data for as long as your account is active or as needed to provide the Service. After trial expiration, your data is preserved and remains accessible if you subscribe. If you request account deletion, we will delete your personal data within 30 days, except where retention is required by law. Anonymized and aggregated data may be retained indefinitely for analytics purposes.",
+    "section7Title": "Your Rights (GDPR)",
+    "section7Content": "Under the GDPR, you have the following rights:\n\nRight of access: request a copy of your personal data.\nRight to rectification: correct inaccurate personal data.\nRight to erasure: request deletion of your personal data.\nRight to data portability: receive your data in a structured, machine-readable format.\nRight to restrict processing: limit how we use your data.\nRight to object: object to processing of your data.\n\nTo exercise any of these rights, contact us at hello@sopia.xyz. We will respond within 30 days.",
+    "section8Title": "Cookies and Tracking",
+    "section8Content": "We use essential cookies required for the Service to function (authentication, session management, locale preferences). We do not use advertising cookies or third-party tracking cookies. No cookie consent banner is required as we only use strictly necessary cookies.",
+    "section9Title": "Third-Party Services",
+    "section9Content": "We use the following third-party services to operate Sopia:\n\nSupabase: database hosting, authentication, and file storage (EU servers).\nVercel: application hosting and deployment.\nAnthropic: AI processing for SOP generation and help system.\nResend: transactional email delivery.\n\nEach of these providers has their own privacy policies and data processing agreements in place.",
+    "section10Title": "Changes and Contact",
+    "section10Content": "We may update this Privacy Policy from time to time. We will notify you of significant changes via email or through the Service. The \"last updated\" date at the top reflects the most recent revision.\n\nFor any privacy-related questions or concerns, contact us at:\nEmail: hello@sopia.xyz\n\nIf you believe your data protection rights have been violated, you have the right to file a complaint with your local data protection authority."
   },
 
   "PasswordRules": {
