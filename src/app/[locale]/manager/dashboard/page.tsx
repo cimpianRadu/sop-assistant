@@ -36,39 +36,45 @@ export default async function ManagerDashboard({
   let totalExecutions = 0;
   let completedExecutions = 0;
   let inProgressExecutions = 0;
+  let escalations: HelpRequestWithDetails[] | null = null;
 
   if (processIds.length > 0) {
-    const { count: totalCount } = await supabase
-      .from("executions")
-      .select("*", { count: "exact", head: true })
-      .in("process_id", processIds);
-
-    const { count: completedCount } = await supabase
-      .from("executions")
-      .select("*", { count: "exact", head: true })
-      .in("process_id", processIds)
-      .eq("status", "completed");
-
-    const { count: inProgressCount } = await supabase
-      .from("executions")
-      .select("*", { count: "exact", head: true })
-      .in("process_id", processIds)
-      .eq("status", "in_progress");
+    const [
+      { count: totalCount },
+      { count: completedCount },
+      { count: inProgressCount },
+      { data: escalationsData },
+    ] = await Promise.all([
+      supabase
+        .from("executions")
+        .select("*", { count: "exact", head: true })
+        .in("process_id", processIds),
+      supabase
+        .from("executions")
+        .select("*", { count: "exact", head: true })
+        .in("process_id", processIds)
+        .eq("status", "completed"),
+      supabase
+        .from("executions")
+        .select("*", { count: "exact", head: true })
+        .in("process_id", processIds)
+        .eq("status", "in_progress"),
+      supabase
+        .from("help_requests")
+        .select(
+          "*, profiles(email), processes(title), checklist_steps(step_text, step_number)"
+        )
+        .eq("escalated", true)
+        .eq("resolved", false)
+        .in("process_id", processIds)
+        .order("created_at", { ascending: false }),
+    ]);
 
     totalExecutions = totalCount || 0;
     completedExecutions = completedCount || 0;
     inProgressExecutions = inProgressCount || 0;
+    escalations = escalationsData;
   }
-
-  const { data: escalations } = await supabase
-    .from("help_requests")
-    .select(
-      "*, profiles(email), processes(title), checklist_steps(step_text, step_number)"
-    )
-    .eq("escalated", true)
-    .eq("resolved", false)
-    .in("process_id", processIds.length > 0 ? processIds : ["none"])
-    .order("created_at", { ascending: false });
 
   return (
     <div className="space-y-6">

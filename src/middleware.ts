@@ -68,28 +68,27 @@ export async function middleware(request: NextRequest) {
       return supabaseResponse;
     }
 
-    if (user) {
-      // Logged in — check if they have an org
-      const { data: membership } = await supabase
-        .from("org_members")
-        .select("role")
-        .eq("user_id", user.id)
-        .single();
+    if (!user) return supabaseResponse;
 
-      if (!membership) {
-        return NextResponse.redirect(
-          new URL(localizedPath("/onboarding", locale), request.url)
-        );
-      }
+    // Logged in — single query to check org membership
+    const { data: membership } = await supabase
+      .from("org_members")
+      .select("role")
+      .eq("user_id", user.id)
+      .single();
 
+    if (!membership) {
       return NextResponse.redirect(
-        new URL(
-          localizedPath(`/${membership.role}/dashboard`, locale),
-          request.url
-        )
+        new URL(localizedPath("/onboarding", locale), request.url)
       );
     }
-    return supabaseResponse;
+
+    return NextResponse.redirect(
+      new URL(
+        localizedPath(`/${membership.role}/dashboard`, locale),
+        request.url
+      )
+    );
   }
 
   // All other routes require authentication
@@ -99,16 +98,16 @@ export async function middleware(request: NextRequest) {
     );
   }
 
+  // Single query for membership + org details (used by all protected routes)
+  const { data: membership } = await supabase
+    .from("org_members")
+    .select("role, organizations(subscription_status, trial_ends_at)")
+    .eq("user_id", user.id)
+    .single();
+
   // Onboarding: requires auth but no org
   if (cleanPath.startsWith("/onboarding")) {
-    const { data: membership } = await supabase
-      .from("org_members")
-      .select("role")
-      .eq("user_id", user.id)
-      .single();
-
     if (membership) {
-      // Already has org — redirect to dashboard
       return NextResponse.redirect(
         new URL(
           localizedPath(`/${membership.role}/dashboard`, locale),
@@ -118,13 +117,6 @@ export async function middleware(request: NextRequest) {
     }
     return supabaseResponse;
   }
-
-  // Fetch org membership and org details
-  const { data: membership } = await supabase
-    .from("org_members")
-    .select("role, organizations(subscription_status, trial_ends_at)")
-    .eq("user_id", user.id)
-    .single();
 
   // No org membership — redirect to onboarding
   if (!membership) {
@@ -139,14 +131,14 @@ export async function middleware(request: NextRequest) {
     trial_ends_at: string | null;
   };
 
+  const isActive = org?.subscription_status === "active";
+  const isTrialing =
+    org?.subscription_status === "trialing" &&
+    org?.trial_ends_at &&
+    new Date(org.trial_ends_at) > new Date();
+
   // Trial enforcement (exempt: /trial-expired)
   if (cleanPath !== "/trial-expired") {
-    const isActive = org?.subscription_status === "active";
-    const isTrialing =
-      org?.subscription_status === "trialing" &&
-      org?.trial_ends_at &&
-      new Date(org.trial_ends_at) > new Date();
-
     if (!isActive && !isTrialing) {
       return NextResponse.redirect(
         new URL(localizedPath("/trial-expired", locale), request.url)
@@ -156,12 +148,6 @@ export async function middleware(request: NextRequest) {
 
   // Redirect away from /trial-expired if trial is still valid
   if (cleanPath === "/trial-expired") {
-    const isActive = org?.subscription_status === "active";
-    const isTrialing =
-      org?.subscription_status === "trialing" &&
-      org?.trial_ends_at &&
-      new Date(org.trial_ends_at) > new Date();
-
     if (isActive || isTrialing) {
       return NextResponse.redirect(
         new URL(

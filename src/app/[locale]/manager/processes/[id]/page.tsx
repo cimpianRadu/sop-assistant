@@ -19,35 +19,32 @@ export default async function ProcessDetailPage({ params }: { params: Promise<{ 
   const tc = await getTranslations("Common");
   const supabase = await createClient();
 
-  const { data: process } = await supabase.from("processes").select("*").eq("id", id).single();
+  // Fetch process and session in parallel
+  const [{ data: process }, session] = await Promise.all([
+    supabase.from("processes").select("*").eq("id", id).single(),
+    getSessionContext(),
+  ]);
   if (!process) notFound();
+  if (!session) notFound();
 
-  const { data: steps } = await supabase.from("checklist_steps").select("*").eq("process_id", id).order("step_number");
-  const { data: executions } = await supabase.from("executions").select("*, profiles!executions_operator_id_fkey(email)").eq("process_id", id).order("started_at", { ascending: false });
-  const { data: assignments } = await supabase.from("process_assignments").select("*, profiles!process_assignments_operator_id_fkey(email)").eq("process_id", id).order("created_at", { ascending: false });
-
-  // Get help request counts per execution
-  const { data: helpCounts } = await supabase
-    .from("help_requests")
-    .select("execution_id")
-    .eq("process_id", id);
+  // Fetch all related data in parallel
+  const [{ data: steps }, { data: executions }, { data: assignments }, { data: helpCounts }, { data: orgOperators }] =
+    await Promise.all([
+      supabase.from("checklist_steps").select("*").eq("process_id", id).order("step_number"),
+      supabase.from("executions").select("*, profiles!executions_operator_id_fkey(email)").eq("process_id", id).order("started_at", { ascending: false }),
+      supabase.from("process_assignments").select("*, profiles!process_assignments_operator_id_fkey(email)").eq("process_id", id).order("created_at", { ascending: false }),
+      supabase.from("help_requests").select("execution_id").eq("process_id", id),
+      supabase.from("org_members").select("user_id, profiles!org_members_user_id_fkey(email, full_name)").eq("org_id", session.org_id).eq("role", "operator"),
+    ]);
 
   const helpCountMap = new Map<string, number>();
   (helpCounts || []).forEach((hr) => {
     helpCountMap.set(hr.execution_id, (helpCountMap.get(hr.execution_id) || 0) + 1);
   });
 
-  const session = await getSessionContext();
-  // Fetch operators in the org for the dropdown
-  const { data: orgOperators } = await supabase
-    .from("org_members")
-    .select("user_id, profiles!org_members_user_id_fkey(email, full_name)")
-    .eq("org_id", session!.org_id)
-    .eq("role", "operator");
-
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      <Link href={`/${session!.role}/dashboard`}><Button variant="ghost" size="sm">{t("backToDashboard")}</Button></Link>
+      <Link href={`/${session.role}/dashboard`}><Button variant="ghost" size="sm">{t("backToDashboard")}</Button></Link>
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold">{process.title}</h2>

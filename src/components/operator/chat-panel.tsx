@@ -323,7 +323,7 @@ export function ChatPanel({ open, onOpenChange, initialStepContext, executionId,
         )}
 
         {/* Input */}
-        <div className="p-4 border-t shrink-0">
+        <div className="p-3 sm:p-4 border-t shrink-0 pb-[env(safe-area-inset-bottom,0.75rem)]">
           <div className="flex gap-2">
             <Textarea
               ref={textareaRef}
@@ -332,7 +332,7 @@ export function ChatPanel({ open, onOpenChange, initialStepContext, executionId,
               onKeyDown={handleKeyDown}
               placeholder={t("inputPlaceholder")}
               rows={1}
-              className="min-h-[40px] max-h-[120px] resize-none text-sm"
+              className="min-h-[40px] max-h-[120px] resize-none text-base sm:text-sm"
             />
             <Button size="icon" onClick={handleSend} disabled={!input.trim() || isLoading} className="shrink-0">
               {isLoading ? <Loader2Icon className="size-4 animate-spin" /> : <SendIcon className="size-4" />}

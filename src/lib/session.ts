@@ -1,9 +1,10 @@
 "use server";
 
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import type { SessionContext } from "@/lib/types";
 
-export async function getSessionContext(): Promise<SessionContext | null> {
+async function _getSessionContext(): Promise<SessionContext | null> {
   const supabase = await createClient();
   const {
     data: { user },
@@ -35,3 +36,5 @@ export async function getSessionContext(): Promise<SessionContext | null> {
     subscription_status: org.subscription_status as SessionContext["subscription_status"],
   };
 }
+
+export const getSessionContext = cache(_getSessionContext);

@@ -27,14 +27,42 @@ export default async function OperatorDashboard({
 
   const supabase = await createClient();
 
-  // Get processes with assignment info (who assigned them)
-  const { data: assignments } = await supabase
-    .from("process_assignments")
-    .select(
-      "process_id, assigned_by, profiles!process_assignments_assigned_by_fkey(full_name, email), processes(id, title, description, created_at)"
-    )
-    .eq("operator_id", session.user_id)
-    .order("created_at", { ascending: false });
+  // Fetch all operator data in parallel
+  const [
+    { data: assignments },
+    { count: totalCount },
+    { count: completedCount },
+    { count: inProgressCount },
+    { data: activeExecutions },
+  ] = await Promise.all([
+    supabase
+      .from("process_assignments")
+      .select(
+        "process_id, assigned_by, profiles!process_assignments_assigned_by_fkey(full_name, email), processes(id, title, description, created_at)"
+      )
+      .eq("operator_id", session.user_id)
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("executions")
+      .select("*", { count: "exact", head: true })
+      .eq("operator_id", session.user_id),
+    supabase
+      .from("executions")
+      .select("*", { count: "exact", head: true })
+      .eq("operator_id", session.user_id)
+      .eq("status", "completed"),
+    supabase
+      .from("executions")
+      .select("*", { count: "exact", head: true })
+      .eq("operator_id", session.user_id)
+      .eq("status", "in_progress"),
+    supabase
+      .from("executions")
+      .select("id, process_id, started_at, processes(title)")
+      .eq("operator_id", session.user_id)
+      .eq("status", "in_progress")
+      .order("started_at", { ascending: false }),
+  ]);
 
   type ProcessJoin = { id: string; title: string; description: string; created_at: string };
   type ProfileJoin = { full_name: string | null; email: string };
@@ -49,36 +77,9 @@ export default async function OperatorDashboard({
   });
 
   const processCount = processes.length;
-
-  // Get execution stats for this operator
-  const { count: totalCount } = await supabase
-    .from("executions")
-    .select("*", { count: "exact", head: true })
-    .eq("operator_id", session.user_id);
-
-  const { count: completedCount } = await supabase
-    .from("executions")
-    .select("*", { count: "exact", head: true })
-    .eq("operator_id", session.user_id)
-    .eq("status", "completed");
-
-  const { count: inProgressCount } = await supabase
-    .from("executions")
-    .select("*", { count: "exact", head: true })
-    .eq("operator_id", session.user_id)
-    .eq("status", "in_progress");
-
   const totalExecutions = totalCount || 0;
   const completedExecutions = completedCount || 0;
   const inProgressExecutions = inProgressCount || 0;
-
-  // Fetch in-progress executions with process info
-  const { data: activeExecutions } = await supabase
-    .from("executions")
-    .select("id, process_id, started_at, processes(title)")
-    .eq("operator_id", session.user_id)
-    .eq("status", "in_progress")
-    .order("started_at", { ascending: false });
 
   type ActiveExecution = {
     id: string;

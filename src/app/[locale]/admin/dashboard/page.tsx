@@ -30,68 +30,72 @@ export default async function AdminDashboard({
 
   const supabase = await createClient();
 
-  // Get org details (for created_at)
-  const { data: org } = await supabase
-    .from("organizations")
-    .select("created_at")
-    .eq("id", session.org_id)
-    .single();
-
-  // Get org members
-  const { data: members } = await supabase
-    .from("org_members")
-    .select("*, profiles!org_members_user_id_fkey(email, full_name)")
-    .eq("org_id", session.org_id)
-    .order("joined_at", { ascending: true });
+  // Fetch org details, members, and processes in parallel
+  const [{ data: org }, { data: members }, { data: processes }] =
+    await Promise.all([
+      supabase
+        .from("organizations")
+        .select("created_at")
+        .eq("id", session.org_id)
+        .single(),
+      supabase
+        .from("org_members")
+        .select("*, profiles!org_members_user_id_fkey(email, full_name)")
+        .eq("org_id", session.org_id)
+        .order("joined_at", { ascending: true }),
+      supabase
+        .from("processes")
+        .select("*, profiles!created_by(email, full_name)")
+        .eq("org_id", session.org_id)
+        .order("created_at", { ascending: false }),
+    ]);
 
   const memberCount = (members || []).length;
-
-  // Get all org processes
-  const { data: processes } = await supabase
-    .from("processes")
-    .select("*, profiles!created_by(email, full_name)")
-    .eq("org_id", session.org_id)
-    .order("created_at", { ascending: false });
-
   const processCount = (processes || []).length;
   const processIds = (processes || []).map((p) => p.id);
   let totalExecutions = 0;
   let completedExecutions = 0;
   let inProgressExecutions = 0;
+  let escalations: HelpRequestWithDetails[] | null = null;
 
   if (processIds.length > 0) {
-    const { count: totalCount } = await supabase
-      .from("executions")
-      .select("*", { count: "exact", head: true })
-      .in("process_id", processIds);
-
-    const { count: completedCount } = await supabase
-      .from("executions")
-      .select("*", { count: "exact", head: true })
-      .in("process_id", processIds)
-      .eq("status", "completed");
-
-    const { count: inProgressCount } = await supabase
-      .from("executions")
-      .select("*", { count: "exact", head: true })
-      .in("process_id", processIds)
-      .eq("status", "in_progress");
+    // Fetch all execution counts and escalations in parallel
+    const [
+      { count: totalCount },
+      { count: completedCount },
+      { count: inProgressCount },
+      { data: escalationsData },
+    ] = await Promise.all([
+      supabase
+        .from("executions")
+        .select("*", { count: "exact", head: true })
+        .in("process_id", processIds),
+      supabase
+        .from("executions")
+        .select("*", { count: "exact", head: true })
+        .in("process_id", processIds)
+        .eq("status", "completed"),
+      supabase
+        .from("executions")
+        .select("*", { count: "exact", head: true })
+        .in("process_id", processIds)
+        .eq("status", "in_progress"),
+      supabase
+        .from("help_requests")
+        .select(
+          "*, profiles(email), processes(title), checklist_steps(step_text, step_number)"
+        )
+        .eq("escalated", true)
+        .eq("resolved", false)
+        .in("process_id", processIds)
+        .order("created_at", { ascending: false }),
+    ]);
 
     totalExecutions = totalCount || 0;
     completedExecutions = completedCount || 0;
     inProgressExecutions = inProgressCount || 0;
+    escalations = escalationsData;
   }
-
-  // Get escalations
-  const { data: escalations } = await supabase
-    .from("help_requests")
-    .select(
-      "*, profiles(email), processes(title), checklist_steps(step_text, step_number)"
-    )
-    .eq("escalated", true)
-    .eq("resolved", false)
-    .in("process_id", processIds.length > 0 ? processIds : ["none"])
-    .order("created_at", { ascending: false });
 
   const allProcesses = (processes as ProcessWithCreator[]) || [];
   const PROCESS_LIMIT = 6;
