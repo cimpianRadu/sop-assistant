@@ -5,7 +5,6 @@ import { LogoutButton } from "@/components/shared/logout-button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -30,7 +29,6 @@ export default async function TrialExpiredPage({
   setRequestLocale(locale);
 
   const t = await getTranslations("TrialExpired");
-  const tc = await getTranslations("Common");
 
   // Fetch org stats to show what they built
   const session = await getSessionContext();
@@ -153,7 +151,7 @@ export default async function TrialExpiredPage({
               ))}
             </ul>
 
-            <a href="mailto:contact@sopassistant.com" className="block">
+            <a href="mailto:hello@sopia.xyz" className="block">
               <Button className="w-full" size="lg">
                 {t("upgradeCta")}
                 <ArrowRightIcon className="h-4 w-4 ml-1" />
@@ -168,7 +166,7 @@ export default async function TrialExpiredPage({
                 {t("viewFullPricing")}
               </Link>
               <a
-                href="mailto:contact@sopassistant.com"
+                href="mailto:hello@sopia.xyz"
                 className="text-muted-foreground hover:text-foreground underline underline-offset-4"
               >
                 {t("contactToContinue")}
