@@ -10,7 +10,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ClipboardListIcon, PlayIcon, ArrowRightIcon } from "lucide-react";
-import { EmptyState } from "@/components/shared/empty-state";
 
 export default async function OperatorDashboard({
   params,
@@ -157,11 +156,11 @@ export default async function OperatorDashboard({
       </div>
 
       {processCount === 0 ? (
-        <EmptyState
-          icon={ClipboardListIcon}
-          title={t("noProcesses")}
-          description={t("noProcessesHint")}
-        />
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <ClipboardListIcon className="h-12 w-12 text-muted-foreground/50 mb-4" />
+          <p className="text-lg font-medium">{t("noProcesses")}</p>
+          <p className="text-sm text-muted-foreground mt-1 max-w-sm">{t("noProcessesHint")}</p>
+        </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {processes.map((process) => (
