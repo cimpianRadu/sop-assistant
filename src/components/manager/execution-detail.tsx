@@ -13,6 +13,7 @@ import {
   BotIcon,
   UserIcon,
   ClockIcon,
+  AlertTriangleIcon,
 } from "lucide-react";
 import type { Execution, ExecutionStepWithDetails, HelpRequest } from "@/lib/types";
 
@@ -244,8 +245,14 @@ function HelpRequestCard({ helpRequest, locale }: { helpRequest: HelpRequest; lo
         </div>
       )}
       {helpRequest.escalated && helpRequest.escalation_note && (
-        <div className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 rounded px-2 py-1">
-          Escalated: {helpRequest.escalation_note}
+        <div className="flex items-start gap-2">
+          <AlertTriangleIcon className="size-4 mt-0.5 text-amber-500 shrink-0" />
+          <div className="min-w-0">
+            <p className="text-xs text-amber-600 dark:text-amber-400 font-medium">{t("escalated")}</p>
+            <div className="mt-0.5 text-sm text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 rounded px-2 py-1">
+              {helpRequest.escalation_note}
+            </div>
+          </div>
         </div>
       )}
     </div>

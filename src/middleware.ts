@@ -98,12 +98,21 @@ export async function middleware(request: NextRequest) {
     );
   }
 
-  // Single query for membership + org details (used by all protected routes)
+  // Single query for membership + org details + soft-delete check
   const { data: membership } = await supabase
     .from("org_members")
-    .select("role, organizations(subscription_status, trial_ends_at)")
+    .select("role, organizations(subscription_status, trial_ends_at, current_period_end), profiles!org_members_user_id_fkey(is_deleted)")
     .eq("user_id", user.id)
     .single();
+
+  // Check if account is soft-deleted
+  const profileData = membership?.profiles as unknown as { is_deleted: boolean } | null;
+  if (profileData?.is_deleted) {
+    await supabase.auth.signOut();
+    return NextResponse.redirect(
+      new URL(localizedPath("/auth/login", locale), request.url)
+    );
+  }
 
   // Onboarding: requires auth but no org
   if (cleanPath.startsWith("/onboarding")) {
@@ -129,33 +138,51 @@ export async function middleware(request: NextRequest) {
   const org = membership.organizations as unknown as {
     subscription_status: string;
     trial_ends_at: string | null;
+    current_period_end: string | null;
   };
 
-  const isActive = org?.subscription_status === "active";
+  const status = org?.subscription_status;
+  const isActive = status === "active";
   const isTrialing =
-    org?.subscription_status === "trialing" &&
+    status === "trialing" &&
     org?.trial_ends_at &&
     new Date(org.trial_ends_at) > new Date();
+  const isCancelledWithAccess =
+    status === "cancelled" &&
+    org?.current_period_end &&
+    new Date(org.current_period_end) > new Date();
 
-  // Trial enforcement (exempt: /trial-expired)
-  if (cleanPath !== "/trial-expired") {
-    if (!isActive && !isTrialing) {
+  // These statuses can still use the app
+  const hasAccess = isActive || isTrialing || isCancelledWithAccess;
+
+  // Blocked pages: /trial-expired (expired trial), /subscription-ended (lapsed paid)
+  const blockedPages = ["/trial-expired", "/subscription-ended"];
+  const isOnBlockedPage = blockedPages.includes(cleanPath);
+
+  // Subscription enforcement (exempt: blocked pages + /pricing + /profile)
+  if (!isOnBlockedPage && cleanPath !== "/pricing" && cleanPath !== "/profile") {
+    if (!hasAccess) {
+      // Expired trial → /trial-expired; everything else → /subscription-ended
+      const destination = status === "expired" || status === "trialing"
+        ? "/trial-expired"
+        : "/subscription-ended";
       return NextResponse.redirect(
-        new URL(localizedPath("/trial-expired", locale), request.url)
+        new URL(localizedPath(destination, locale), request.url)
       );
     }
   }
 
-  // Redirect away from /trial-expired if trial is still valid
-  if (cleanPath === "/trial-expired") {
-    if (isActive || isTrialing) {
-      return NextResponse.redirect(
-        new URL(
-          localizedPath(`/${role}/dashboard`, locale),
-          request.url
-        )
-      );
-    }
+  // Redirect away from blocked pages if user has access
+  if (isOnBlockedPage && hasAccess) {
+    return NextResponse.redirect(
+      new URL(
+        localizedPath(`/${role}/dashboard`, locale),
+        request.url
+      )
+    );
+  }
+
+  if (isOnBlockedPage) {
     return supabaseResponse;
   }
 

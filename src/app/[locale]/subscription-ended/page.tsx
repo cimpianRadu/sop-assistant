@@ -8,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { getSessionContext } from "@/lib/session";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -16,11 +15,11 @@ import {
   FileTextIcon,
   UsersIcon,
   CheckCircleIcon,
-  ZapIcon,
+  RefreshCwIcon,
   ArrowRightIcon,
 } from "lucide-react";
 
-export default async function TrialExpiredPage({
+export default async function SubscriptionEndedPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
@@ -28,9 +27,8 @@ export default async function TrialExpiredPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const t = await getTranslations("TrialExpired");
+  const t = await getTranslations("SubscriptionEnded");
 
-  // Fetch org stats to show what they built
   const session = await getSessionContext();
   let processCount = 0;
   let memberCount = 0;
@@ -66,8 +64,8 @@ export default async function TrialExpiredPage({
       <div className="max-w-xl w-full space-y-5">
         {/* Header section */}
         <div className="text-center space-y-3 pt-4">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-amber-100 text-amber-600 mx-auto">
-            <ZapIcon className="h-7 w-7" />
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-muted text-muted-foreground mx-auto">
+            <RefreshCwIcon className="h-7 w-7" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight">{t("title")}</h1>
           <p className="text-muted-foreground text-base max-w-md mx-auto">
@@ -90,7 +88,7 @@ export default async function TrialExpiredPage({
           </CardContent>
         </Card>
 
-        {/* Org stats — what they built */}
+        {/* Org stats */}
         {hasStats && (
           <Card>
             <CardHeader className="pb-3">
@@ -124,41 +122,17 @@ export default async function TrialExpiredPage({
           </Card>
         )}
 
-        {/* Upgrade CTA card */}
+        {/* Reactivate CTA */}
         <Card className="border-primary/20">
-          <CardHeader className="pb-3">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-base">
-                {t("continueWith")}
-              </CardTitle>
-              <Badge variant="secondary" className="font-semibold">
-                {t("planPrice")}
-              </Badge>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <ul className="text-sm space-y-2 text-muted-foreground">
-              {[
-                t("planFeature1"),
-                t("planFeature2"),
-                t("planFeature3"),
-                t("planFeature4"),
-              ].map((feature, i) => (
-                <li key={i} className="flex items-center gap-2">
-                  <CheckCircleIcon className="h-4 w-4 text-primary shrink-0" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-
-            <a href="mailto:hello@sopia.xyz?subject=Upgrade to Growth plan" className="block">
+          <CardContent className="space-y-4 pt-6">
+            <a href="mailto:hello@sopia.xyz?subject=Reactivate subscription" className="block">
               <Button className="w-full" size="lg">
-                {t("upgradeCta")}
+                {t("reactivateCta")}
                 <ArrowRightIcon className="h-4 w-4 ml-1" />
               </Button>
             </a>
             <p className="text-xs text-muted-foreground text-center">
-              {t("upgradeNote")}
+              {t("reactivateNote")}
             </p>
 
             <div className="flex items-center justify-between text-sm">
@@ -166,13 +140,13 @@ export default async function TrialExpiredPage({
                 href="/pricing"
                 className="text-muted-foreground hover:text-foreground underline underline-offset-4"
               >
-                {t("viewFullPricing")}
+                {t("viewPricing")}
               </Link>
               <a
                 href="mailto:hello@sopia.xyz"
                 className="text-muted-foreground hover:text-foreground underline underline-offset-4"
               >
-                {t("contactToContinue")}
+                {t("contactSupport")}
               </a>
             </div>
           </CardContent>

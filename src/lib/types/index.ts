@@ -2,12 +2,14 @@ export type UserRole = "admin" | "manager" | "operator";
 
 export type OrgRole = "admin" | "manager" | "operator";
 
-export type SubscriptionStatus = "trialing" | "active" | "expired";
+export type SubscriptionStatus = "trialing" | "active" | "expired" | "past_due" | "cancelled" | "inactive";
 
 export type Profile = {
   id: string;
   email: string;
   full_name: string | null;
+  is_deleted: boolean;
+  deleted_at: string | null;
   created_at: string;
 };
 
@@ -17,6 +19,7 @@ export type Organization = {
   slug: string;
   trial_ends_at: string | null;
   subscription_status: SubscriptionStatus;
+  current_period_end: string | null;
   created_at: string;
 };
 
@@ -54,6 +57,7 @@ export type SessionContext = {
   role: OrgRole;
   trial_ends_at: string | null;
   subscription_status: SubscriptionStatus;
+  current_period_end: string | null;
 };
 
 export type Process = {

@@ -4,10 +4,11 @@ import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { LogoutButton } from "@/components/shared/logout-button";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
+import { SparklesIcon } from "lucide-react";
 
-function getTrialDaysLeft(trialEndsAt: string | null): number | null {
-  if (!trialEndsAt) return null;
-  const diff = new Date(trialEndsAt).getTime() - Date.now();
+function getDaysUntil(date: string | null): number | null {
+  if (!date) return null;
+  const diff = new Date(date).getTime() - Date.now();
   return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
 }
 
@@ -18,19 +19,66 @@ export async function Header() {
   const session = await getSessionContext();
   if (!session) return null;
 
-  const daysLeft = getTrialDaysLeft(session.trial_ends_at);
-  const isTrialing = session.subscription_status === "trialing";
+  const status = session.subscription_status;
+  const isTrialing = status === "trialing";
+  const isActive = status === "active";
+  const isPastDue = status === "past_due";
+  const isCancelled = status === "cancelled";
+
+  const trialDaysLeft = getDaysUntil(session.trial_ends_at);
+  const periodDaysLeft = getDaysUntil(session.current_period_end);
+
+  // Show renewal reminder for active subs renewing within 7 days
+  const showRenewalReminder = isActive && periodDaysLeft !== null && periodDaysLeft <= 7;
+  // Show cancelled countdown while still having access
+  const showCancelledBanner = isCancelled && periodDaysLeft !== null && periodDaysLeft > 0;
 
   return (
     <>
-      {isTrialing && daysLeft !== null && (
+      {/* Trial banner */}
+      {isTrialing && trialDaysLeft !== null && (
         <div className="bg-amber-100 border-b border-amber-300 dark:bg-amber-900/40 dark:border-amber-800">
           <div className="container mx-auto px-4 py-2 flex items-center justify-center gap-2 text-sm font-medium text-amber-800 dark:text-amber-300">
-            <span>{th("trialDays", { days: daysLeft })}</span>
+            <span>{th("trialDays", { days: trialDaysLeft })}</span>
             <span className="text-amber-400 dark:text-amber-600">&middot;</span>
             <Link href="/pricing" className="font-semibold underline underline-offset-2 hover:text-amber-950 dark:hover:text-amber-200">
               {th("upgradeNow")}
             </Link>
+          </div>
+        </div>
+      )}
+
+      {/* Renewal reminder banner */}
+      {showRenewalReminder && (
+        <div className="bg-blue-50 border-b border-blue-200 dark:bg-blue-900/30 dark:border-blue-800">
+          <div className="container mx-auto px-4 py-2 flex items-center justify-center gap-2 text-sm font-medium text-blue-800 dark:text-blue-300">
+            <span>{th("renewalReminder", { days: periodDaysLeft })}</span>
+          </div>
+        </div>
+      )}
+
+      {/* Past due warning banner */}
+      {isPastDue && (
+        <div className="bg-red-100 border-b border-red-300 dark:bg-red-900/40 dark:border-red-800">
+          <div className="container mx-auto px-4 py-2 flex items-center justify-center gap-2 text-sm font-medium text-red-800 dark:text-red-300">
+            <span>{th("pastDueWarning")}</span>
+            <span className="text-red-400 dark:text-red-600">&middot;</span>
+            <a href="mailto:hello@sopia.xyz?subject=Update payment method" className="font-semibold underline underline-offset-2 hover:text-red-950 dark:hover:text-red-200">
+              {th("updatePayment")}
+            </a>
+          </div>
+        </div>
+      )}
+
+      {/* Cancelled countdown banner */}
+      {showCancelledBanner && (
+        <div className="bg-amber-100 border-b border-amber-300 dark:bg-amber-900/40 dark:border-amber-800">
+          <div className="container mx-auto px-4 py-2 flex items-center justify-center gap-2 text-sm font-medium text-amber-800 dark:text-amber-300">
+            <span>{th("cancelledCountdown", { days: periodDaysLeft })}</span>
+            <span className="text-amber-400 dark:text-amber-600">&middot;</span>
+            <a href="mailto:hello@sopia.xyz?subject=Reactivate subscription" className="font-semibold underline underline-offset-2 hover:text-amber-950 dark:hover:text-amber-200">
+              {th("reactivate")}
+            </a>
           </div>
         </div>
       )}
@@ -67,6 +115,12 @@ export async function Header() {
               <Badge variant="secondary" className="capitalize">
                 {session.role}
               </Badge>
+              {isActive && (
+                <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 gap-1">
+                  <SparklesIcon className="size-3" />
+                  {th("premium")}
+                </Badge>
+              )}
             </div>
             <div className="flex items-center gap-4 min-w-0">
               <LanguageSwitcher />
@@ -109,6 +163,12 @@ export async function Header() {
                 <Badge variant="secondary" className="capitalize">
                   {session.role}
                 </Badge>
+                {isActive && (
+                  <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 gap-1">
+                    <SparklesIcon className="size-3" />
+                    {th("premium")}
+                  </Badge>
+                )}
                 <LanguageSwitcher />
                 <LogoutButton />
               </div>

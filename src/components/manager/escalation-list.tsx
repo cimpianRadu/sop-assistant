@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CheckCircle2Icon } from "lucide-react";
 import { EmptyState } from "@/components/shared/empty-state";
+import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
 import type { HelpRequestWithDetails } from "@/lib/types";
 
 export function EscalationList({ escalations: initialEscalations }: { escalations: HelpRequestWithDetails[] }) {
@@ -68,7 +69,7 @@ export function EscalationList({ escalations: initialEscalations }: { escalation
             {escalation.ai_response && (
               <div className="bg-muted/50 rounded p-3">
                 <p className="text-xs font-medium text-muted-foreground mb-1">{t("aiResponseGiven")}</p>
-                <p className="text-sm whitespace-pre-wrap">{escalation.ai_response}</p>
+                <MarkdownRenderer content={escalation.ai_response} className="text-sm" />
               </div>
             )}
             {escalation.escalation_note && (

@@ -78,22 +78,32 @@
   "Pricing": {
     "title": "Simple, transparent pricing",
     "subtitle": "Transform your team's expertise into clear, AI-generated procedures. New hires become productive from day one.",
-    "planName": "Growth",
-    "price": "€99",
     "perMonth": "/month",
-    "planDescription": "Everything you need to onboard your team efficiently.",
-    "feature1": "Up to 3 Managers",
-    "feature2": "Up to 20 Operators",
-    "feature3": "30 AI-generated SOPs per month",
-    "feature4": "AI-powered help system",
-    "feature5": "Manager escalation workflow",
-    "feature6": "Execution tracking & analytics",
-    "feature7": "Email support",
+    "growthName": "Growth",
+    "growthPrice": "€99",
+    "growthDescription": "Everything you need to onboard your team efficiently.",
+    "growthFeature1": "Up to 3 Managers",
+    "growthFeature2": "Up to 20 Operators",
+    "growthFeature3": "30 AI-generated SOPs per month",
+    "growthFeature4": "AI-powered help system",
+    "growthFeature5": "Manager escalation workflow",
+    "growthFeature6": "Execution tracking & analytics",
+    "growthFeature7": "Email support",
+    "businessName": "Business",
+    "businessPrice": "€500",
+    "businessDescription": "For teams that need unlimited capacity and priority support.",
+    "businessFeature1": "Unlimited Managers & Operators",
+    "businessFeature2": "Unlimited AI-generated SOPs",
+    "businessFeature3": "Everything in Growth",
+    "businessFeature4": "Priority email support",
+    "businessFeature5": "Dedicated onboarding session",
+    "bestValue": "Best value",
     "currentPlan": "You're on the Growth plan",
     "trialRemaining": "Trial: {days} {days, plural, one {day} other {days}} remaining",
-    "upgradeNow": "Upgrade now",
-    "contactToSubscribe": "Contact us to subscribe",
+    "requestUpgrade": "Request upgrade",
     "startTrial": "Start 14-day free trial",
+    "howUpgradeWorks": "How upgrading works",
+    "howUpgradeWorksDesc": "Click the upgrade button to send us your request. We'll review it and send you a payment link within 24 hours. Once payment is confirmed, your plan is activated immediately.",
     "trialInfo": "14-day free trial. Full access. No credit card required.",
     "questions": "Questions?"
   },
@@ -200,13 +210,20 @@
     "planFeature3": "AI help system + escalation workflow",
     "planFeature4": "Execution tracking & analytics",
     "upgradeCta": "Upgrade now",
+    "upgradeNote": "We'll send you a payment link within 24 hours.",
     "contactToContinue": "Have questions? Contact us",
     "viewFullPricing": "View full pricing details"
   },
 
   "Header": {
     "trialDays": "Trial: {days} {days, plural, one {day} other {days}} left",
-    "upgradeNow": "Upgrade now"
+    "upgradeNow": "Upgrade now",
+    "premium": "Premium",
+    "renewalReminder": "Your subscription renews in {days} {days, plural, one {day} other {days}}",
+    "pastDueWarning": "Payment failed. Please update your payment method to avoid service interruption.",
+    "updatePayment": "Update payment",
+    "cancelledCountdown": "Your subscription ends in {days} {days, plural, one {day} other {days}}",
+    "reactivate": "Reactivate"
   },
 
   "Manager": {
@@ -353,7 +370,8 @@
     "weak_password": "Password is too weak. Use at least 8 characters with uppercase, lowercase, and a number.",
     "password_too_weak": "Password must be at least 8 characters and include uppercase, lowercase, and a number.",
     "invalid_email_format": "Please enter a valid email address.",
-    "unknown_error": "Something went wrong. Please try again."
+    "unknown_error": "Something went wrong. Please try again.",
+    "sole_admin": "You are the only admin of your organization. Please transfer admin role to another member before deleting your account."
   },
 
   "ErrorBoundary": {
@@ -450,7 +468,8 @@
     "aiResponse": "AI Response",
     "generalQuestions": "General Questions",
     "backToProcess": "← Back to Process",
-    "noSteps": "No steps recorded"
+    "noSteps": "No steps recorded",
+    "escalated": "Escalated to manager"
   },
 
   "Terms": {
@@ -505,6 +524,32 @@
     "section9Content": "We use the following third-party services to operate Sopia:\n\nSupabase: database hosting, authentication, and file storage (EU servers).\nVercel: application hosting and deployment.\nAnthropic: AI processing for SOP generation and help system.\nResend: transactional email delivery.\n\nEach of these providers has their own privacy policies and data processing agreements in place.",
     "section10Title": "Changes and Contact",
     "section10Content": "We may update this Privacy Policy from time to time. We will notify you of significant changes via email or through the Service. The \"last updated\" date at the top reflects the most recent revision.\n\nFor any privacy-related questions or concerns, contact us at:\nEmail: hello@sopia.xyz\n\nIf you believe your data protection rights have been violated, you have the right to file a complaint with your local data protection authority."
+  },
+
+  "SubscriptionEnded": {
+    "title": "Your subscription has ended",
+    "description": "Your Sopia subscription is no longer active. Reactivate to continue managing your team's procedures.",
+    "dataIsSafe": "Your data is safe",
+    "dataIsSafeDesc": "All your SOPs, checklists, and execution history are preserved. Reactivate anytime to pick up right where you left off.",
+    "whatYouBuilt": "Your organization",
+    "processes": "{count} {count, plural, one {SOP} other {SOPs}} created",
+    "members": "{count} team {count, plural, one {member} other {members}}",
+    "executions": "{count} {count, plural, one {execution} other {executions}} completed",
+    "reactivateCta": "Reactivate subscription",
+    "reactivateNote": "Contact us and we'll get you back up and running.",
+    "contactSupport": "Contact support",
+    "viewPricing": "View pricing"
+  },
+
+  "DeleteAccount": {
+    "title": "Delete Account",
+    "description": "Permanently delete your account and all associated data. This action cannot be undone.",
+    "deleteButton": "Delete my account",
+    "deleting": "Deleting...",
+    "confirmTitle": "Are you sure?",
+    "confirmDescription": "This will permanently delete your account. Your personal data will be removed within 30 days. Organization data will be preserved for other members.",
+    "confirmButton": "Yes, delete my account",
+    "cancelButton": "Cancel"
   },
 
   "PasswordRules": {

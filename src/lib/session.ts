@@ -14,7 +14,7 @@ async function _getSessionContext(): Promise<SessionContext | null> {
 
   const { data: membership } = await supabase
     .from("org_members")
-    .select("role, org_id, organizations(name, trial_ends_at, subscription_status)")
+    .select("role, org_id, organizations(name, trial_ends_at, subscription_status, current_period_end)")
     .eq("user_id", user.id)
     .single();
 
@@ -24,6 +24,7 @@ async function _getSessionContext(): Promise<SessionContext | null> {
     name: string;
     trial_ends_at: string | null;
     subscription_status: string;
+    current_period_end: string | null;
   };
 
   return {
@@ -34,6 +35,7 @@ async function _getSessionContext(): Promise<SessionContext | null> {
     role: membership.role as SessionContext["role"],
     trial_ends_at: org.trial_ends_at,
     subscription_status: org.subscription_status as SessionContext["subscription_status"],
+    current_period_end: org.current_period_end,
   };
 }
 

@@ -78,22 +78,32 @@
   "Pricing": {
     "title": "Preturi simple, transparente",
     "subtitle": "Transforma expertiza echipei tale in proceduri clare, generate de AI. Angajatii noi devin productivi din prima zi.",
-    "planName": "Growth",
-    "price": "€99",
     "perMonth": "/luna",
-    "planDescription": "Tot ce ai nevoie pentru un onboarding eficient al echipei.",
-    "feature1": "Pana la 3 Manageri",
-    "feature2": "Pana la 20 Operatori",
-    "feature3": "30 de proceduri generate de AI pe luna",
-    "feature4": "Ajutor instant cu AI",
-    "feature5": "Notificari catre manager cand e nevoie",
-    "feature6": "Monitorizare executii si rapoarte",
-    "feature7": "Suport prin email",
+    "growthName": "Growth",
+    "growthPrice": "€99",
+    "growthDescription": "Tot ce ai nevoie pentru un onboarding eficient al echipei.",
+    "growthFeature1": "Pana la 3 Manageri",
+    "growthFeature2": "Pana la 20 Operatori",
+    "growthFeature3": "30 de proceduri generate de AI pe luna",
+    "growthFeature4": "Ajutor instant cu AI",
+    "growthFeature5": "Notificari catre manager cand e nevoie",
+    "growthFeature6": "Monitorizare executii si rapoarte",
+    "growthFeature7": "Suport prin email",
+    "businessName": "Business",
+    "businessPrice": "€500",
+    "businessDescription": "Pentru echipe care au nevoie de capacitate nelimitata si suport prioritar.",
+    "businessFeature1": "Manageri si Operatori nelimitati",
+    "businessFeature2": "SOP-uri generate de AI nelimitate",
+    "businessFeature3": "Tot ce include Growth",
+    "businessFeature4": "Suport prioritar prin email",
+    "businessFeature5": "Sesiune dedicata de onboarding",
+    "bestValue": "Cel mai avantajos",
     "currentPlan": "Esti pe planul Growth",
     "trialRemaining": "Trial: {days} {days, plural, one {zi} other {zile}} ramase",
-    "upgradeNow": "Upgradeaza acum",
-    "contactToSubscribe": "Contacteaza-ne pentru abonament",
+    "requestUpgrade": "Solicita upgrade",
     "startTrial": "Incepe gratuit 14 zile",
+    "howUpgradeWorks": "Cum functioneaza upgrade-ul",
+    "howUpgradeWorksDesc": "Apasa butonul de upgrade pentru a ne trimite cererea. O vom analiza si iti vom trimite un link de plata in 24 de ore. Odata confirmata plata, planul este activat imediat.",
     "trialInfo": "14 zile gratuit. Acces complet. Fara card.",
     "questions": "Intrebari?"
   },
@@ -200,13 +210,20 @@
     "planFeature3": "Ajutor AI + notificari catre manager",
     "planFeature4": "Urmarire executie si analize",
     "upgradeCta": "Upgradeaza acum",
+    "upgradeNote": "Iti vom trimite un link de plata in 24 de ore.",
     "contactToContinue": "Ai intrebari? Contacteaza-ne",
     "viewFullPricing": "Vezi toate detaliile de pret"
   },
 
   "Header": {
     "trialDays": "Trial: {days} {days, plural, one {zi} other {zile}} ramase",
-    "upgradeNow": "Upgradeaza acum"
+    "upgradeNow": "Upgradeaza acum",
+    "premium": "Premium",
+    "renewalReminder": "Abonamentul se reinnoieste in {days} {days, plural, one {zi} other {zile}}",
+    "pastDueWarning": "Plata a esuat. Te rugam sa actualizezi metoda de plata pentru a evita intreruperea serviciului.",
+    "updatePayment": "Actualizeaza plata",
+    "cancelledCountdown": "Abonamentul se incheie in {days} {days, plural, one {zi} other {zile}}",
+    "reactivate": "Reactiveaza"
   },
 
   "Manager": {
@@ -353,7 +370,8 @@
     "weak_password": "Parola este prea slaba. Foloseste cel putin 8 caractere cu litere mari, litere mici si un numar.",
     "password_too_weak": "Parola trebuie sa aiba cel putin 8 caractere si sa includa litere mari, litere mici si un numar.",
     "invalid_email_format": "Te rugam introdu o adresa de email valida.",
-    "unknown_error": "Ceva nu a functionat corect. Te rugam sa incerci din nou."
+    "unknown_error": "Ceva nu a functionat corect. Te rugam sa incerci din nou.",
+    "sole_admin": "Esti singurul admin al organizatiei. Te rugam sa transferi rolul de admin altui membru inainte de a-ti sterge contul."
   },
 
   "ErrorBoundary": {
@@ -450,7 +468,8 @@
     "aiResponse": "Raspuns AI",
     "generalQuestions": "Intrebari generale",
     "backToProcess": "← Inapoi la proces",
-    "noSteps": "Niciun pas inregistrat"
+    "noSteps": "Niciun pas inregistrat",
+    "escalated": "Trimis catre manager"
   },
 
   "Terms": {
@@ -505,6 +524,32 @@
     "section9Content": "Utilizam urmatoarele servicii terte pentru a opera Sopia:\n\nSupabase: gazduire baza de date, autentificare si stocare fisiere (servere UE).\nVercel: gazduire aplicatie si implementare.\nAnthropic: procesare AI pentru generarea SOP-urilor si sistemul de ajutor.\nResend: livrare emailuri tranzactionale.\n\nFiecare dintre acesti furnizori are propriile politici de confidentialitate si acorduri de prelucrare a datelor.",
     "section10Title": "Modificari si Contact",
     "section10Content": "Putem actualiza aceasta Politica de Confidentialitate periodic. Va vom notifica despre modificarile semnificative prin email sau prin Serviciu. Data \"ultima actualizare\" din partea de sus reflecta cea mai recenta revizie.\n\nPentru orice intrebari sau preocupari legate de confidentialitate, contactati-ne la:\nEmail: hello@sopia.xyz\n\nDaca considerati ca drepturile dumneavoastra de protectie a datelor au fost incalcate, aveti dreptul de a depune o plangere la autoritatea locala de protectie a datelor."
+  },
+
+  "SubscriptionEnded": {
+    "title": "Abonamentul tau s-a incheiat",
+    "description": "Abonamentul tau Sopia nu mai este activ. Reactiveaza pentru a continua sa gestionezi procedurile echipei.",
+    "dataIsSafe": "Datele tale sunt in siguranta",
+    "dataIsSafeDesc": "Toate SOP-urile, checklist-urile si istoricul executiilor sunt pastrate. Reactiveaza oricand pentru a continua de unde ai ramas.",
+    "whatYouBuilt": "Organizatia ta",
+    "processes": "{count} {count, plural, one {SOP} other {SOP-uri}} create",
+    "members": "{count} {count, plural, one {membru} other {membri}} in echipa",
+    "executions": "{count} {count, plural, one {executie} other {executii}} finalizate",
+    "reactivateCta": "Reactiveaza abonamentul",
+    "reactivateNote": "Contacteaza-ne si te readucem online rapid.",
+    "contactSupport": "Contacteaza suportul",
+    "viewPricing": "Vezi preturile"
+  },
+
+  "DeleteAccount": {
+    "title": "Sterge contul",
+    "description": "Sterge permanent contul tau si toate datele asociate. Aceasta actiune nu poate fi anulata.",
+    "deleteButton": "Sterge contul meu",
+    "deleting": "Se sterge...",
+    "confirmTitle": "Esti sigur?",
+    "confirmDescription": "Aceasta actiune va sterge permanent contul tau. Datele tale personale vor fi eliminate in 30 de zile. Datele organizatiei vor fi pastrate pentru ceilalti membri.",
+    "confirmButton": "Da, sterge contul meu",
+    "cancelButton": "Anuleaza"
   },
 
   "PasswordRules": {

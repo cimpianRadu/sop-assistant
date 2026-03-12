@@ -4,6 +4,7 @@ import { getSessionContext } from "@/lib/session";
 import { Link } from "@/i18n/navigation";
 import { ProfileForm } from "@/components/shared/profile-form";
 import { ProfileStats } from "@/components/shared/profile-stats";
+import { DeleteAccountSection } from "@/components/shared/delete-account-section";
 
 export default async function ProfilePage({
   params,
@@ -50,6 +51,8 @@ export default async function ProfilePage({
 
       <h2 className="text-lg font-semibold">{t("yourStats")}</h2>
       <ProfileStats stats={stats} />
+
+      <DeleteAccountSection />
 
       <div className="pt-4 border-t text-sm text-muted-foreground flex items-center gap-4">
         <Link href="/terms" className="hover:text-foreground">

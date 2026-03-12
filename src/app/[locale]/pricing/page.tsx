@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { CheckIcon, MailIcon } from "lucide-react";
 
 export default async function PricingPage({
   params,
@@ -67,14 +68,22 @@ export default async function PricingPage({
         )
       : null;
 
-  const featureKeys = [
-    "feature1",
-    "feature2",
-    "feature3",
-    "feature4",
-    "feature5",
-    "feature6",
-    "feature7",
+  const growthFeatures = [
+    "growthFeature1",
+    "growthFeature2",
+    "growthFeature3",
+    "growthFeature4",
+    "growthFeature5",
+    "growthFeature6",
+    "growthFeature7",
+  ] as const;
+
+  const businessFeatures = [
+    "businessFeature1",
+    "businessFeature2",
+    "businessFeature3",
+    "businessFeature4",
+    "businessFeature5",
   ] as const;
 
   return (
@@ -124,7 +133,7 @@ export default async function PricingPage({
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-16 max-w-4xl">
+      <main className="container mx-auto px-4 py-16 max-w-5xl">
         <div className="text-center space-y-4 mb-12">
           <h1 className="text-4xl font-bold tracking-tight">{t("title")}</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -132,27 +141,26 @@ export default async function PricingPage({
           </p>
         </div>
 
-        <div className="flex justify-center">
-          <Card className="w-full max-w-md">
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {/* Growth plan */}
+          <Card>
             <CardHeader className="text-center">
               <div className="flex justify-center mb-2">
-                <Badge variant="secondary">{t("planName")}</Badge>
+                <Badge variant="secondary">{t("growthName")}</Badge>
               </div>
               <CardTitle className="text-3xl">
-                {t("price")}
+                {t("growthPrice")}
                 <span className="text-base font-normal text-muted-foreground">
                   {t("perMonth")}
                 </span>
               </CardTitle>
-              <CardDescription>{t("planDescription")}</CardDescription>
+              <CardDescription>{t("growthDescription")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <ul className="space-y-3">
-                {featureKeys.map((key) => (
+                {growthFeatures.map((key) => (
                   <li key={key} className="flex items-center gap-3 text-sm">
-                    <span className="text-green-500 flex-shrink-0">
-                      &#10003;
-                    </span>
+                    <CheckIcon className="size-4 text-green-500 shrink-0" />
                     {t(key)}
                   </li>
                 ))}
@@ -173,16 +181,18 @@ export default async function PricingPage({
                     >
                       {t("trialRemaining", { days: daysLeft })}
                     </Badge>
-                    <a href="mailto:hello@sopia.xyz" className="block">
+                    <a href="mailto:hello@sopia.xyz?subject=Upgrade to Growth plan" className="block">
                       <Button className="w-full" size="lg">
-                        {t("upgradeNow")}
+                        <MailIcon className="size-4 mr-2" />
+                        {t("requestUpgrade")}
                       </Button>
                     </a>
                   </div>
                 ) : user ? (
-                  <a href="mailto:hello@sopia.xyz" className="block">
+                  <a href="mailto:hello@sopia.xyz?subject=Subscribe to Growth plan" className="block">
                     <Button className="w-full" size="lg">
-                      {t("contactToSubscribe")}
+                      <MailIcon className="size-4 mr-2" />
+                      {t("requestUpgrade")}
                     </Button>
                   </a>
                 ) : (
@@ -192,6 +202,65 @@ export default async function PricingPage({
                     </Button>
                   </Link>
                 )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Business plan */}
+          <Card className="border-primary/50 relative">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <Badge className="bg-primary text-primary-foreground">{t("bestValue")}</Badge>
+            </div>
+            <CardHeader className="text-center">
+              <div className="flex justify-center mb-2">
+                <Badge variant="secondary">{t("businessName")}</Badge>
+              </div>
+              <CardTitle className="text-3xl">
+                {t("businessPrice")}
+                <span className="text-base font-normal text-muted-foreground">
+                  {t("perMonth")}
+                </span>
+              </CardTitle>
+              <CardDescription>{t("businessDescription")}</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <ul className="space-y-3">
+                {businessFeatures.map((key) => (
+                  <li key={key} className="flex items-center gap-3 text-sm">
+                    <CheckIcon className="size-4 text-green-500 shrink-0" />
+                    {t(key)}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="pt-4">
+                {!user ? (
+                  <Link href="/auth/signup" className="block">
+                    <Button className="w-full" size="lg" variant="outline">
+                      {t("startTrial")}
+                    </Button>
+                  </Link>
+                ) : (
+                  <a href="mailto:hello@sopia.xyz?subject=Upgrade to Business plan" className="block">
+                    <Button className="w-full" size="lg" variant="outline">
+                      <MailIcon className="size-4 mr-2" />
+                      {t("requestUpgrade")}
+                    </Button>
+                  </a>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* How it works note */}
+        <div className="max-w-2xl mx-auto mt-10">
+          <Card className="bg-muted/50">
+            <CardContent className="flex items-start gap-3 py-4">
+              <MailIcon className="size-5 text-primary mt-0.5 shrink-0" />
+              <div>
+                <p className="font-medium text-sm">{t("howUpgradeWorks")}</p>
+                <p className="text-sm text-muted-foreground mt-1">{t("howUpgradeWorksDesc")}</p>
               </div>
             </CardContent>
           </Card>
