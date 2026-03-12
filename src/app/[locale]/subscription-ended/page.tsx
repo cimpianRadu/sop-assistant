@@ -48,8 +48,9 @@ export default async function SubscriptionEndedPage({
         .eq("org_id", session.org_id),
       supabase
         .from("executions")
-        .select("*", { count: "exact", head: true })
-        .eq("status", "completed"),
+        .select("*, processes!inner(org_id)", { count: "exact", head: true })
+        .eq("status", "completed")
+        .eq("processes.org_id", session.org_id),
     ]);
 
     processCount = processes.count || 0;

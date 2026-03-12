@@ -1,7 +1,27 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("privacyTitle"),
+    description: t("privacyDescription"),
+    openGraph: {
+      title: t("privacyTitle"),
+      description: t("privacyDescription"),
+      locale,
+    },
+  };
+}
 
 export default async function PrivacyPage({
   params,

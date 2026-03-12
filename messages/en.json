@@ -562,5 +562,19 @@
     "uppercase": "At least one uppercase letter",
     "lowercase": "At least one lowercase letter",
     "number": "At least one number"
+  },
+  "Metadata": {
+    "homeTitle": "Sopia — Senior expertise where it matters. AI guidance everywhere else.",
+    "homeDescription": "Sopia walks your team through every procedure step by step — so your best people stop repeating themselves and start doing the work that actually moves the needle.",
+    "pricingTitle": "Pricing",
+    "pricingDescription": "Simple, transparent pricing for Sopia. Transform your team's expertise into clear, AI-generated procedures.",
+    "termsTitle": "Terms and Conditions",
+    "termsDescription": "Read the terms and conditions for using Sopia, the AI-powered SOP platform.",
+    "privacyTitle": "Privacy Policy",
+    "privacyDescription": "Learn how Sopia collects, uses, and protects your personal data.",
+    "loginTitle": "Log In",
+    "loginDescription": "Sign in to your Sopia account to manage and execute your team's standard operating procedures.",
+    "signupTitle": "Sign Up",
+    "signupDescription": "Create your free Sopia account. 14-day trial, no credit card required."
   }
 }

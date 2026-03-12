@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@/lib/supabase/server";
+import { operatorHelpLimiter, rateLimitResponse } from "@/lib/rate-limit";
 
 export const maxDuration = 60;
 
@@ -16,6 +17,12 @@ export async function POST(request: NextRequest) {
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Rate limit: 30 requests per minute per user
+  const rl = operatorHelpLimiter.check(user.id);
+  if (!rl.allowed) {
+    return rateLimitResponse(rl.retryAfterMs);
   }
 
   // Verify user is a member of an org

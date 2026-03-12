@@ -1,6 +1,7 @@
 import { streamText, UIMessage, convertToModelMessages } from "ai";
 import { anthropic } from "@ai-sdk/anthropic";
 import { createClient } from "@/lib/supabase/server";
+import { chatLimiter, rateLimitResponse } from "@/lib/rate-limit";
 
 export const maxDuration = 30;
 
@@ -12,6 +13,12 @@ export async function POST(request: Request) {
 
   if (!user) {
     return new Response("Unauthorized", { status: 401 });
+  }
+
+  // Rate limit: 60 requests per minute per user
+  const rl = chatLimiter.check(user.id);
+  if (!rl.allowed) {
+    return rateLimitResponse(rl.retryAfterMs);
   }
 
   const { data: membership } = await supabase

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { Link } from "@/i18n/navigation";
@@ -12,6 +13,25 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { CheckIcon, MailIcon } from "lucide-react";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("pricingTitle"),
+    description: t("pricingDescription"),
+    openGraph: {
+      title: t("pricingTitle"),
+      description: t("pricingDescription"),
+      locale,
+    },
+  };
+}
 
 export default async function PricingPage({
   params,

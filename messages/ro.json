@@ -562,5 +562,19 @@
     "uppercase": "Cel putin o litera mare",
     "lowercase": "Cel putin o litera mica",
     "number": "Cel putin un numar"
+  },
+  "Metadata": {
+    "homeTitle": "Sopia — Expertiza seniorilor acolo unde conteaza. Asistenta AI pentru restul.",
+    "homeDescription": "Sopia ghideaza echipa ta prin fiecare procedura, pas cu pas — ca oamenii tai cei mai buni sa nu mai repete aceleasi explicatii si sa se concentreze pe munca care chiar conteaza.",
+    "pricingTitle": "Preturi",
+    "pricingDescription": "Preturi simple si transparente pentru Sopia. Transforma expertiza echipei tale in proceduri clare, generate de AI.",
+    "termsTitle": "Termeni si Conditii",
+    "termsDescription": "Citeste termenii si conditiile de utilizare ale Sopia, platforma de proceduri bazata pe AI.",
+    "privacyTitle": "Politica de Confidentialitate",
+    "privacyDescription": "Afla cum Sopia colecteaza, utilizeaza si protejeaza datele tale personale.",
+    "loginTitle": "Autentificare",
+    "loginDescription": "Conecteaza-te la contul tau Sopia pentru a gestiona si executa procedurile echipei tale.",
+    "signupTitle": "Inregistrare",
+    "signupDescription": "Creeaza contul tau Sopia gratuit. 14 zile de proba, fara card bancar."
   }
 }

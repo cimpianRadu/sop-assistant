@@ -1,8 +1,28 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { LoginForm } from "@/components/auth/login-form";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("loginTitle"),
+    description: t("loginDescription"),
+    openGraph: {
+      title: t("loginTitle"),
+      description: t("loginDescription"),
+      locale,
+    },
+  };
+}
 
 export default async function LoginPage() {
   const tc = await getTranslations("Common");
