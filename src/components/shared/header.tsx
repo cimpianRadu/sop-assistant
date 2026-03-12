@@ -163,18 +163,20 @@ export async function Header() {
                 <Badge variant="secondary" className="capitalize">
                   {session.role}
                 </Badge>
-                {isActive && (
-                  <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 gap-1">
-                    <SparklesIcon className="size-3" />
-                    {th("premium")}
-                  </Badge>
-                )}
                 <LanguageSwitcher />
                 <LogoutButton />
               </div>
             </div>
             <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <span className="truncate">{session.org_name}</span>
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="truncate">{session.org_name}</span>
+                {isActive && (
+                  <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 gap-1 shrink-0">
+                    <SparklesIcon className="size-3" />
+                    {th("premium")}
+                  </Badge>
+                )}
+              </div>
               <Link
                 href="/profile"
                 className="hover:text-foreground transition-colors truncate ml-2 shrink-0"
