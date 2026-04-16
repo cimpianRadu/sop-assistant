@@ -7,7 +7,7 @@ import { assignOperator, removeOperator } from "@/lib/actions/assignments";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2Icon, UsersIcon } from "lucide-react";
+import { Loader2Icon, Trash2Icon, UsersIcon } from "lucide-react";
 import { EmptyState } from "@/components/shared/empty-state";
 import type { ProcessAssignmentWithProfile } from "@/lib/types";
 
@@ -110,17 +110,20 @@ export function OperatorAssignments({
                 key={assignment.id}
                 className="flex items-center justify-between flex-wrap gap-2 border rounded-lg p-3"
               >
-                <span className="text-sm">{assignment.profiles.email}</span>
+                <span className="text-sm truncate">{assignment.profiles.email}</span>
                 <Button
-                  variant="outline"
-                  size="sm"
+                  variant="ghost"
+                  size="icon-sm"
+                  className="text-muted-foreground hover:text-destructive shrink-0"
                   onClick={() => handleRemove(assignment.id)}
                   disabled={removing === assignment.id}
+                  aria-label={t("remove")}
                 >
-                  {removing === assignment.id && (
+                  {removing === assignment.id ? (
                     <Loader2Icon className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Trash2Icon className="h-4 w-4" />
                   )}
-                  {removing === assignment.id ? t("removing") : t("remove")}
                 </Button>
               </div>
             ))}

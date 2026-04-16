@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
 import {
   CheckCircle2Icon,
-  CircleDotIcon,
+  CircleIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   BotIcon,
@@ -139,9 +139,9 @@ export function ExecutionDetail({
                     className={`w-full flex items-center gap-3 p-3 text-left ${hasHelp ? "cursor-pointer hover:bg-muted/50" : "cursor-default"}`}
                   >
                     {step.completed ? (
-                      <CheckCircle2Icon className="size-5 text-primary shrink-0" />
+                      <CheckCircle2Icon className="size-5 text-primary shrink-0 fill-primary/10" />
                     ) : (
-                      <CircleDotIcon className="size-5 text-muted-foreground shrink-0" />
+                      <CircleIcon className="size-5 text-muted-foreground/40 shrink-0" />
                     )}
                     <div className="flex-1 min-w-0">
                       <p className={`text-sm font-medium ${step.completed ? "" : "text-muted-foreground"}`}>
@@ -158,7 +158,10 @@ export function ExecutionDetail({
                       {hasHelp && (
                         <Badge variant="outline" className="text-xs gap-1">
                           <BotIcon className="size-3" />
-                          {t("aiInteractions", { count: stepHelp.length })}
+                          <span className="sm:hidden">{stepHelp.length}</span>
+                          <span className="hidden sm:inline">
+                            {t("aiInteractions", { count: stepHelp.length })}
+                          </span>
                         </Badge>
                       )}
                       {hasHelp && (

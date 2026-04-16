@@ -119,22 +119,22 @@ export default async function Home({
         </div>
       </header>
 
-      <section className="container mx-auto px-4 py-20 max-w-4xl text-center">
+      <section className="container mx-auto px-4 py-14 sm:py-20 max-w-4xl text-center">
         <span className="inline-block mb-6 px-4 py-2 text-sm font-semibold rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shadow-[0_0_15px_rgba(42,165,160,0.3)]">
           {t("trialBadge")}
         </span>
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6">
+        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight mb-6">
           {t("heroTitle")}
         </h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+        <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
           {t("heroSubtitle")}
         </p>
-        <div className="flex items-center justify-center gap-4">
-          <Link href="/auth/signup">
-            <Button size="lg">{t("startTrial")}</Button>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
+          <Link href="/auth/signup" className="sm:w-auto">
+            <Button size="lg" className="w-full sm:w-auto">{t("startTrial")}</Button>
           </Link>
-          <Link href="/pricing">
-            <Button variant="outline" size="lg">{t("viewPricing")}</Button>
+          <Link href="/pricing" className="sm:w-auto">
+            <Button variant="outline" size="lg" className="w-full sm:w-auto">{t("viewPricing")}</Button>
           </Link>
         </div>
       </section>

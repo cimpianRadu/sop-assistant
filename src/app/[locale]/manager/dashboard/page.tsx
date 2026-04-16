@@ -97,27 +97,27 @@ export default async function ManagerDashboard({
             <Button size="sm">{t("newProcess")}</Button>
           </Link>
         </div>
-        <div className="inline-flex flex-wrap gap-3 mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-muted-foreground dark:border-amber-900/50 dark:bg-amber-950/20">
-          <span>
-            {ta("totalExecutions")}:{" "}
-            <span className="font-medium text-foreground">
-              {totalExecutions}
-            </span>
-          </span>
-          <span className="text-amber-300 dark:text-amber-800">|</span>
-          <span>
-            {ta("completedExecutions")}:{" "}
-            <span className="font-medium text-foreground">
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-4">
+          <div className="rounded-lg border bg-card px-3 py-2.5">
+            <p className="text-xl font-semibold tabular-nums">{totalExecutions}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              {ta("totalExecutions")}
+            </p>
+          </div>
+          <div className="rounded-lg border bg-card px-3 py-2.5">
+            <p className="text-xl font-semibold tabular-nums text-primary">
               {completedExecutions}
-            </span>
-          </span>
-          <span className="text-amber-300 dark:text-amber-800">|</span>
-          <span>
-            {ta("inProgressExecutions")}:{" "}
-            <span className="font-medium text-foreground">
-              {inProgressExecutions}
-            </span>
-          </span>
+            </p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              {ta("completedExecutions")}
+            </p>
+          </div>
+          <div className="rounded-lg border bg-card px-3 py-2.5">
+            <p className="text-xl font-semibold tabular-nums">{inProgressExecutions}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              {ta("inProgressExecutions")}
+            </p>
+          </div>
         </div>
         <ProcessList processes={(processes as ProcessWithCreator[]) || []} />
       </div>
