@@ -12,12 +12,12 @@ Carried over from the UI redesign session. Top-priority items are blockers for f
 - [x] `EditSopButton` is now a server component `<Link>` to the edit page (no more "coming soon" toast).
 - [x] Follow-up: the `current_version` increments on every save — that's the hook for #3 version badge. But: it increments even if nothing changed. Consider skipping increment when nothing actually changed (low priority). DONE — see follow-up above.
 
-### 2. Version history
+### 2. Version history — DONE
 
-- [ ] New table `process_versions` (id, process_id, version_number, sop_text, steps_snapshot jsonb, updated_by, updated_at)
-- [ ] On SOP update, insert a snapshot row + increment `processes.current_version`
-- [ ] UI: Version history tab on process details — list versions + diff viewer (e.g. `diff` output rendered inline)
-- [ ] Replace "coming soon" toast on the Version history tab
+- [x] New table `process_versions` (migration `011_process_versions.sql`) — id, process_id, version_number, sop_text, steps_snapshot jsonb, updated_by, updated_at.
+- [x] On SOP update, a snapshot row is inserted + `processes.current_version` is incremented (logic in `updateProcess`).
+- [x] UI: Version history tab on process details — see `src/components/manager/version-history.tsx`. Lists versions (current + priors) with diff viewer.
+- [x] "coming soon" toast on the Version history tab replaced with the real content. See commit `5566b63`.
 
 ### 3. Real version badge — DONE
 
