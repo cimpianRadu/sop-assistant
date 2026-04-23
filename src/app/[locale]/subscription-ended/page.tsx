@@ -30,6 +30,7 @@ export default async function SubscriptionEndedPage({
   const t = await getTranslations("SubscriptionEnded");
 
   const session = await getSessionContext();
+  const isOperator = session?.role === "operator";
   let processCount = 0;
   let memberCount = 0;
   let executionCount = 0;
@@ -68,9 +69,11 @@ export default async function SubscriptionEndedPage({
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-muted text-muted-foreground mx-auto">
             <RefreshCwIcon className="h-7 w-7" />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">{t("title")}</h1>
+          <h1 className="text-2xl font-bold tracking-tight">
+            {isOperator ? t("operatorTitle") : t("title")}
+          </h1>
           <p className="text-muted-foreground text-base max-w-md mx-auto">
-            {t("description")}
+            {isOperator ? t("operatorDescription") : t("description")}
           </p>
         </div>
 
@@ -123,35 +126,43 @@ export default async function SubscriptionEndedPage({
           </Card>
         )}
 
-        {/* Reactivate CTA */}
-        <Card className="border-primary/20">
-          <CardContent className="space-y-4 pt-6">
-            <a href="mailto:hello@sopia.xyz?subject=Reactivate subscription" className="block">
-              <Button className="w-full" size="lg">
-                {t("reactivateCta")}
-                <ArrowRightIcon className="h-4 w-4 ml-1" />
-              </Button>
-            </a>
-            <p className="text-xs text-muted-foreground text-center">
-              {t("reactivateNote")}
-            </p>
-
-            <div className="flex items-center justify-between text-sm">
-              <Link
-                href="/pricing"
-                className="text-muted-foreground hover:text-foreground underline underline-offset-4"
-              >
-                {t("viewPricing")}
-              </Link>
-              <a
-                href="mailto:hello@sopia.xyz"
-                className="text-muted-foreground hover:text-foreground underline underline-offset-4"
-              >
-                {t("contactSupport")}
+        {/* Operator sees a contact-admin card; admin/manager see the reactivate CTA */}
+        {isOperator ? (
+          <Card className="border-primary/20">
+            <CardContent className="py-6 text-center text-sm text-muted-foreground">
+              {t("operatorContactAdmin")}
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="border-primary/20">
+            <CardContent className="space-y-4 pt-6">
+              <a href="mailto:hello@sopia.xyz?subject=Reactivate subscription" className="block">
+                <Button className="w-full" size="lg">
+                  {t("reactivateCta")}
+                  <ArrowRightIcon className="h-4 w-4 ml-1" />
+                </Button>
               </a>
-            </div>
-          </CardContent>
-        </Card>
+              <p className="text-xs text-muted-foreground text-center">
+                {t("reactivateNote")}
+              </p>
+
+              <div className="flex items-center justify-between text-sm">
+                <Link
+                  href="/pricing"
+                  className="text-muted-foreground hover:text-foreground underline underline-offset-4"
+                >
+                  {t("viewPricing")}
+                </Link>
+                <a
+                  href="mailto:hello@sopia.xyz"
+                  className="text-muted-foreground hover:text-foreground underline underline-offset-4"
+                >
+                  {t("contactSupport")}
+                </a>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Logout */}
         <div className="flex justify-center">

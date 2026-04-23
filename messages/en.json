@@ -244,7 +244,10 @@
     "upgradeCta": "Upgrade now",
     "upgradeNote": "We'll send you a payment link within 24 hours.",
     "contactToContinue": "Have questions? Contact us",
-    "viewFullPricing": "View full pricing details"
+    "viewFullPricing": "View full pricing details",
+    "operatorTitle": "Access paused",
+    "operatorDescription": "Your team's trial has ended. Your admin needs to upgrade the plan before you can continue.",
+    "operatorContactAdmin": "Please contact your admin to restore access."
   },
 
   "Nav": {
@@ -320,10 +323,22 @@
     "tabVersionHistory": "Version history",
     "smartSuggestion": "Smart suggestion",
     "smartSuggestionEscalations": "{count} open {count, plural, one {escalation} other {escalations}} for this SOP — review to update the procedure.",
+    "suggestionBasedOn": "Based on {count} recent help {count, plural, one {request} other {requests}}",
     "reviewEscalations": "Review escalations",
     "editComingSoon": "SOP editing is coming soon",
     "versionHistoryComingSoon": "Version history is coming soon",
-    "createdBy": "Created {date} by {name}"
+    "createdBy": "Created {date} by {name}",
+    "versionBadge": "v{version} · updated {updated}",
+    "editProcess": "Edit SOP",
+    "sopText": "SOP document",
+    "sopTextHint": "Full procedure text shown to operators. Markdown supported.",
+    "checklistSteps": "Checklist steps",
+    "checklistStepsHint": "The actionable steps an operator will tick off during execution.",
+    "addStep": "Add step",
+    "removeStep": "Remove step",
+    "stepPlaceholder": "e.g., Open the till and count the float",
+    "saving": "Saving...",
+    "saveFailed": "Could not save changes. {error}"
   },
 
   "Assignments": {
@@ -638,7 +653,10 @@
     "reactivateCta": "Reactivate subscription",
     "reactivateNote": "Contact us and we'll get you back up and running.",
     "contactSupport": "Contact support",
-    "viewPricing": "View pricing"
+    "viewPricing": "View pricing",
+    "operatorTitle": "Access paused",
+    "operatorDescription": "Your team's subscription has ended. Your admin needs to reactivate before you can continue.",
+    "operatorContactAdmin": "Please contact your admin to restore access."
   },
 
   "DeleteAccount": {

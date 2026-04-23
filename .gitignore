@@ -26,6 +26,8 @@
 
 # claude code
 .claude/mcp.json
+.claude/settings.local.json
+.claude/worktrees/
 .mcp.json
 
 # debug

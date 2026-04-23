@@ -70,22 +70,29 @@ export async function Header({
   const planName = th("premium");
   const planPrice = "€99";
 
+  // Operators should not see billing details/CTAs — only status
+  const canSeeBilling = session.role === "admin" || session.role === "manager";
+
   const initials = session.email.slice(0, 2).toUpperCase();
 
   return (
-    <>
+    <div className="sticky top-0 z-40">
       {/* Trial banner */}
       {isTrialing && trialDaysLeft !== null && (
         <div className="bg-amber-100 border-b border-amber-300 dark:bg-amber-900/40 dark:border-amber-800">
           <div className="container mx-auto px-4 py-2 flex items-center justify-center gap-2 text-sm font-medium text-amber-800 dark:text-amber-300">
             <span>{th("trialDays", { days: trialDaysLeft })}</span>
-            <span className="text-amber-400 dark:text-amber-600">&middot;</span>
-            <Link
-              href="/pricing"
-              className="font-semibold underline underline-offset-2 hover:text-amber-950 dark:hover:text-amber-200"
-            >
-              {th("upgradeNow")}
-            </Link>
+            {canSeeBilling && (
+              <>
+                <span className="text-amber-400 dark:text-amber-600">&middot;</span>
+                <Link
+                  href="/pricing"
+                  className="font-semibold underline underline-offset-2 hover:text-amber-950 dark:hover:text-amber-200"
+                >
+                  {th("upgradeNow")}
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -95,7 +102,7 @@ export async function Header({
         <div className="bg-amber-50 border-b border-amber-200 dark:bg-amber-950/30 dark:border-amber-900/50">
           <div className="container mx-auto px-4 py-2.5 flex items-center gap-3 flex-wrap text-sm">
             <AlertTriangleIcon className="size-4 text-amber-600 dark:text-amber-400 shrink-0" />
-            <p className="flex-1 min-w-0 text-amber-900 dark:text-amber-100">
+            <p className="min-w-0 text-amber-900 dark:text-amber-100">
               <span className="font-semibold">
                 {periodDaysLeft === 0
                   ? th("renewalTodayTitle", {
@@ -107,21 +114,28 @@ export async function Header({
                       date: renewalDate,
                       days: periodDaysLeft,
                     })}
-              </span>{" "}
-              <span className="text-amber-700/90 dark:text-amber-200/70">
-                {periodDaysLeft === 0
-                  ? th("renewalTodaySub", { price: planPrice })
-                  : th("renewalSoonSub", { price: planPrice })}
               </span>
+              {canSeeBilling && (
+                <>
+                  {" "}
+                  <span className="text-amber-700/90 dark:text-amber-200/70">
+                    {periodDaysLeft === 0
+                      ? th("renewalTodaySub", { price: planPrice })
+                      : th("renewalSoonSub", { price: planPrice })}
+                  </span>
+                </>
+              )}
             </p>
-            <Link href="/pricing">
-              <Button
-                size="sm"
-                className="bg-amber-600 hover:bg-amber-700 text-white gap-1.5"
-              >
-                {th("manageBilling")}
-              </Button>
-            </Link>
+            {canSeeBilling && (
+              <Link href="/pricing">
+                <Button
+                  size="sm"
+                  className="bg-amber-600 hover:bg-amber-700 text-white gap-1.5"
+                >
+                  {th("manageBilling")}
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       )}
@@ -132,13 +146,17 @@ export async function Header({
           <div className="container mx-auto px-4 py-2 flex items-center justify-center gap-2 text-sm font-medium text-red-800 dark:text-red-300">
             <AlertTriangleIcon className="size-4 shrink-0" />
             <span>{th("pastDueWarning")}</span>
-            <span className="text-red-400 dark:text-red-600">&middot;</span>
-            <a
-              href="mailto:hello@sopia.xyz?subject=Update payment method"
-              className="font-semibold underline underline-offset-2 hover:text-red-950 dark:hover:text-red-200"
-            >
-              {th("updatePayment")}
-            </a>
+            {canSeeBilling && (
+              <>
+                <span className="text-red-400 dark:text-red-600">&middot;</span>
+                <a
+                  href="mailto:hello@sopia.xyz?subject=Update payment method"
+                  className="font-semibold underline underline-offset-2 hover:text-red-950 dark:hover:text-red-200"
+                >
+                  {th("updatePayment")}
+                </a>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -149,13 +167,17 @@ export async function Header({
           <div className="container mx-auto px-4 py-2 flex items-center justify-center gap-2 text-sm font-medium text-amber-800 dark:text-amber-300">
             <InfoIcon className="size-4 shrink-0" />
             <span>{th("cancelledCountdown", { days: periodDaysLeft })}</span>
-            <span className="text-amber-400 dark:text-amber-600">&middot;</span>
-            <a
-              href="mailto:hello@sopia.xyz?subject=Reactivate subscription"
-              className="font-semibold underline underline-offset-2 hover:text-amber-950 dark:hover:text-amber-200"
-            >
-              {th("reactivate")}
-            </a>
+            {canSeeBilling && (
+              <>
+                <span className="text-amber-400 dark:text-amber-600">&middot;</span>
+                <a
+                  href="mailto:hello@sopia.xyz?subject=Reactivate subscription"
+                  className="font-semibold underline underline-offset-2 hover:text-amber-950 dark:hover:text-amber-200"
+                >
+                  {th("reactivate")}
+                </a>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -222,6 +244,6 @@ export async function Header({
           </div>
         </div>
       </header>
-    </>
+    </div>
   );
 }

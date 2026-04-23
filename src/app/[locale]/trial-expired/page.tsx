@@ -32,6 +32,7 @@ export default async function TrialExpiredPage({
 
   // Fetch org stats to show what they built
   const session = await getSessionContext();
+  const isOperator = session?.role === "operator";
   let processCount = 0;
   let memberCount = 0;
   let executionCount = 0;
@@ -70,9 +71,11 @@ export default async function TrialExpiredPage({
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-amber-100 text-amber-600 mx-auto">
             <ZapIcon className="h-7 w-7" />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">{t("title")}</h1>
+          <h1 className="text-2xl font-bold tracking-tight">
+            {isOperator ? t("operatorTitle") : t("title")}
+          </h1>
           <p className="text-muted-foreground text-base max-w-md mx-auto">
-            {t("description")}
+            {isOperator ? t("operatorDescription") : t("description")}
           </p>
         </div>
 
@@ -125,7 +128,14 @@ export default async function TrialExpiredPage({
           </Card>
         )}
 
-        {/* Upgrade CTA card */}
+        {/* Operator sees a contact-admin card instead of upgrade CTA */}
+        {isOperator ? (
+          <Card className="border-primary/20">
+            <CardContent className="py-6 text-center text-sm text-muted-foreground">
+              {t("operatorContactAdmin")}
+            </CardContent>
+          </Card>
+        ) : (
         <Card className="border-primary/20">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
@@ -178,6 +188,7 @@ export default async function TrialExpiredPage({
             </div>
           </CardContent>
         </Card>
+        )}
 
         {/* Logout */}
         <div className="flex justify-center">

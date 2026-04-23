@@ -244,7 +244,10 @@
     "upgradeCta": "Upgradeaza acum",
     "upgradeNote": "Iti vom trimite un link de plata in 24 de ore.",
     "contactToContinue": "Ai intrebari? Contacteaza-ne",
-    "viewFullPricing": "Vezi toate detaliile de pret"
+    "viewFullPricing": "Vezi toate detaliile de pret",
+    "operatorTitle": "Acces suspendat",
+    "operatorDescription": "Perioada de proba a echipei tale s-a incheiat. Adminul trebuie sa upgradeze planul ca sa poti continua.",
+    "operatorContactAdmin": "Contacteaza adminul ca sa restabilesti accesul."
   },
 
   "Nav": {
@@ -315,10 +318,22 @@
     "tabVersionHistory": "Istoric versiuni",
     "smartSuggestion": "Sugestie inteligenta",
     "smartSuggestionEscalations": "{count} {count, plural, one {escalare deschisa} other {escalari deschise}} pentru acest SOP — revizuieste pentru a actualiza procedura.",
+    "suggestionBasedOn": "Pe baza a {count} {count, plural, one {cerere recenta} other {cereri recente}} de ajutor",
     "reviewEscalations": "Revizuieste escalarile",
     "editComingSoon": "Editarea SOP-urilor va fi disponibila in curand",
     "versionHistoryComingSoon": "Istoricul versiunilor va fi disponibil in curand",
     "createdBy": "Creat {date} de {name}",
+    "versionBadge": "v{version} · actualizat {updated}",
+    "editProcess": "Editeaza SOP",
+    "sopText": "Document SOP",
+    "sopTextHint": "Textul complet al procedurii afisat operatorilor. Markdown suportat.",
+    "checklistSteps": "Pasi checklist",
+    "checklistStepsHint": "Pasii pe care operatorul ii va bifa in timpul executiei.",
+    "addStep": "Adauga pas",
+    "removeStep": "Sterge pasul",
+    "stepPlaceholder": "ex., Deschide casa si numara banii din fond",
+    "saving": "Se salveaza...",
+    "saveFailed": "Nu s-au putut salva modificarile. {error}",
     "executionHistory": "Istoricul executiilor",
     "noExecutions": "Nicio executie inca. Operatorii pot incepe executarea din panoul lor.",
     "aiHelpCount": "{count} AI",
@@ -623,7 +638,10 @@
     "reactivateCta": "Reactiveaza abonamentul",
     "reactivateNote": "Contacteaza-ne si te readucem online rapid.",
     "contactSupport": "Contacteaza suportul",
-    "viewPricing": "Vezi preturile"
+    "viewPricing": "Vezi preturile",
+    "operatorTitle": "Acces suspendat",
+    "operatorDescription": "Abonamentul echipei tale s-a incheiat. Adminul trebuie sa reactiveze ca sa poti continua.",
+    "operatorContactAdmin": "Contacteaza adminul ca sa restabilesti accesul."
   },
 
   "DeleteAccount": {

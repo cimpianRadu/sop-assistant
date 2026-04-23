@@ -10,11 +10,7 @@ import {
   FileTextIcon,
   ListChecksIcon,
   HistoryIcon,
-  LightbulbIcon,
-  ArrowRightIcon,
 } from "lucide-react";
-import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
 import type { ChecklistStep } from "@/lib/types";
 import type { TocItem } from "@/lib/sop-toc";
 
@@ -24,7 +20,7 @@ type Props = {
   sopText: string;
   toc: TocItem[];
   steps: ChecklistStep[];
-  openEscalationsCount: number;
+  suggestion?: React.ReactNode; // pre-rendered (server) smart suggestion card
   children?: React.ReactNode; // right rail content
 };
 
@@ -32,7 +28,7 @@ export function ProcessDetailView({
   sopText,
   toc,
   steps,
-  openEscalationsCount,
+  suggestion,
   children,
 }: Props) {
   const t = useTranslations("Manager");
@@ -104,25 +100,7 @@ export function ProcessDetailView({
 
           {/* Right rail — suggestion + provided content */}
           <aside className="flex flex-col gap-3 lg:col-start-3">
-            {openEscalationsCount > 0 && (
-              <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
-                <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-primary mb-2">
-                  <LightbulbIcon className="size-3.5" />
-                  {t("smartSuggestion")}
-                </div>
-                <p className="text-[13px] leading-relaxed text-foreground mb-3">
-                  {t("smartSuggestionEscalations", {
-                    count: openEscalationsCount,
-                  })}
-                </p>
-                <Link href="/manager/escalations">
-                  <Button size="sm" className="w-full gap-1.5">
-                    {t("reviewEscalations")}
-                    <ArrowRightIcon className="size-3.5" />
-                  </Button>
-                </Link>
-              </div>
-            )}
+            {suggestion}
             {children}
           </aside>
         </div>

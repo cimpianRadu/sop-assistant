@@ -4,12 +4,14 @@ import { createClient } from "@/lib/supabase/server";
 import { Link } from "@/i18n/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Suspense } from "react";
 import { OperatorAssignments } from "@/components/manager/operator-assignments";
 import { StartExecutionButton } from "@/components/manager/start-execution-button";
 import { ProcessDetailView } from "@/components/manager/process-detail-view";
 import { EditSopButton } from "@/components/manager/edit-sop-button";
+import { SmartSuggestionCard } from "@/components/manager/smart-suggestion-card";
 import { getSessionContext } from "@/lib/session";
-import { formatDuration } from "@/lib/format";
+import { formatDuration, formatRelativeTime } from "@/lib/format";
 import { sopToHeadings } from "@/lib/sop-toc";
 import { BotIcon, ArrowRightIcon, ChevronRightIcon } from "lucide-react";
 import type {
@@ -132,13 +134,22 @@ export default async function ProcessDetailPage({
             <Badge variant={isActive ? "success" : "neutral"}>
               {isActive ? t("statusActive") : t("statusDraft")}
             </Badge>
+            <Badge variant="neutral">
+              {t("versionBadge", {
+                version: process.current_version ?? 1,
+                updated: formatRelativeTime(
+                  process.updated_at ?? process.created_at,
+                  locale
+                ),
+              })}
+            </Badge>
             <span className="text-xs text-muted-foreground">
               {t("createdBy", { date: createdDate, name: creatorName })}
             </span>
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <EditSopButton />
+          <EditSopButton processId={id} />
           <StartExecutionButton processId={id} />
         </div>
       </div>
@@ -159,7 +170,23 @@ export default async function ProcessDetailPage({
         sopText={process.sop_text}
         toc={toc}
         steps={stepsList}
-        openEscalationsCount={openEscalationsCount || 0}
+        suggestion={
+          <Suspense
+            fallback={
+              <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
+                <div className="h-3 w-24 rounded bg-primary/20 animate-pulse mb-2" />
+                <div className="h-3 w-full rounded bg-muted animate-pulse mb-1.5" />
+                <div className="h-3 w-2/3 rounded bg-muted animate-pulse" />
+              </div>
+            }
+          >
+            <SmartSuggestionCard
+              processId={id}
+              locale={locale}
+              openEscalationsCount={openEscalationsCount || 0}
+            />
+          </Suspense>
+        }
       >
         {/* Right rail content: operators + execution history */}
         <OperatorAssignments
