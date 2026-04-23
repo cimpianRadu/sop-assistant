@@ -311,7 +311,19 @@
     "cardLastRun": "Last run {when}",
     "cardNoRuns": "No runs yet",
     "statusActive": "Active",
-    "statusDraft": "Draft"
+    "statusDraft": "Draft",
+    "editSop": "Edit SOP",
+    "startExecution": "Start execution",
+    "onThisPage": "On this page",
+    "tabDocument": "Document",
+    "tabChecklist": "Checklist",
+    "tabVersionHistory": "Version history",
+    "smartSuggestion": "Smart suggestion",
+    "smartSuggestionEscalations": "{count} open {count, plural, one {escalation} other {escalations}} for this SOP — review to update the procedure.",
+    "reviewEscalations": "Review escalations",
+    "editComingSoon": "SOP editing is coming soon",
+    "versionHistoryComingSoon": "Version history is coming soon",
+    "createdBy": "Created {date} by {name}"
   },
 
   "Assignments": {
