@@ -52,27 +52,47 @@ export function ProcessCard({ process, locale = "en" }: Props) {
         </p>
 
         {enriched && (
-          <div className="flex items-center gap-3 text-[11px] text-muted-foreground pt-2 mt-auto border-t flex-wrap">
-            <span className="flex items-center gap-1 tabular-nums">
-              <ListChecksIcon className="size-3" />
-              {enriched.stepCount}
+          <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-[11px] text-muted-foreground pt-3 mt-auto border-t">
+            <span className="flex items-center gap-1.5 tabular-nums">
+              <ListChecksIcon className="size-3.5 shrink-0 text-muted-foreground/70" />
+              <span className="font-medium text-foreground">
+                {enriched.stepCount}
+              </span>
+              <span className="truncate">
+                {enriched.stepCount === 1 ? "step" : "steps"}
+              </span>
             </span>
-            <span className="flex items-center gap-1 tabular-nums">
-              <PlayIcon className="size-3" />
-              {enriched.totalRuns}
+            <span className="flex items-center gap-1.5 tabular-nums">
+              <PlayIcon className="size-3.5 shrink-0 text-muted-foreground/70" />
+              <span className="font-medium text-foreground">
+                {enriched.totalRuns}
+              </span>
+              <span className="truncate">
+                {enriched.totalRuns === 1 ? "run" : "runs"}
+              </span>
             </span>
-            {enriched.operatorCount > 0 && (
-              <span className="flex items-center gap-1 tabular-nums">
-                <UsersIcon className="size-3" />
+            <span className="flex items-center gap-1.5 tabular-nums">
+              <UsersIcon className="size-3.5 shrink-0 text-muted-foreground/70" />
+              <span className="font-medium text-foreground">
                 {enriched.operatorCount}
               </span>
-            )}
-            {enriched.lastRunAt && (
-              <span className="flex items-center gap-1 ml-auto">
-                <ClockIcon className="size-3" />
-                {formatRelativeTime(enriched.lastRunAt, locale)}
+              <span className="truncate">
+                {enriched.operatorCount === 1 ? "operator" : "operators"}
               </span>
-            )}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <ClockIcon className="size-3.5 shrink-0 text-muted-foreground/70" />
+              {enriched.lastRunAt ? (
+                <span className="truncate">
+                  Last run{" "}
+                  <span className="font-medium text-foreground">
+                    {formatRelativeTime(enriched.lastRunAt, locale)}
+                  </span>
+                </span>
+              ) : (
+                <span className="italic">No runs yet</span>
+              )}
+            </span>
           </div>
         )}
 

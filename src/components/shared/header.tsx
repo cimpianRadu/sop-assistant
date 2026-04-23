@@ -95,20 +95,25 @@ export async function Header({
         <div className="bg-amber-50 border-b border-amber-200 dark:bg-amber-950/30 dark:border-amber-900/50">
           <div className="container mx-auto px-4 py-2.5 flex items-center gap-3 flex-wrap text-sm">
             <AlertTriangleIcon className="size-4 text-amber-600 dark:text-amber-400 shrink-0" />
-            <span className="text-amber-900 dark:text-amber-100 flex-1 min-w-0">
-              {periodDaysLeft === 0
-                ? th("renewalToday", {
-                    plan: planName,
-                    date: renewalDate,
-                    price: planPrice,
-                  })
-                : th("renewalSoon", {
-                    plan: planName,
-                    date: renewalDate,
-                    price: planPrice,
-                    days: periodDaysLeft,
-                  })}
-            </span>
+            <p className="flex-1 min-w-0 text-amber-900 dark:text-amber-100">
+              <span className="font-semibold">
+                {periodDaysLeft === 0
+                  ? th("renewalTodayTitle", {
+                      plan: planName,
+                      date: renewalDate,
+                    })
+                  : th("renewalSoonTitle", {
+                      plan: planName,
+                      date: renewalDate,
+                      days: periodDaysLeft,
+                    })}
+              </span>{" "}
+              <span className="text-amber-700/90 dark:text-amber-200/70">
+                {periodDaysLeft === 0
+                  ? th("renewalTodaySub", { price: planPrice })
+                  : th("renewalSoonSub", { price: planPrice })}
+              </span>
+            </p>
             <Link href="/pricing">
               <Button
                 size="sm"

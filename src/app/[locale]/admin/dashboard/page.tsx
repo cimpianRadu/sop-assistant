@@ -249,7 +249,7 @@ export default async function AdminDashboard({
           </div>
           <div className="flex items-center gap-2">
             <Link href="/manager/processes">
-              <Button variant="ghost" size="sm">
+              <Button variant="outline" size="sm">
                 {tc("viewAll")}
               </Button>
             </Link>
