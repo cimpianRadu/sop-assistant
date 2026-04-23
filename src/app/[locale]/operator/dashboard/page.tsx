@@ -151,7 +151,7 @@ export default async function OperatorDashboard({
   }
 
   return (
-    <div className="max-w-5xl space-y-6">
+    <div className="max-w-7xl space-y-6">
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold tracking-tight">

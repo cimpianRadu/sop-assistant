@@ -134,7 +134,7 @@ export default async function ManagerDashboard({
       : null;
 
   return (
-    <div className="max-w-5xl space-y-6">
+    <div className="max-w-7xl space-y-6">
       {/* Org header */}
       <div>
         <h2 className="text-2xl font-bold tracking-tight">

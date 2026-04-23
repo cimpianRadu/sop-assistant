@@ -67,7 +67,7 @@ export function ProcessDetailView({
 
       {/* 3-column layout: TOC + main + rail (document tab) */}
       {tab === "document" && (
-        <div className="grid lg:grid-cols-[180px_1fr_280px] gap-5 items-start">
+        <div className="grid lg:grid-cols-[200px_1fr_340px] gap-6 items-start">
           {/* TOC — desktop only. Skip H1 (rendered as page title) */}
           {toc.filter((i) => i.level > 1).length > 0 && (
             <aside className="hidden lg:block sticky top-4">
@@ -112,7 +112,7 @@ export function ProcessDetailView({
 
       {/* Checklist tab */}
       {tab === "checklist" && (
-        <div className="grid lg:grid-cols-[1fr_260px] gap-5 items-start">
+        <div className="grid lg:grid-cols-[1fr_340px] gap-6 items-start">
           <Card>
             <CardHeader>
               <CardTitle className="text-base">
@@ -143,7 +143,7 @@ export function ProcessDetailView({
 
       {/* History tab */}
       {tab === "history" && (
-        <div className="grid lg:grid-cols-[1fr_260px] gap-5 items-start">
+        <div className="grid lg:grid-cols-[1fr_340px] gap-6 items-start">
           <div>{history}</div>
           <aside className="flex flex-col gap-3">{children}</aside>
         </div>

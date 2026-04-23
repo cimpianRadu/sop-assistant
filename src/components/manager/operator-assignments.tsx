@@ -7,7 +7,7 @@ import { assignOperator, removeOperator } from "@/lib/actions/assignments";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2Icon, Trash2Icon, UsersIcon } from "lucide-react";
+import { ChevronDownIcon, Loader2Icon, Trash2Icon, UsersIcon } from "lucide-react";
 import { EmptyState } from "@/components/shared/empty-state";
 import type { ProcessAssignmentWithProfile } from "@/lib/types";
 
@@ -75,23 +75,26 @@ export function OperatorAssignments({
         )}
 
         {availableOperators.length > 0 ? (
-          <div className="flex flex-col sm:flex-row gap-2">
-            <select
-              value={selectedOperatorId}
-              onChange={(e) => setSelectedOperatorId(e.target.value)}
-              className="flex-1 h-9 rounded-md border border-input bg-background px-3 text-sm"
-            >
-              <option value="">{t("selectOperator")}</option>
-              {availableOperators.map((op) => (
-                <option key={op.id} value={op.id}>
-                  {op.full_name ? `${op.full_name} (${op.email})` : op.email}
-                </option>
-              ))}
-            </select>
+          <div className="flex flex-col gap-2">
+            <div className="relative">
+              <select
+                value={selectedOperatorId}
+                onChange={(e) => setSelectedOperatorId(e.target.value)}
+                className="w-full h-10 appearance-none rounded-md border border-input bg-background pl-3 pr-9 text-sm shadow-xs outline-none transition-[color,box-shadow] focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+              >
+                <option value="">{t("selectOperator")}</option>
+                {availableOperators.map((op) => (
+                  <option key={op.id} value={op.id}>
+                    {op.full_name ? `${op.full_name} (${op.email})` : op.email}
+                  </option>
+                ))}
+              </select>
+              <ChevronDownIcon className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+            </div>
             <Button
               onClick={handleAssign}
               disabled={assigning || !selectedOperatorId}
-              className="shrink-0"
+              className="w-full"
             >
               {assigning && <Loader2Icon className="h-4 w-4 animate-spin" />}
               {assigning ? t("assigning") : t("assign")}

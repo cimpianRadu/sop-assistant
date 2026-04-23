@@ -53,7 +53,7 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
         </aside>
 
         <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 min-w-0">
-          <div className="max-w-[1200px]">{children}</div>
+          {children}
         </main>
       </div>
     </div>
