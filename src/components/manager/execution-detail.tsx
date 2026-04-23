@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
+import { formatDuration } from "@/lib/format";
 import {
   CheckCircle2Icon,
   CircleIcon,
@@ -14,8 +15,13 @@ import {
   UserIcon,
   ClockIcon,
   AlertTriangleIcon,
+  SparklesIcon,
 } from "lucide-react";
-import type { Execution, ExecutionStepWithDetails, HelpRequest } from "@/lib/types";
+import type {
+  Execution,
+  ExecutionStepWithDetails,
+  HelpRequest,
+} from "@/lib/types";
 
 type ExecutionDetailProps = {
   execution: Execution;
@@ -24,16 +30,6 @@ type ExecutionDetailProps = {
   helpRequests: HelpRequest[];
   locale: string;
 };
-
-function formatDuration(startedAt: string, completedAt: string | null): string | null {
-  if (!completedAt) return null;
-  const ms = new Date(completedAt).getTime() - new Date(startedAt).getTime();
-  const totalMinutes = Math.floor(ms / 60000);
-  const hours = Math.floor(totalMinutes / 60);
-  const minutes = totalMinutes % 60;
-  if (hours > 0) return `${hours}h ${minutes}m`;
-  return `${minutes}m`;
-}
 
 export function ExecutionDetail({
   execution,
@@ -58,7 +54,12 @@ export function ExecutionDetail({
 
   const generalHelp = helpByStep.get(null) || [];
   const totalAiCount = helpRequests.length;
+  const escalatedCount = helpRequests.filter((h) => h.escalated).length;
+  const resolvedCount = totalAiCount - escalatedCount;
   const duration = formatDuration(execution.started_at, execution.completed_at);
+
+  const completedSteps = steps.filter((s) => s.completed).length;
+  const totalSteps = steps.length;
 
   function toggleStep(stepId: string) {
     setExpandedSteps((prev) => {
@@ -69,54 +70,152 @@ export function ExecutionDetail({
     });
   }
 
+  const isCompleted = execution.status === "completed";
+
   return (
     <div className="space-y-6">
       {/* Summary header */}
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+      <Card className="overflow-hidden">
+        <CardContent className="pt-6">
+          <div className="flex items-start justify-between gap-4 mb-5 flex-wrap">
             <div>
-              <p className="text-muted-foreground">{t("operator")}</p>
-              <p className="font-medium">{operatorName}</p>
+              <h2 className="text-xl font-bold tracking-tight">{t("title")}</h2>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                {operatorName} · {completedSteps} / {totalSteps} steps
+              </p>
             </div>
+            <Badge
+              variant={isCompleted ? "default" : "secondary"}
+              className="text-xs gap-1"
+            >
+              {isCompleted ? (
+                <CheckCircle2Icon className="size-3" />
+              ) : (
+                <ClockIcon className="size-3" />
+              )}
+              {isCompleted ? tc("completed") : tc("inProgress")}
+            </Badge>
+          </div>
+
+          <dl className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
             <div>
-              <p className="text-muted-foreground">{t("status")}</p>
-              <Badge variant={execution.status === "completed" ? "default" : "secondary"}>
-                {execution.status === "completed" ? tc("completed") : tc("inProgress")}
-              </Badge>
-            </div>
-            <div>
-              <p className="text-muted-foreground">{t("startedAt")}</p>
-              <p className="font-medium">{new Date(execution.started_at).toLocaleDateString(locale)}</p>
+              <dt className="text-xs uppercase tracking-wide text-muted-foreground font-medium">
+                {t("startedAt")}
+              </dt>
+              <dd className="font-medium mt-1">
+                {new Date(execution.started_at).toLocaleDateString(locale, {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </dd>
             </div>
             {execution.completed_at && (
               <div>
-                <p className="text-muted-foreground">{t("completedAt")}</p>
-                <p className="font-medium">{new Date(execution.completed_at).toLocaleDateString(locale)}</p>
+                <dt className="text-xs uppercase tracking-wide text-muted-foreground font-medium">
+                  {t("completedAt")}
+                </dt>
+                <dd className="font-medium mt-1">
+                  {new Date(execution.completed_at).toLocaleDateString(locale, {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </dd>
               </div>
             )}
             {duration && (
               <div>
-                <p className="text-muted-foreground">{t("duration")}</p>
-                <p className="font-medium flex items-center gap-1">
+                <dt className="text-xs uppercase tracking-wide text-muted-foreground font-medium">
+                  {t("duration")}
+                </dt>
+                <dd className="font-medium mt-1 flex items-center gap-1">
                   <ClockIcon className="size-3.5" />
                   {duration}
-                </p>
+                </dd>
               </div>
             )}
             <div>
-              <p className="text-muted-foreground">{t("totalAiInteractions")}</p>
-              <p className="font-medium flex items-center gap-1">
+              <dt className="text-xs uppercase tracking-wide text-muted-foreground font-medium">
+                {t("totalAiInteractions")}
+              </dt>
+              <dd className="font-medium mt-1 flex items-center gap-1">
                 <BotIcon className="size-3.5" />
                 {totalAiCount}
-              </p>
+                {totalAiCount > 0 && (
+                  <span className="text-xs text-muted-foreground font-normal ml-1">
+                    ({resolvedCount} resolved
+                    {escalatedCount > 0 && `, ${escalatedCount} escalated`})
+                  </span>
+                )}
+              </dd>
             </div>
-          </div>
+          </dl>
         </CardContent>
       </Card>
+
+      {/* Friction summary — shown when there were AI interactions */}
+      {totalAiCount > 0 && (
+        <Card className="border-amber-200 bg-amber-50/50 dark:bg-amber-950/20 dark:border-amber-900/50">
+          <CardContent className="pt-6">
+            <div className="flex items-start gap-3 mb-4">
+              <div className="size-8 rounded-lg bg-amber-500 text-white grid place-items-center shrink-0">
+                <SparklesIcon className="size-4" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h3 className="font-semibold text-sm">
+                  Friction points in this run
+                </h3>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  {totalAiCount}{" "}
+                  {totalAiCount === 1 ? "question asked" : "questions asked"}
+                  {escalatedCount > 0 && (
+                    <>
+                      {" "}
+                      — {resolvedCount} resolved by AI, {escalatedCount}{" "}
+                      escalated to you
+                    </>
+                  )}
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              {helpRequests.slice(0, 3).map((hr) => {
+                const step = steps.find(
+                  (s) => s.checklist_step_id === hr.checklist_step_id
+                );
+                return (
+                  <div
+                    key={hr.id}
+                    className="flex items-center gap-3 bg-background border rounded-md px-3 py-2 text-sm"
+                  >
+                    <span className="text-xs font-semibold text-muted-foreground tabular-nums shrink-0 min-w-[3rem]">
+                      {step
+                        ? `Step ${step.checklist_steps.step_number}`
+                        : "General"}
+                    </span>
+                    <Badge
+                      variant={hr.escalated ? "destructive" : "outline"}
+                      className="text-[10px] py-0 px-1.5 shrink-0"
+                    >
+                      {hr.escalated ? "Escalated" : "Resolved"}
+                    </Badge>
+                    <span className="truncate flex-1 text-sm">
+                      &ldquo;{hr.question}&rdquo;
+                    </span>
+                  </div>
+                );
+              })}
+              {helpRequests.length > 3 && (
+                <p className="text-xs text-muted-foreground pl-[3.75rem]">
+                  + {helpRequests.length - 3} more below
+                </p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Step timeline */}
       <Card>
@@ -125,38 +224,76 @@ export function ExecutionDetail({
         </CardHeader>
         <CardContent className="space-y-2">
           {steps.length === 0 ? (
-            <p className="text-sm text-muted-foreground text-center py-4">{t("noSteps")}</p>
+            <p className="text-sm text-muted-foreground text-center py-4">
+              {t("noSteps")}
+            </p>
           ) : (
             steps.map((step) => {
               const stepHelp = helpByStep.get(step.checklist_step_id) || [];
               const isExpanded = expandedSteps.has(step.id);
               const hasHelp = stepHelp.length > 0;
+              const hasEscalation = stepHelp.some((h) => h.escalated);
 
               return (
-                <div key={step.id} className="border rounded-lg">
+                <div
+                  key={step.id}
+                  className={`border rounded-lg transition-colors ${
+                    isExpanded ? "shadow-sm" : ""
+                  } ${
+                    hasEscalation
+                      ? "border-amber-300 dark:border-amber-900/50"
+                      : ""
+                  }`}
+                >
                   <button
                     onClick={() => hasHelp && toggleStep(step.id)}
-                    className={`w-full flex items-center gap-3 p-3 text-left ${hasHelp ? "cursor-pointer hover:bg-muted/50" : "cursor-default"}`}
+                    className={`w-full flex items-center gap-3 p-3 text-left ${
+                      hasHelp
+                        ? "cursor-pointer hover:bg-muted/50"
+                        : "cursor-default"
+                    }`}
                   >
                     {step.completed ? (
-                      <CheckCircle2Icon className="size-5 text-primary shrink-0 fill-primary/10" />
+                      hasEscalation ? (
+                        <AlertTriangleIcon className="size-5 text-amber-500 shrink-0" />
+                      ) : (
+                        <CheckCircle2Icon className="size-5 text-primary shrink-0 fill-primary/10" />
+                      )
                     ) : (
                       <CircleIcon className="size-5 text-muted-foreground/40 shrink-0" />
                     )}
                     <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-medium ${step.completed ? "" : "text-muted-foreground"}`}>
-                        {t("step", { number: step.checklist_steps.step_number })}:{" "}
-                        {step.checklist_steps.step_text}
+                      <p
+                        className={`text-sm font-medium ${
+                          step.completed ? "" : "text-muted-foreground"
+                        }`}
+                      >
+                        {t("step", {
+                          number: step.checklist_steps.step_number,
+                        })}
+                        : {step.checklist_steps.step_text}
                       </p>
                       <p className="text-xs text-muted-foreground mt-0.5">
                         {step.completed && step.completed_at
-                          ? t("completedStep", { date: new Date(step.completed_at).toLocaleString(locale) })
+                          ? t("completedStep", {
+                              date: new Date(
+                                step.completed_at
+                              ).toLocaleString(locale, {
+                                month: "short",
+                                day: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              }),
+                            })
                           : t("pendingStep")}
                       </p>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       {hasHelp && (
-                        <Badge variant="outline" className="text-xs gap-1">
+                        <Badge
+                          variant={hasEscalation ? "destructive" : "outline"}
+                          className="text-xs gap-1"
+                        >
                           <BotIcon className="size-3" />
                           <span className="sm:hidden">{stepHelp.length}</span>
                           <span className="hidden sm:inline">
@@ -164,20 +301,23 @@ export function ExecutionDetail({
                           </span>
                         </Badge>
                       )}
-                      {hasHelp && (
-                        isExpanded ? (
+                      {hasHelp &&
+                        (isExpanded ? (
                           <ChevronDownIcon className="size-4 text-muted-foreground" />
                         ) : (
                           <ChevronRightIcon className="size-4 text-muted-foreground" />
-                        )
-                      )}
+                        ))}
                     </div>
                   </button>
 
                   {isExpanded && (
-                    <div className="border-t px-3 py-2 space-y-3 bg-muted/30">
+                    <div className="border-t px-3 py-3 space-y-3 bg-muted/30">
                       {stepHelp.map((hr) => (
-                        <HelpRequestCard key={hr.id} helpRequest={hr} locale={locale} />
+                        <HelpRequestCard
+                          key={hr.id}
+                          helpRequest={hr}
+                          locale={locale}
+                        />
                       ))}
                     </div>
                   )}
@@ -212,7 +352,11 @@ export function ExecutionDetail({
           {expandedGeneral && (
             <CardContent className="space-y-3">
               {generalHelp.map((hr) => (
-                <HelpRequestCard key={hr.id} helpRequest={hr} locale={locale} />
+                <HelpRequestCard
+                  key={hr.id}
+                  helpRequest={hr}
+                  locale={locale}
+                />
               ))}
             </CardContent>
           )}
@@ -222,40 +366,82 @@ export function ExecutionDetail({
   );
 }
 
-function HelpRequestCard({ helpRequest, locale }: { helpRequest: HelpRequest; locale: string }) {
+function HelpRequestCard({
+  helpRequest,
+  locale,
+}: {
+  helpRequest: HelpRequest;
+  locale: string;
+}) {
   const t = useTranslations("ExecutionDetail");
 
   return (
-    <div className="space-y-2 text-sm">
-      <div className="flex items-start gap-2">
-        <UserIcon className="size-4 mt-0.5 text-muted-foreground shrink-0" />
-        <div>
-          <p className="text-xs text-muted-foreground font-medium">
-            {t("question")} · {new Date(helpRequest.created_at).toLocaleString(locale)}
-          </p>
-          <p className="mt-0.5">{helpRequest.question}</p>
+    <div className="space-y-3 text-sm">
+      {/* Operator question — as bubble */}
+      <div className="bg-background border rounded-lg p-3">
+        <div className="flex items-center gap-1.5 mb-1.5">
+          <UserIcon className="size-3.5 text-muted-foreground" />
+          <span className="text-[10px] uppercase tracking-wide font-semibold text-muted-foreground">
+            {t("question")} ·{" "}
+            {new Date(helpRequest.created_at).toLocaleString(locale, {
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </span>
         </div>
+        <p className="leading-relaxed">{helpRequest.question}</p>
       </div>
+
+      {/* AI response — green-tinted bubble */}
       {helpRequest.ai_response && (
-        <div className="flex items-start gap-2">
-          <BotIcon className="size-4 mt-0.5 text-muted-foreground shrink-0" />
-          <div className="min-w-0">
-            <p className="text-xs text-muted-foreground font-medium">{t("aiResponse")}</p>
-            <div className="mt-0.5">
-              <MarkdownRenderer content={helpRequest.ai_response} className="text-sm" />
-            </div>
+        <div
+          className={`rounded-lg p-3 border ${
+            helpRequest.escalated
+              ? "bg-amber-50/50 border-amber-200 dark:bg-amber-950/30 dark:border-amber-900/50"
+              : "bg-primary/5 border-primary/20"
+          }`}
+        >
+          <div className="flex items-center gap-1.5 mb-1.5">
+            <BotIcon
+              className={`size-3.5 ${
+                helpRequest.escalated
+                  ? "text-amber-600 dark:text-amber-400"
+                  : "text-primary"
+              }`}
+            />
+            <span
+              className={`text-[10px] uppercase tracking-wide font-semibold ${
+                helpRequest.escalated
+                  ? "text-amber-700 dark:text-amber-400"
+                  : "text-primary"
+              }`}
+            >
+              {t("aiResponse")}
+            </span>
           </div>
+          <MarkdownRenderer
+            content={helpRequest.ai_response}
+            className="text-sm"
+          />
         </div>
       )}
-      {helpRequest.escalated && helpRequest.escalation_note && (
-        <div className="flex items-start gap-2">
-          <AlertTriangleIcon className="size-4 mt-0.5 text-amber-500 shrink-0" />
-          <div className="min-w-0">
-            <p className="text-xs text-amber-600 dark:text-amber-400 font-medium">{t("escalated")}</p>
-            <div className="mt-0.5 text-sm text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 rounded px-2 py-1">
-              {helpRequest.escalation_note}
-            </div>
+
+      {/* Escalation banner */}
+      {helpRequest.escalated && (
+        <div className="rounded-lg border border-amber-300 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-900/50 p-3">
+          <div className="flex items-center gap-1.5 mb-1">
+            <AlertTriangleIcon className="size-3.5 text-amber-600 dark:text-amber-400" />
+            <span className="text-[10px] uppercase tracking-wide font-semibold text-amber-700 dark:text-amber-400">
+              {t("escalated")}
+            </span>
           </div>
+          {helpRequest.escalation_note && (
+            <p className="text-sm text-amber-900 dark:text-amber-100">
+              {helpRequest.escalation_note}
+            </p>
+          )}
         </div>
       )}
     </div>

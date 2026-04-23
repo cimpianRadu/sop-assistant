@@ -2,8 +2,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { Button } from "@/components/ui/button";
 import { ChecklistExecutor } from "@/components/operator/checklist-executor";
+import { ChevronRightIcon } from "lucide-react";
 import type { ExecutionStepWithDetails } from "@/lib/types";
 
 export default async function ExecutionPage({
@@ -14,6 +14,7 @@ export default async function ExecutionPage({
   const { locale, id, executionId } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("Operator");
+  const tc = await getTranslations("Common");
   const supabase = await createClient();
 
   const { data: execution, error: executionError } = await supabase
@@ -47,17 +48,42 @@ export default async function ExecutionPage({
     .order("checklist_steps(step_number)");
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <Link href={`/operator/processes/${id}`}>
-        <Button variant="ghost" size="sm">
-          {t("backToProcess")}
-        </Button>
-      </Link>
+    <div className="max-w-3xl mx-auto space-y-6">
+      {/* Breadcrumbs */}
+      <nav
+        aria-label="Breadcrumb"
+        className="flex items-center gap-1.5 text-sm text-muted-foreground overflow-x-auto"
+      >
+        <Link
+          href="/operator/dashboard"
+          className="hover:text-foreground shrink-0"
+        >
+          {tc("dashboard")}
+        </Link>
+        <ChevronRightIcon className="size-3.5 shrink-0" />
+        <Link
+          href={`/operator/processes/${id}`}
+          className="hover:text-foreground truncate min-w-0"
+        >
+          {process?.title || "Process"}
+        </Link>
+        <ChevronRightIcon className="size-3.5 shrink-0" />
+        <span className="text-foreground shrink-0">Execute</span>
+      </nav>
 
+      {/* Title */}
       <div>
-        <h2 className="text-2xl font-bold">{process?.title}</h2>
-        <p className="text-sm text-muted-foreground">
-          {t("executionStarted", { date: new Date(execution.started_at).toLocaleDateString() })}
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+          {process?.title}
+        </h2>
+        <p className="text-sm text-muted-foreground mt-1">
+          {t("executionStarted", {
+            date: new Date(execution.started_at).toLocaleDateString(locale, {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            }),
+          })}
         </p>
       </div>
 

@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { ProcessList } from "@/components/manager/process-list";
 import { EscalationList } from "@/components/manager/escalation-list";
 import { MemberList } from "@/components/admin/member-list";
+import { AlertTriangle } from "lucide-react";
 import type {
   ProcessWithCreator,
   HelpRequestWithDetails,
@@ -30,7 +31,6 @@ export default async function AdminDashboard({
 
   const supabase = await createClient();
 
-  // Fetch org details, members, and processes in parallel
   const [{ data: org }, { data: members }, { data: processes }] =
     await Promise.all([
       supabase
@@ -59,7 +59,6 @@ export default async function AdminDashboard({
   let escalations: HelpRequestWithDetails[] | null = null;
 
   if (processIds.length > 0) {
-    // Fetch all execution counts and escalations in parallel
     const [
       { count: totalCount },
       { count: completedCount },
@@ -97,6 +96,7 @@ export default async function AdminDashboard({
     escalations = escalationsData;
   }
 
+  const openEscalationsCount = (escalations || []).length;
   const allProcesses = (processes as ProcessWithCreator[]) || [];
   const PROCESS_LIMIT = 6;
   const visibleProcesses = allProcesses.slice(0, PROCESS_LIMIT);
@@ -104,7 +104,7 @@ export default async function AdminDashboard({
   const orgDate = org?.created_at
     ? new Date(org.created_at).toLocaleDateString(locale, {
         year: "numeric",
-        month: "long",
+        month: "short",
         day: "numeric",
       })
     : null;
@@ -113,15 +113,67 @@ export default async function AdminDashboard({
     <div className="space-y-6">
       {/* Org header */}
       <div>
-        <h2 className="text-2xl font-bold">{session.org_name}</h2>
+        <h2 className="text-2xl font-bold tracking-tight">{session.org_name}</h2>
         {orgDate && (
-          <p className="text-sm text-muted-foreground">
-            {t("createdAt", { date: orgDate })}
+          <p className="text-sm text-muted-foreground mt-0.5">
+            {t("createdAt", { date: orgDate })} · {memberCount} {memberCount === 1 ? "member" : "members"} · {processCount} {processCount === 1 ? "process" : "processes"}
           </p>
         )}
       </div>
 
-      {/* Processes section with inline stats */}
+      {/* Stat cards — promoted from the buried amber pill */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
+        <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
+          <p className="text-xs text-muted-foreground">
+            {t("totalExecutions")}
+          </p>
+          <p className="text-2xl font-bold tabular-nums mt-1">{totalExecutions}</p>
+        </div>
+        <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
+          <p className="text-xs text-muted-foreground">
+            {t("inProgressExecutions")}
+          </p>
+          <p className="text-2xl font-bold tabular-nums mt-1">{inProgressExecutions}</p>
+        </div>
+        <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
+          <p className="text-xs text-muted-foreground">
+            {t("completedExecutions")}
+          </p>
+          <p className="text-2xl font-bold tabular-nums mt-1 text-primary">
+            {completedExecutions}
+          </p>
+        </div>
+        <div
+          className={`rounded-lg border px-3 sm:px-4 py-3 ${
+            openEscalationsCount > 0
+              ? "border-destructive/40 bg-destructive/5"
+              : "bg-card"
+          }`}
+        >
+          <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+            {openEscalationsCount > 0 && (
+              <AlertTriangle className="size-3.5 text-destructive" />
+            )}
+            {t("openEscalations")}
+          </p>
+          <p
+            className={`text-2xl font-bold tabular-nums mt-1 ${
+              openEscalationsCount > 0 ? "text-destructive" : ""
+            }`}
+          >
+            {openEscalationsCount}
+          </p>
+        </div>
+      </div>
+
+      {/* Escalations — moved to TOP when there are any */}
+      {openEscalationsCount > 0 && (
+        <EscalationList
+          escalations={(escalations as HelpRequestWithDetails[]) || []}
+        />
+      )}
+
+      {/* Processes section */}
       <div>
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
@@ -139,37 +191,10 @@ export default async function AdminDashboard({
             </Link>
           </div>
         </div>
-        <div className="inline-flex flex-col sm:flex-row gap-1 sm:gap-3 mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-muted-foreground dark:border-amber-900/50 dark:bg-amber-950/20">
-          <span>
-            {t("totalExecutions")}:{" "}
-            <span className="font-medium text-foreground">
-              {totalExecutions}
-            </span>
-          </span>
-          <span className="text-amber-300 dark:text-amber-800 hidden sm:inline">|</span>
-          <span>
-            {t("completedExecutions")}:{" "}
-            <span className="font-medium text-foreground">
-              {completedExecutions}
-            </span>
-          </span>
-          <span className="text-amber-300 dark:text-amber-800 hidden sm:inline">|</span>
-          <span>
-            {t("inProgressExecutions")}:{" "}
-            <span className="font-medium text-foreground">
-              {inProgressExecutions}
-            </span>
-          </span>
-        </div>
         <ProcessList processes={visibleProcesses} />
       </div>
 
-      {/* Escalations — always visible */}
-      <EscalationList
-        escalations={(escalations as HelpRequestWithDetails[]) || []}
-      />
-
-      {/* Members section with count in header */}
+      {/* Members section */}
       <div>
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
@@ -187,6 +212,13 @@ export default async function AdminDashboard({
           currentUserId={session.user_id}
         />
       </div>
+
+      {/* Empty-state escalations card — only shown when clear (confidence signal) */}
+      {openEscalationsCount === 0 && (
+        <EscalationList
+          escalations={(escalations as HelpRequestWithDetails[]) || []}
+        />
+      )}
     </div>
   );
 }

@@ -2,11 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getSessionContext } from "@/lib/session";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ClipboardListIcon, PlayIcon, ArrowRightIcon } from "lucide-react";
@@ -26,7 +22,6 @@ export default async function OperatorDashboard({
 
   const supabase = await createClient();
 
-  // Fetch all operator data in parallel
   const [
     { data: assignments },
     { count: totalCount },
@@ -63,7 +58,12 @@ export default async function OperatorDashboard({
       .order("started_at", { ascending: false }),
   ]);
 
-  type ProcessJoin = { id: string; title: string; description: string; created_at: string };
+  type ProcessJoin = {
+    id: string;
+    title: string;
+    description: string;
+    created_at: string;
+  };
   type ProfileJoin = { full_name: string | null; email: string };
 
   const processes = (assignments || []).map((a) => {
@@ -89,35 +89,47 @@ export default async function OperatorDashboard({
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">{t("assignedProcesses")}</h2>
+      {/* Header */}
+      <div>
+        <h2 className="text-2xl font-bold tracking-tight">
+          {t("assignedProcesses")}
+        </h2>
+        <p className="text-sm text-muted-foreground mt-0.5">
+          {session.org_name}
+        </p>
+      </div>
 
-      {/* Execution stats */}
+      {/* Stat cards */}
       {totalExecutions > 0 && (
-        <div className="inline-flex flex-col sm:flex-row gap-1 sm:gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-muted-foreground dark:border-amber-900/50 dark:bg-amber-950/20">
-          <span>
-            {ta("totalExecutions")}:{" "}
-            <span className="font-medium text-foreground">
+        <div className="grid grid-cols-3 gap-2 sm:gap-3">
+          <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
+            <p className="text-xs text-muted-foreground">
+              {ta("totalExecutions")}
+            </p>
+            <p className="text-2xl font-bold tabular-nums mt-1">
               {totalExecutions}
-            </span>
-          </span>
-          <span className="text-amber-300 dark:text-amber-800 hidden sm:inline">|</span>
-          <span>
-            {ta("completedExecutions")}:{" "}
-            <span className="font-medium text-foreground">
-              {completedExecutions}
-            </span>
-          </span>
-          <span className="text-amber-300 dark:text-amber-800 hidden sm:inline">|</span>
-          <span>
-            {ta("inProgressExecutions")}:{" "}
-            <span className="font-medium text-foreground">
+            </p>
+          </div>
+          <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
+            <p className="text-xs text-muted-foreground">
+              {ta("inProgressExecutions")}
+            </p>
+            <p className="text-2xl font-bold tabular-nums mt-1">
               {inProgressExecutions}
-            </span>
-          </span>
+            </p>
+          </div>
+          <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
+            <p className="text-xs text-muted-foreground">
+              {ta("completedExecutions")}
+            </p>
+            <p className="text-2xl font-bold tabular-nums mt-1 text-primary">
+              {completedExecutions}
+            </p>
+          </div>
         </div>
       )}
 
-      {/* In Progress section */}
+      {/* In Progress (prioritised — top) */}
       {activeExecutions && activeExecutions.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center gap-2">
@@ -131,13 +143,24 @@ export default async function OperatorDashboard({
                 key={exec.id}
                 href={`/operator/processes/${exec.process_id}/execute/${exec.id}`}
               >
-                <Card className="border-primary/30 bg-primary/5 hover:shadow-md transition-shadow cursor-pointer">
+                <Card className="border-primary/40 bg-primary/5 hover:shadow-md hover:border-primary/60 transition-all cursor-pointer">
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base">{exec.processes.title}</CardTitle>
+                    <CardTitle className="text-base">
+                      {exec.processes.title}
+                    </CardTitle>
                     <p className="text-xs text-muted-foreground">
-                      {t("startedOn", { date: new Date(exec.started_at).toLocaleDateString(locale) })}
+                      {t("startedOn", {
+                        date: new Date(exec.started_at).toLocaleDateString(
+                          locale,
+                          { month: "short", day: "numeric" }
+                        ),
+                      })}
                     </p>
-                    <Button size="sm" variant="default" className="mt-2 gap-1.5 w-fit">
+                    <Button
+                      size="sm"
+                      variant="default"
+                      className="mt-2 gap-1.5 w-fit"
+                    >
                       {t("continueExecution")}
                       <ArrowRightIcon className="size-3.5" />
                     </Button>
@@ -150,38 +173,46 @@ export default async function OperatorDashboard({
       )}
 
       {/* All Assigned Processes */}
-      <div className="flex items-center gap-2">
-        <h3 className="font-semibold">{t("allAssignedProcesses")}</h3>
-        <Badge variant="secondary">{processCount}</Badge>
-      </div>
+      <div>
+        <div className="flex items-center gap-2 mb-3">
+          <h3 className="font-semibold">{t("allAssignedProcesses")}</h3>
+          <Badge variant="secondary">{processCount}</Badge>
+        </div>
 
-      {processCount === 0 ? (
-        <div className="flex flex-col items-center justify-center py-12 text-center">
-          <ClipboardListIcon className="h-12 w-12 text-muted-foreground/50 mb-4" />
-          <p className="text-lg font-medium">{t("noProcesses")}</p>
-          <p className="text-sm text-muted-foreground mt-1 max-w-sm">{t("noProcessesHint")}</p>
-        </div>
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {processes.map((process) => (
-            <Link
-              key={process.id}
-              href={`/operator/processes/${process.id}`}
-            >
-              <Card className="hover:shadow-md transition-shadow cursor-pointer">
-                <CardHeader>
-                  <CardTitle className="text-lg">{process.title}</CardTitle>
-                  {process.assignedBy && (
-                    <p className="text-xs text-muted-foreground pt-1">
-                      {t("assignedBy", { name: process.assignedBy })}
-                    </p>
-                  )}
-                </CardHeader>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      )}
+        {processCount === 0 ? (
+          <div className="flex flex-col items-center justify-center py-12 text-center border rounded-lg bg-card">
+            <ClipboardListIcon className="h-12 w-12 text-muted-foreground/50 mb-4" />
+            <p className="text-lg font-medium">{t("noProcesses")}</p>
+            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
+              {t("noProcessesHint")}
+            </p>
+          </div>
+        ) : (
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {processes.map((process) => (
+              <Link key={process.id} href={`/operator/processes/${process.id}`}>
+                <Card className="hover:shadow-md hover:border-border/80 transition-all cursor-pointer h-full">
+                  <CardHeader>
+                    <CardTitle className="text-base leading-snug line-clamp-2">
+                      {process.title}
+                    </CardTitle>
+                    {process.description && (
+                      <p className="text-xs text-muted-foreground line-clamp-2 mt-1 leading-relaxed">
+                        {process.description}
+                      </p>
+                    )}
+                    {process.assignedBy && (
+                      <p className="text-xs text-muted-foreground/70 pt-2">
+                        {t("assignedBy", { name: process.assignedBy })}
+                      </p>
+                    )}
+                  </CardHeader>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { ProcessList } from "@/components/manager/process-list";
 import { EscalationList } from "@/components/manager/escalation-list";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { AlertTriangle } from "lucide-react";
 import type { ProcessWithCreator, HelpRequestWithDetails } from "@/lib/types";
 
 export default async function ManagerDashboard({
@@ -17,14 +18,12 @@ export default async function ManagerDashboard({
   setRequestLocale(locale);
   const t = await getTranslations("Manager");
   const ta = await getTranslations("Admin");
-  const tc = await getTranslations("Common");
 
   const session = await getSessionContext();
   if (!session) return null;
 
   const supabase = await createClient();
 
-  // All processes in the org (managers and admins can see all)
   const { data: processes } = await supabase
     .from("processes")
     .select("*, profiles!created_by(email, full_name)")
@@ -76,17 +75,71 @@ export default async function ManagerDashboard({
     escalations = escalationsData;
   }
 
+  const openEscalationsCount = (escalations || []).length;
+
   return (
     <div className="space-y-6">
       {/* Org header */}
       <div>
-        <h2 className="text-2xl font-bold">{session.org_name}</h2>
-        <p className="text-sm text-muted-foreground">
+        <h2 className="text-2xl font-bold tracking-tight">{session.org_name}</h2>
+        <p className="text-sm text-muted-foreground mt-0.5">
           {t("yourProcesses")}
         </p>
       </div>
 
-      {/* Processes section with inline stats */}
+      {/* Stat cards — 4 metrics including escalations */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
+        <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
+          <p className="text-xs text-muted-foreground">
+            {ta("totalExecutions")}
+          </p>
+          <p className="text-2xl font-bold tabular-nums mt-1">{totalExecutions}</p>
+        </div>
+        <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
+          <p className="text-xs text-muted-foreground">
+            {ta("inProgressExecutions")}
+          </p>
+          <p className="text-2xl font-bold tabular-nums mt-1">{inProgressExecutions}</p>
+        </div>
+        <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
+          <p className="text-xs text-muted-foreground">
+            {ta("completedExecutions")}
+          </p>
+          <p className="text-2xl font-bold tabular-nums mt-1 text-primary">
+            {completedExecutions}
+          </p>
+        </div>
+        <div
+          className={`rounded-lg border px-3 sm:px-4 py-3 ${
+            openEscalationsCount > 0
+              ? "border-destructive/40 bg-destructive/5"
+              : "bg-card"
+          }`}
+        >
+          <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+            {openEscalationsCount > 0 && (
+              <AlertTriangle className="size-3.5 text-destructive" />
+            )}
+            {ta("openEscalations")}
+          </p>
+          <p
+            className={`text-2xl font-bold tabular-nums mt-1 ${
+              openEscalationsCount > 0 ? "text-destructive" : ""
+            }`}
+          >
+            {openEscalationsCount}
+          </p>
+        </div>
+      </div>
+
+      {/* Escalations — TOP when open */}
+      {openEscalationsCount > 0 && (
+        <EscalationList
+          escalations={(escalations as HelpRequestWithDetails[]) || []}
+        />
+      )}
+
+      {/* Processes */}
       <div>
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
@@ -97,35 +150,15 @@ export default async function ManagerDashboard({
             <Button size="sm">{t("newProcess")}</Button>
           </Link>
         </div>
-        <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-4">
-          <div className="rounded-lg border bg-card px-3 py-2.5">
-            <p className="text-xl font-semibold tabular-nums">{totalExecutions}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              {ta("totalExecutions")}
-            </p>
-          </div>
-          <div className="rounded-lg border bg-card px-3 py-2.5">
-            <p className="text-xl font-semibold tabular-nums text-primary">
-              {completedExecutions}
-            </p>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              {ta("completedExecutions")}
-            </p>
-          </div>
-          <div className="rounded-lg border bg-card px-3 py-2.5">
-            <p className="text-xl font-semibold tabular-nums">{inProgressExecutions}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              {ta("inProgressExecutions")}
-            </p>
-          </div>
-        </div>
         <ProcessList processes={(processes as ProcessWithCreator[]) || []} />
       </div>
 
-      {/* Escalations — always visible */}
-      <EscalationList
-        escalations={(escalations as HelpRequestWithDetails[]) || []}
-      />
+      {/* Empty-state card when clear */}
+      {openEscalationsCount === 0 && (
+        <EscalationList
+          escalations={(escalations as HelpRequestWithDetails[]) || []}
+        />
+      )}
     </div>
   );
 }
