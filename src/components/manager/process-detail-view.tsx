@@ -67,31 +67,30 @@ export function ProcessDetailView({
 
       {/* 3-column layout: TOC + main + rail (document tab) */}
       {tab === "document" && (
-        <div className="grid lg:grid-cols-[180px_1fr_260px] gap-5 items-start">
-          {/* TOC — desktop only */}
-          {toc.length > 0 && (
+        <div className="grid lg:grid-cols-[180px_1fr_280px] gap-5 items-start">
+          {/* TOC — desktop only. Skip H1 (rendered as page title) */}
+          {toc.filter((i) => i.level > 1).length > 0 && (
             <aside className="hidden lg:block sticky top-4">
-              <div className="rounded-lg border bg-card p-4 text-sm">
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+              <div className="rounded-lg border bg-card p-3 text-sm">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-2 px-1">
                   {t("onThisPage")}
                 </p>
-                <ul className="flex flex-col gap-0.5">
-                  {toc.map((item, i) => (
-                    <li key={`${item.id}-${i}`}>
-                      <a
-                        href={`#${item.id}`}
-                        className={cn(
-                          "block py-1 border-l-2 transition-colors text-muted-foreground hover:text-foreground hover:border-primary",
-                          item.level === 1 && "pl-3 -ml-px border-transparent",
-                          item.level === 2 && "pl-3 -ml-px border-transparent",
-                          item.level === 3 &&
-                            "pl-6 -ml-px border-transparent text-xs"
-                        )}
-                      >
-                        {item.text}
-                      </a>
-                    </li>
-                  ))}
+                <ul className="flex flex-col">
+                  {toc
+                    .filter((i) => i.level > 1)
+                    .map((item, i) => (
+                      <li key={`${item.id}-${i}`}>
+                        <a
+                          href={`#${item.id}`}
+                          className={cn(
+                            "block py-1 px-2 rounded text-[13px] leading-snug transition-colors text-muted-foreground hover:text-foreground hover:bg-muted",
+                            item.level === 3 && "pl-5 text-[12px]"
+                          )}
+                        >
+                          {item.text}
+                        </a>
+                      </li>
+                    ))}
                 </ul>
               </div>
             </aside>

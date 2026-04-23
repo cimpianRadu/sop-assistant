@@ -35,14 +35,7 @@ export function ProcessCard({ process, locale = "en" }: Props) {
           <h3 className="text-base font-semibold leading-tight line-clamp-2 group-hover:text-primary transition-colors">
             {process.title}
           </h3>
-          <Badge
-            variant="outline"
-            className={
-              isActive
-                ? "bg-primary/10 text-primary border-primary/25 text-[10px] uppercase tracking-wide shrink-0"
-                : "text-[10px] uppercase tracking-wide shrink-0"
-            }
-          >
+          <Badge variant={isActive ? "success" : "neutral"}>
             {isActive ? t("statusActive") : t("statusDraft")}
           </Badge>
         </div>

@@ -11,12 +11,7 @@ import { EditSopButton } from "@/components/manager/edit-sop-button";
 import { getSessionContext } from "@/lib/session";
 import { formatDuration } from "@/lib/format";
 import { sopToHeadings } from "@/lib/sop-toc";
-import {
-  BotIcon,
-  ClockIcon,
-  ArrowRightIcon,
-  ChevronRightIcon,
-} from "lucide-react";
+import { BotIcon, ArrowRightIcon, ChevronRightIcon } from "lucide-react";
 import type {
   ChecklistStep,
   ExecutionWithProfile,
@@ -134,14 +129,7 @@ export default async function ProcessDetailPage({
             {process.title}
           </h2>
           <div className="flex items-center gap-2 mt-2 flex-wrap">
-            <Badge
-              variant="outline"
-              className={
-                isActive
-                  ? "bg-primary/10 text-primary border-primary/25 text-[10px] uppercase tracking-wide"
-                  : "text-[10px] uppercase tracking-wide"
-              }
-            >
+            <Badge variant={isActive ? "success" : "neutral"}>
               {isActive ? t("statusActive") : t("statusDraft")}
             </Badge>
             <span className="text-xs text-muted-foreground">
@@ -230,27 +218,20 @@ export default async function ProcessDetailPage({
                               {duration && ` · ${duration}`}
                             </p>
                           </div>
-                          <div className="flex items-center gap-1 shrink-0">
+                          <div className="flex items-center gap-1.5 shrink-0">
                             {aiCount > 0 && (
-                              <Badge
-                                variant="outline"
-                                className="text-[10px] gap-0.5 py-0 px-1.5"
-                              >
-                                <BotIcon className="size-2.5" />
+                              <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                                <BotIcon className="size-3" />
                                 {aiCount}
-                              </Badge>
+                              </span>
                             )}
                             <Badge
                               variant={
                                 execution.status === "completed"
-                                  ? "default"
-                                  : "secondary"
+                                  ? "success"
+                                  : "warning"
                               }
-                              className="text-[10px] py-0 px-1.5"
                             >
-                              {execution.status === "completed" ? (
-                                <ClockIcon className="size-2.5 hidden" />
-                              ) : null}
                               {execution.status === "completed"
                                 ? tc("completed")
                                 : tc("inProgress")}

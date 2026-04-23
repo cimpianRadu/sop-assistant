@@ -537,12 +537,16 @@
 
   "ExecutionDetail": {
     "title": "Execution Details",
+    "titleNumbered": "Execution #{number} — {process}",
+    "subtitleCompleted": "Completed run by {operator} · {current} of {total} steps",
+    "subtitleInProgress": "Run in progress by {operator} · {current} of {total} steps",
     "operator": "Operator",
     "status": "Status",
     "startedAt": "Started",
     "completedAt": "Completed",
     "duration": "Duration",
     "totalAiInteractions": "AI Interactions",
+    "aiInteractionsBreakdown": "{resolved} resolved · {escalated} escalated",
     "stepTimeline": "Step Timeline",
     "step": "Step {number}",
     "completedStep": "Completed at {date}",
@@ -554,7 +558,18 @@
     "generalQuestions": "General Questions",
     "backToProcess": "← Back to Process",
     "noSteps": "No steps recorded",
-    "escalated": "Escalated to manager"
+    "escalated": "Escalated to manager",
+    "runSummary": "Run summary",
+    "executionNumber": "Execution #",
+    "stepsCompleted": "Steps completed",
+    "avgTimePerStep": "Avg. time per step",
+    "aiHelpRate": "AI help rate",
+    "longestGap": "Longest gap",
+    "longGapDetected": "Long gap detected",
+    "longGapDescription": "{duration} between step {a} and step {b} — check if the operator got stuck or if the SOP has unclear handoffs.",
+    "otherRunsTitle": "Other runs of this process",
+    "otherRunsNone": "No other runs yet.",
+    "ongoing": "ongoing"
   },
 
   "Terms": {

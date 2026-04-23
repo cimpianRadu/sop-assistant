@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { resolveHelpRequest } from "@/lib/actions/help-requests";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
@@ -77,9 +78,7 @@ export function EscalationList({
         <CardTitle className="flex items-center gap-2 text-destructive">
           <AlertTriangleIcon className="size-4" />
           {t("title")}
-          <span className="text-[10px] font-bold uppercase tracking-wider bg-destructive/10 text-destructive px-2 py-0.5 rounded-full">
-            {t("open", { count: escalations.length })}
-          </span>
+          <Badge variant="danger">{t("open", { count: escalations.length })}</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -119,9 +118,9 @@ export function EscalationList({
                   )}
                 </p>
               </div>
-              <span className="text-[10px] font-semibold uppercase tracking-wider bg-destructive/10 text-destructive px-2 py-1 rounded-full whitespace-nowrap shrink-0">
+              <Badge variant="danger" className="shrink-0">
                 {formatWaitingTime(escalation.created_at, nowMs, t)}
-              </span>
+              </Badge>
             </div>
 
             {/* Operator question bubble */}

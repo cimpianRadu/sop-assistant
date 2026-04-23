@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { removeMember } from "@/lib/actions/organizations";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   AlertDialog,
@@ -23,13 +24,13 @@ import { formatRelativeTime } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { OrgMemberWithProfile } from "@/lib/types";
 
-const ROLE_STYLES: Record<string, string> = {
-  admin:
-    "bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-900/50",
-  manager:
-    "bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-900/50",
-  operator:
-    "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-900/50",
+const ROLE_VARIANTS: Record<
+  string,
+  "purple" | "warning" | "info" | "neutral"
+> = {
+  admin: "purple",
+  manager: "warning",
+  operator: "info",
 };
 
 const AVATAR_COLORS: Record<string, string> = {
@@ -113,15 +114,12 @@ export function MemberList({
                 <span className="text-xs text-muted-foreground hidden sm:block whitespace-nowrap">
                   Joined {joinedLabel}
                 </span>
-                <span
-                  className={cn(
-                    "text-[10px] font-semibold uppercase tracking-wider px-2 py-1 rounded-full border capitalize",
-                    ROLE_STYLES[member.role] ||
-                      "bg-muted text-muted-foreground border-border"
-                  )}
+                <Badge
+                  variant={ROLE_VARIANTS[member.role] || "neutral"}
+                  className="capitalize"
                 >
                   {member.role}
-                </span>
+                </Badge>
                 {member.user_id !== currentUserId && (
                   <AlertDialog>
                     <AlertDialogTrigger asChild>

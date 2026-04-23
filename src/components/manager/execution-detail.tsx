@@ -84,15 +84,7 @@ export function ExecutionDetail({
                 {operatorName} · {completedSteps} / {totalSteps} steps
               </p>
             </div>
-            <Badge
-              variant={isCompleted ? "default" : "secondary"}
-              className="text-xs gap-1"
-            >
-              {isCompleted ? (
-                <CheckCircle2Icon className="size-3" />
-              ) : (
-                <ClockIcon className="size-3" />
-              )}
+            <Badge variant={isCompleted ? "success" : "warning"}>
               {isCompleted ? tc("completed") : tc("inProgress")}
             </Badge>
           </div>
@@ -196,8 +188,8 @@ export function ExecutionDetail({
                         : "General"}
                     </span>
                     <Badge
-                      variant={hr.escalated ? "destructive" : "outline"}
-                      className="text-[10px] py-0 px-1.5 shrink-0"
+                      variant={hr.escalated ? "danger" : "success"}
+                      className="shrink-0"
                     >
                       {hr.escalated ? "Escalated" : "Resolved"}
                     </Badge>
@@ -291,10 +283,10 @@ export function ExecutionDetail({
                     <div className="flex items-center gap-2 shrink-0">
                       {hasHelp && (
                         <Badge
-                          variant={hasEscalation ? "destructive" : "outline"}
-                          className="text-xs gap-1"
+                          variant={hasEscalation ? "danger" : "success"}
+                          className="gap-1"
                         >
-                          <BotIcon className="size-3" />
+                          <BotIcon className="size-2.5" />
                           <span className="sm:hidden">{stepHelp.length}</span>
                           <span className="hidden sm:inline">
                             {t("aiInteractions", { count: stepHelp.length })}

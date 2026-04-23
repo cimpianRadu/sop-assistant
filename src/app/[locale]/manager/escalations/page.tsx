@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getSessionContext } from "@/lib/session";
 import { Link } from "@/i18n/navigation";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { EscalationList } from "@/components/manager/escalation-list";
 import { StatCard } from "@/components/shared/stat-card";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -169,9 +170,9 @@ export default async function EscalationsPage({
                     })}
                   </p>
                 </div>
-                <span className="text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary px-2 py-1 rounded-full whitespace-nowrap shrink-0">
+                <Badge variant="success" className="shrink-0">
                   {t("resolved")}
-                </span>
+                </Badge>
               </div>
             ))}
           </div>
