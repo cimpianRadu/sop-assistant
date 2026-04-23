@@ -109,6 +109,23 @@ export async function updateProcess(
   // Update process fields; trigger will set updated_at.
   // Skip the write entirely when nothing changed so updated_at + current_version stay put.
   if (anythingChanged) {
+    // Snapshot the current (pre-change) state into process_versions under the
+    // existing version number before bumping. Version N in process_versions
+    // = the state at version N; `processes` always holds the current version.
+    const { error: snapshotError } = await supabase
+      .from("process_versions")
+      .insert({
+        process_id: id,
+        org_id: existing.org_id,
+        version_number: existing.current_version,
+        title: existing.title,
+        description: existing.description,
+        sop_text: existing.sop_text,
+        steps_snapshot: existingSteps || [],
+        updated_by: session.user_id,
+      });
+    if (snapshotError) return { error: snapshotError.message };
+
     const { error: updateError } = await supabase
       .from("processes")
       .update({

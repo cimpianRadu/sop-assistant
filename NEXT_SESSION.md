@@ -113,8 +113,8 @@ The profile page already aggregates `started` / `completed` per month. For the
 new breakdowns:
 
 - Top processes: `SELECT process_id, count(*) FROM executions WHERE org_id = $1
-  AND started_at > now() - interval '6 months' GROUP BY process_id ORDER BY
-  count DESC LIMIT 5` + join to `processes` for title.
+AND started_at > now() - interval '6 months' GROUP BY process_id ORDER BY
+count DESC LIMIT 5` + join to `processes` for title.
 - Completion rate trend: reuse the existing 6-month aggregate — compute
   `completed / started` per month, null when `started = 0`.
 
@@ -208,6 +208,61 @@ comment, matching the pattern used in the dashboard pages.
     up to 3 revisions each")
 - Remove redundant "Everything in Growth" if visual diff already makes it clear
 
+--- new task
+
+# Task: Add demo booking option (no modal popup)
+
+Add a "Book a demo" option in two spots on the landing page + pricing, plus
+a dedicated /demo page with an embedded Cal.com widget.
+
+## Context
+
+Sopia targets SMB teams (10-50 people) with a 14-day free trial. Self-serve
+is the primary path. A demo option helps users on the fence — especially for
+the higher-priced Business tier — without interrupting the trial flow.
+
+## Changes
+
+### 1. Hero (landing page)
+
+Under the existing CTAs, add a tiny text link:
+"Or <a href="/demo">book a 20-min demo</a>"
+Muted color, no border, text-sm.
+
+### 2. Pricing page
+
+Below the Business tier card, add a small CTA card:
+"Not sure which plan fits?"
+"Get a 20-min walkthrough with us — we'll help you pick."
+[Book a demo] (variant=outline button linking to /demo)
+
+### 3. New /demo page
+
+- Use Cal.com embed (or Calendly if Cal.com isn't set up)
+- Title: "Book a demo with Sopia"
+- Subtitle: "Pick a 20-min slot. We'll walk through your use case and answer
+  any questions."
+- Embed iframe (https://cal.com/embed/...)
+- If no Cal.com account yet: placeholder + mailto:hello@sopia.xyz CTA
+
+### 4. Do NOT add any modal or exit-intent popup
+
+Popup-based demo CTAs are friction and tank conversion. Text links only.
+
+## Constraints
+
+- Use next-intl keys (Landing.bookDemo, Pricing.notSureTitle, Demo.title, etc.)
+- Respect existing Button/Card components
+- Mobile-first — CTA stacks properly
+
+## Acceptance
+
+- [ ] Tiny "Book a demo" link under hero CTAs
+- [ ] Demo CTA card on pricing below Business tier
+- [ ] /demo page with Cal.com embed (or mailto fallback)
+- [ ] No modal popup anywhere
+- [ ] tsc + eslint pass
+
 ## Constraints
 
 - Keep next-intl i18n pattern — add new keys to messages/en.json and ro.json
@@ -233,6 +288,7 @@ comment, matching the pattern used in the dashboard pages.
 - [ ] Replace `/hero-placeholder.png` reference (not needed now — the hero uses CSS mockup)
 - [ ] Run a `rm -rf .claude/worktrees` cleanup + confirm `.gitignore` has `.claude/worktrees/` + `.claude/settings.local.json`
 - [ ] Record a real 60s product demo and wire it to the `Watch 60s demo` button on landing (currently `#demo` anchor with no modal)
+- [ ] Interactive product tour (Navattic, Arcade) — embedded iframe care lasă userul să dea click prin produs fără signup. Funcționează spectaculos pe landing.
 
 ## Done this session (for context)
 

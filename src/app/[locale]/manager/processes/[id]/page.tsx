@@ -10,6 +10,7 @@ import { StartExecutionButton } from "@/components/manager/start-execution-butto
 import { ProcessDetailView } from "@/components/manager/process-detail-view";
 import { EditSopButton } from "@/components/manager/edit-sop-button";
 import { SmartSuggestionCard } from "@/components/manager/smart-suggestion-card";
+import { VersionHistory } from "@/components/manager/version-history";
 import { getSessionContext } from "@/lib/session";
 import { formatDuration, formatRelativeTime } from "@/lib/format";
 import { sopToHeadings } from "@/lib/sop-toc";
@@ -18,6 +19,7 @@ import type {
   ChecklistStep,
   ExecutionWithProfile,
   ProcessAssignmentWithProfile,
+  ProcessVersionWithAuthor,
 } from "@/lib/types";
 
 export default async function ProcessDetailPage({
@@ -49,6 +51,7 @@ export default async function ProcessDetailPage({
     { data: helpCounts },
     { data: orgOperators },
     { count: openEscalationsCount },
+    { data: priorVersions },
   ] = await Promise.all([
     supabase
       .from("checklist_steps")
@@ -77,6 +80,11 @@ export default async function ProcessDetailPage({
       .eq("process_id", id)
       .eq("escalated", true)
       .eq("resolved", false),
+    supabase
+      .from("process_versions")
+      .select("*, profiles!updated_by(email, full_name)")
+      .eq("process_id", id)
+      .order("version_number", { ascending: false }),
   ]);
 
   const helpCountMap = new Map<string, number>();
@@ -94,6 +102,36 @@ export default async function ProcessDetailPage({
     full_name: string | null;
   } | null;
   const creatorName = creator?.full_name || creator?.email || "—";
+
+  // Build version-history entries: current state (from `processes` +
+  // `checklist_steps`) + prior snapshots from `process_versions`. Newest-first.
+  const priorVersionRows =
+    (priorVersions as ProcessVersionWithAuthor[] | null) || [];
+  const historyEntries = [
+    {
+      version_number: process.current_version ?? 1,
+      title: process.title,
+      description: process.description,
+      sop_text: process.sop_text,
+      steps: stepsList.map((s) => ({
+        step_number: s.step_number,
+        step_text: s.step_text,
+      })),
+      updated_at: process.updated_at ?? process.created_at,
+      author_label: creatorName,
+      is_current: true,
+    },
+    ...priorVersionRows.map((v) => ({
+      version_number: v.version_number,
+      title: v.title,
+      description: v.description,
+      sop_text: v.sop_text,
+      steps: Array.isArray(v.steps_snapshot) ? v.steps_snapshot : [],
+      updated_at: v.updated_at,
+      author_label: v.profiles?.full_name || v.profiles?.email || "—",
+      is_current: false,
+    })),
+  ];
   const createdDate = new Date(process.created_at).toLocaleDateString(locale, {
     year: "numeric",
     month: "short",
@@ -170,6 +208,8 @@ export default async function ProcessDetailPage({
         sopText={process.sop_text}
         toc={toc}
         steps={stepsList}
+        historyCount={priorVersionRows.length}
+        history={<VersionHistory versions={historyEntries} locale={locale} />}
         suggestion={
           <Suspense
             fallback={

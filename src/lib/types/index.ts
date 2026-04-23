@@ -68,6 +68,30 @@ export type Process = {
   description: string;
   sop_text: string;
   created_at: string;
+  updated_at: string;
+  current_version: number;
+};
+
+export type ProcessVersionStep = {
+  step_number: number;
+  step_text: string;
+};
+
+export type ProcessVersion = {
+  id: string;
+  process_id: string;
+  org_id: string;
+  version_number: number;
+  title: string;
+  description: string;
+  sop_text: string;
+  steps_snapshot: ProcessVersionStep[];
+  updated_by: string | null;
+  updated_at: string;
+};
+
+export type ProcessVersionWithAuthor = ProcessVersion & {
+  profiles: Pick<Profile, "email" | "full_name"> | null;
 };
 
 export type ProcessWithCreator = Process & {

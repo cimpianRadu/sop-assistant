@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MarkdownRenderer } from "@/components/shared/markdown-renderer";
 import { cn } from "@/lib/utils";
@@ -21,6 +20,8 @@ type Props = {
   toc: TocItem[];
   steps: ChecklistStep[];
   suggestion?: React.ReactNode; // pre-rendered (server) smart suggestion card
+  history?: React.ReactNode; // pre-rendered version history
+  historyCount?: number; // number of prior versions (excludes current)
   children?: React.ReactNode; // right rail content
 };
 
@@ -29,6 +30,8 @@ export function ProcessDetailView({
   toc,
   steps,
   suggestion,
+  history,
+  historyCount = 0,
   children,
 }: Props) {
   const t = useTranslations("Manager");
@@ -52,12 +55,13 @@ export function ProcessDetailView({
         />
         <TabButton
           active={tab === "history"}
-          onClick={() => {
-            toast.info(t("versionHistoryComingSoon"));
-          }}
+          onClick={() => setTab("history")}
           icon={HistoryIcon}
-          label={t("tabVersionHistory")}
-          badge="Soon"
+          label={
+            historyCount > 0
+              ? `${t("tabVersionHistory")} (${historyCount})`
+              : t("tabVersionHistory")
+          }
         />
       </div>
 
@@ -133,6 +137,14 @@ export function ProcessDetailView({
               </ol>
             </CardContent>
           </Card>
+          <aside className="flex flex-col gap-3">{children}</aside>
+        </div>
+      )}
+
+      {/* History tab */}
+      {tab === "history" && (
+        <div className="grid lg:grid-cols-[1fr_260px] gap-5 items-start">
+          <div>{history}</div>
           <aside className="flex flex-col gap-3">{children}</aside>
         </div>
       )}
