@@ -289,6 +289,45 @@ Popup-based demo CTAs are friction and tank conversion. Text links only.
 - [ ] `npx eslint src/app/[locale]/pricing/page.tsx` passes
 - [ ] Visual check on mobile + desktop
 
+# Task: Replace checkboxes with "Complete step" buttons in operator checklist
+
+Screenshot feedback: the operator execute view currently uses a checkbox per
+step — feels wrong for a procedural "do this now" flow. Each row should have
+an explicit **Complete step** button instead.
+
+## File
+
+`src/components/operator/checklist-executor.tsx`
+
+## Changes
+
+- Replace the per-step `<Checkbox>` (or whatever is used) with a primary
+  `<Button size="sm">` labelled `Complete step` / `Marchează ca finalizat`.
+- Once completed: button disappears (or becomes a muted "Completed ✓" chip),
+  step text gets strikethrough, row gets `bg-muted/40`.
+- The "Chat with AI" per-row button stays as-is.
+- Only the **active** step (next uncompleted one) shows the Complete button
+  prominently; earlier completed steps show the muted chip; future steps show
+  nothing (locked look — same as current).
+- Optional: add a small keyboard shortcut hint (`⏎ Complete`) on hover of the
+  active step, and wire `Enter` to complete the active step when the chat
+  panel isn't focused.
+
+## i18n
+
+Add to `Checklist.*` in EN + RO:
+
+- `completeStep` — "Complete step" / "Marchează pasul"
+- `stepCompleted` — "Completed" / "Finalizat"
+
+## Acceptance
+
+- [ ] No checkboxes visible in the operator execute view
+- [ ] Active step has a prominent "Complete step" button
+- [ ] Completed steps show strikethrough + muted chip
+- [ ] `npx tsc --noEmit` passes
+- [ ] EN + RO translations filled in
+
 # Task: Interactive product tour (Arcade / Navattic)
 
 **Replaces** the "Book a demo" task above. For SMB self-serve (10–50 people
