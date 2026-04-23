@@ -487,22 +487,42 @@ export function ExecutionDetail({
                     <Link
                       key={s.id}
                       href={`/manager/processes/${processId}/executions/${s.id}`}
-                      className="flex items-center justify-between gap-2 rounded-md border px-2.5 py-2 hover:bg-muted/50 transition-colors group"
+                      className="flex items-center gap-2.5 rounded-md border px-2.5 py-2 hover:bg-muted/50 hover:border-border/80 transition-colors group"
                     >
+                      <div
+                        className={`size-7 rounded-full grid place-items-center shrink-0 text-[10px] font-bold tabular-nums ring-1 ${
+                          sDone
+                            ? "bg-primary/10 text-primary ring-primary/20"
+                            : "bg-amber-50 text-amber-700 ring-amber-300/50 dark:bg-amber-950/40 dark:text-amber-400 dark:ring-amber-900/50"
+                        }`}
+                        aria-hidden
+                      >
+                        #{s.number}
+                      </div>
                       <div className="min-w-0 flex-1">
-                        <p className="text-xs font-semibold tabular-nums">
-                          #{s.number}
-                          {!sDone && (
-                            <span className="ml-1.5 text-[10px] uppercase tracking-wide text-amber-600 dark:text-amber-500 font-medium">
-                              {t("ongoing")}
-                            </span>
+                        <div className="flex items-center gap-1.5">
+                          {sDone ? (
+                            <CheckCircle2Icon className="size-3 text-primary" />
+                          ) : (
+                            <span className="size-1.5 rounded-full bg-amber-500 animate-pulse inline-block" />
                           )}
-                        </p>
+                          <p className="text-xs font-medium truncate">
+                            {s.operator_name}
+                          </p>
+                        </div>
                         <p className="text-[11px] text-muted-foreground truncate">
-                          {s.operator_name} · {formatRelativeTime(s.started_at, locale)}
+                          {sDone
+                            ? formatRelativeTime(
+                                s.completed_at ?? s.started_at,
+                                locale
+                              )
+                            : `${t("ongoing")} · ${formatRelativeTime(
+                                s.started_at,
+                                locale
+                              )}`}
                         </p>
                       </div>
-                      <ArrowRightIcon className="size-3.5 text-muted-foreground/60 group-hover:text-foreground shrink-0" />
+                      <ArrowRightIcon className="size-3.5 text-muted-foreground/60 group-hover:text-foreground group-hover:translate-x-0.5 transition-transform shrink-0" />
                     </Link>
                   );
                 })
@@ -538,71 +558,90 @@ function HelpRequestCard({
 
   return (
     <div className="space-y-3 text-sm">
-      {/* Operator question — as bubble */}
-      <div className="bg-background border rounded-lg p-3">
-        <div className="flex items-center gap-1.5 mb-1.5">
-          <UserIcon className="size-3.5 text-muted-foreground" />
-          <span className="text-[10px] uppercase tracking-wide font-semibold text-muted-foreground">
-            {t("question")} ·{" "}
-            {new Date(helpRequest.created_at).toLocaleString(locale, {
-              month: "short",
-              day: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </span>
-        </div>
-        <p className="leading-relaxed">{helpRequest.question}</p>
-      </div>
-
-      {/* AI response — green-tinted bubble */}
-      {helpRequest.ai_response && (
+      {/* Operator question — chat-style with avatar */}
+      <div className="flex gap-2.5">
         <div
-          className={`rounded-lg p-3 border ${
-            helpRequest.escalated
-              ? "bg-amber-50/50 border-amber-200 dark:bg-amber-950/30 dark:border-amber-900/50"
-              : "bg-primary/5 border-primary/20"
-          }`}
+          className="size-8 rounded-full grid place-items-center shrink-0 bg-gradient-to-br from-muted to-muted/60 border text-muted-foreground ring-1 ring-border/60"
+          aria-hidden
         >
+          <UserIcon className="size-4" />
+        </div>
+        <div className="flex-1 min-w-0 bg-background border rounded-lg rounded-tl-sm p-3">
           <div className="flex items-center gap-1.5 mb-1.5">
-            <BotIcon
-              className={`size-3.5 ${
-                helpRequest.escalated
-                  ? "text-amber-600 dark:text-amber-400"
-                  : "text-primary"
-              }`}
-            />
-            <span
-              className={`text-[10px] uppercase tracking-wide font-semibold ${
-                helpRequest.escalated
-                  ? "text-amber-700 dark:text-amber-400"
-                  : "text-primary"
-              }`}
-            >
-              {t("aiResponse")}
+            <span className="text-[10px] uppercase tracking-wide font-semibold text-muted-foreground">
+              {t("question")} ·{" "}
+              {new Date(helpRequest.created_at).toLocaleString(locale, {
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
             </span>
           </div>
-          <MarkdownRenderer
-            content={helpRequest.ai_response}
-            className="text-sm"
-          />
+          <p className="leading-relaxed">{helpRequest.question}</p>
+        </div>
+      </div>
+
+      {/* AI response — chat-style with AI avatar */}
+      {helpRequest.ai_response && (
+        <div className="flex gap-2.5">
+          <div
+            className={`size-8 rounded-full grid place-items-center shrink-0 ring-1 ${
+              helpRequest.escalated
+                ? "bg-gradient-to-br from-amber-400 to-amber-500 text-white ring-amber-500/30"
+                : "bg-gradient-to-br from-primary to-primary/70 text-primary-foreground ring-primary/30"
+            }`}
+            aria-hidden
+          >
+            <SparklesIcon className="size-4" />
+          </div>
+          <div
+            className={`flex-1 min-w-0 rounded-lg rounded-tl-sm p-3 border ${
+              helpRequest.escalated
+                ? "bg-amber-50/50 border-amber-200 dark:bg-amber-950/30 dark:border-amber-900/50"
+                : "bg-primary/5 border-primary/20"
+            }`}
+          >
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <span
+                className={`text-[10px] uppercase tracking-wide font-semibold ${
+                  helpRequest.escalated
+                    ? "text-amber-700 dark:text-amber-400"
+                    : "text-primary"
+                }`}
+              >
+                {t("aiResponse")}
+              </span>
+            </div>
+            <MarkdownRenderer
+              content={helpRequest.ai_response}
+              className="text-sm"
+            />
+          </div>
         </div>
       )}
 
-      {/* Escalation banner */}
+      {/* Escalation note — avatar + bubble */}
       {helpRequest.escalated && (
-        <div className="rounded-lg border border-amber-300 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-900/50 p-3">
-          <div className="flex items-center gap-1.5 mb-1">
-            <AlertTriangleIcon className="size-3.5 text-amber-600 dark:text-amber-400" />
-            <span className="text-[10px] uppercase tracking-wide font-semibold text-amber-700 dark:text-amber-400">
-              {t("escalated")}
-            </span>
+        <div className="flex gap-2.5">
+          <div
+            className="size-8 rounded-full grid place-items-center shrink-0 bg-gradient-to-br from-amber-100 to-amber-200 text-amber-700 ring-1 ring-amber-300/60 dark:from-amber-900/60 dark:to-amber-950 dark:text-amber-300 dark:ring-amber-800/50"
+            aria-hidden
+          >
+            <AlertTriangleIcon className="size-4" />
           </div>
-          {helpRequest.escalation_note && (
-            <p className="text-sm text-amber-900 dark:text-amber-100">
-              {helpRequest.escalation_note}
-            </p>
-          )}
+          <div className="flex-1 min-w-0 rounded-lg rounded-tl-sm border border-amber-300 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-900/50 p-3">
+            <div className="flex items-center gap-1.5 mb-1">
+              <span className="text-[10px] uppercase tracking-wide font-semibold text-amber-700 dark:text-amber-400">
+                {t("escalated")}
+              </span>
+            </div>
+            {helpRequest.escalation_note && (
+              <p className="text-sm text-amber-900 dark:text-amber-100">
+                {helpRequest.escalation_note}
+              </p>
+            )}
+          </div>
         </div>
       )}
     </div>

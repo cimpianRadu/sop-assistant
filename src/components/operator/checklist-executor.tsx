@@ -4,12 +4,16 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { toggleStep, completeExecution } from "@/lib/actions/executions";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ChatPanel } from "./chat-panel";
 import type { ExecutionStepWithDetails } from "@/lib/types";
-import { MessageCircleIcon, HelpCircleIcon } from "lucide-react";
+import {
+  MessageCircleIcon,
+  HelpCircleIcon,
+  CheckIcon,
+  LockIcon,
+} from "lucide-react";
 
 type ChecklistExecutorProps = {
   executionId: string;
@@ -132,6 +136,7 @@ export function ChecklistExecutor({
         <CardContent className="space-y-2">
           {steps.map((step, idx) => {
             const isActive = !step.completed && idx === completedCount;
+            const isLocked = !step.completed && !isActive;
             return (
               <div
                 key={step.id}
@@ -139,44 +144,80 @@ export function ChecklistExecutor({
                   step.completed
                     ? "bg-primary/5 border-primary/25"
                     : isActive
-                    ? "border-primary shadow-[0_0_0_3px_rgba(16,166,128,0.1)]"
-                    : "bg-background hover:bg-muted/50"
+                    ? "border-primary shadow-[0_0_0_3px_rgba(16,166,128,0.1)] bg-card"
+                    : "bg-background opacity-60"
                 }`}
               >
-                <label className="flex items-start gap-3 flex-1 cursor-pointer min-w-0">
-                  <Checkbox
-                    checked={step.completed}
-                    onCheckedChange={() =>
-                      handleToggle(step.id, step.completed)
-                    }
-                    className="mt-0.5"
-                  />
-                  <div className="min-w-0 flex-1">
-                    <span className="text-[11px] text-muted-foreground font-semibold mr-1.5 tabular-nums">
-                      {step.checklist_steps.step_number}.
-                    </span>
-                    <span
-                      className={`text-sm leading-relaxed ${
-                        step.completed
-                          ? "line-through text-muted-foreground"
-                          : ""
-                      }`}
-                    >
-                      {step.checklist_steps.step_text}
-                    </span>
-                  </div>
-                </label>
-                {!step.completed && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => openChatForStep(step.checklist_steps)}
-                    className="gap-1.5 shrink-0"
+                <span
+                  className={`flex items-center justify-center shrink-0 mt-0.5 size-7 rounded-full text-xs font-semibold tabular-nums ${
+                    step.completed
+                      ? "bg-primary text-primary-foreground"
+                      : isActive
+                      ? "bg-primary/15 text-primary"
+                      : "bg-muted text-muted-foreground"
+                  }`}
+                  aria-hidden
+                >
+                  {step.completed ? (
+                    <CheckIcon className="size-4" strokeWidth={3} />
+                  ) : isLocked ? (
+                    <LockIcon className="size-3.5" />
+                  ) : (
+                    step.checklist_steps.step_number
+                  )}
+                </span>
+                <div className="min-w-0 flex-1 pt-1">
+                  <span
+                    className={`text-sm leading-relaxed ${
+                      step.completed
+                        ? "line-through text-muted-foreground"
+                        : ""
+                    }`}
                   >
-                    <HelpCircleIcon className="size-3.5" />
-                    <span className="hidden sm:inline">{tc("chatWithAI")}</span>
-                  </Button>
-                )}
+                    {step.checklist_steps.step_text}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  {step.completed ? (
+                    <button
+                      type="button"
+                      onClick={() => handleToggle(step.id, true)}
+                      className="text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded"
+                    >
+                      {t("undo")}
+                    </button>
+                  ) : (
+                    <>
+                      {!isLocked && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            openChatForStep(step.checklist_steps)
+                          }
+                          className="gap-1.5"
+                        >
+                          <HelpCircleIcon className="size-3.5" />
+                          <span className="hidden sm:inline">
+                            {tc("chatWithAI")}
+                          </span>
+                        </Button>
+                      )}
+                      {isActive && (
+                        <Button
+                          size="sm"
+                          onClick={() => handleToggle(step.id, false)}
+                          className="gap-1.5"
+                        >
+                          <CheckIcon className="size-3.5" strokeWidth={3} />
+                          <span className="whitespace-nowrap">
+                            {t("completeStep")}
+                          </span>
+                        </Button>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
             );
           })}

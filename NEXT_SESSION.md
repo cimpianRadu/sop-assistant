@@ -67,7 +67,15 @@ Carried over from the UI redesign session. Top-priority items are blockers for f
 - [x] Breadcrumb now reads `Execution #N`. Container widened from `max-w-4xl` → `max-w-6xl` to fit the right rail.
 - [x] RO translations filled in for all new ExecutionDetail keys (`titleNumbered`, `subtitleCompleted`, `subtitleInProgress`, `aiInteractionsBreakdown`, `runSummary`, `executionNumber`, `stepsCompleted`, `avgTimePerStep`, `aiHelpRate`, `longestGap`, `longGapDetected`, `longGapDescription`, `otherRunsTitle`, `otherRunsNone`, `ongoing`).
 
-### 8. Profile "Your Statistics" — real graphs + trend lines
+### 8. Profile "Your Statistics" — real graphs + trend lines — DONE
+
+- [x] Bar chart replaced with bespoke SVG line+area chart (`execution-trend-chart.tsx`) — no more invisible bars.
+- [x] `CompletionRateChart` added — SVG line, 0–100% y-axis, skips null months.
+- [x] `TopProcessesCard` added — top 5 processes by exec count (last 6 months) with inline bar + link.
+- [x] `ProfileStats` renders rolling-30d deltas (vs prior 30 days) on Total Executions + Completion Rate (admin/manager) and Executions Completed + Completion Rate (operator).
+- [x] i18n keys added in EN + RO: `executionsLast6Months`, `legendStarted`, `legendCompleted`, `completionRateTrend`, `completionRatePoint`, `topProcesses`, `topProcessesDesc`, `noDataYet`, `vsLast30d`, `unitRuns`, `unitPoints`.
+
+### 8 (ORIGINAL BRIEF — kept for archaeology)
 
 The stats block on `/profile` (rendered by `src/app/[locale]/profile/page.tsx`)
 currently shows 4 stat cards (Organization Members, Organization Processes,

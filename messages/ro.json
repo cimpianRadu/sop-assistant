@@ -423,7 +423,9 @@
     "title": "Checklist",
     "completing": "Se finalizeaza...",
     "completeExecution": "Finalizeaza executia",
-    "stepsRemaining": "Completeaza toti pasii pentru a termina ({remaining} ramasi)"
+    "stepsRemaining": "Completeaza toti pasii pentru a termina ({remaining} ramasi)",
+    "completeStep": "Marcheaza ca finalizat",
+    "undo": "Anuleaza"
   },
   "Help": {
     "needHelp": "Ai nevoie de ajutor?",
@@ -525,7 +527,21 @@
     "orgProcesses": "Procesele organizatiei",
     "orgProcessesDesc": "Total SOP-uri in organizatie",
     "totalExecutions": "Total executii",
-    "totalExecutionsDesc": "Din toate procesele organizatiei"
+    "totalExecutionsDesc": "Din toate procesele organizatiei",
+    "executionsLast6Months": "Executii — ultimele 6 luni",
+    "legendStarted": "Incepute",
+    "legendCompleted": "Finalizate",
+    "completionRateTrend": "Evolutia ratei de finalizare",
+    "completionRatePoint": "{month}: {rate}%",
+    "topProcesses": "Cele mai folosite procese",
+    "topProcessesDesc": "Cele mai executate in ultimele 6 luni",
+    "noDataYet": "Inca nu sunt date",
+    "vsLast30d": "fata de 30 de zile anterioare",
+    "noChange": "Fara schimbari fata de perioada anterioara",
+    "deltaUp": "+{value} {unit}",
+    "deltaDown": "-{value} {unit}",
+    "unitRuns": "executii",
+    "unitPoints": "pct"
   },
   "Chat": {
     "chatWithAI": "Chat cu AI",

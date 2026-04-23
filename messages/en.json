@@ -423,7 +423,9 @@
     "title": "Checklist",
     "completing": "Completing...",
     "completeExecution": "Complete Execution",
-    "stepsRemaining": "Complete all steps to finish ({remaining} remaining)"
+    "stepsRemaining": "Complete all steps to finish ({remaining} remaining)",
+    "completeStep": "Complete step",
+    "undo": "Undo"
   },
   "Help": {
     "needHelp": "Need Help?",
@@ -525,7 +527,21 @@
     "orgProcesses": "Organization Processes",
     "orgProcessesDesc": "Total SOPs in your org",
     "totalExecutions": "Total Executions",
-    "totalExecutionsDesc": "Across all org processes"
+    "totalExecutionsDesc": "Across all org processes",
+    "executionsLast6Months": "Executions — last 6 months",
+    "legendStarted": "Started",
+    "legendCompleted": "Completed",
+    "completionRateTrend": "Completion rate trend",
+    "completionRatePoint": "{month}: {rate}%",
+    "topProcesses": "Top processes",
+    "topProcessesDesc": "Most run in the last 6 months",
+    "noDataYet": "No data yet",
+    "vsLast30d": "vs previous 30 days",
+    "noChange": "No change from last period",
+    "deltaUp": "+{value} {unit}",
+    "deltaDown": "-{value} {unit}",
+    "unitRuns": "runs",
+    "unitPoints": "pts"
   },
   "Chat": {
     "chatWithAI": "Chat with AI",
