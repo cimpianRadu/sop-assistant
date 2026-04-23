@@ -413,7 +413,9 @@
     "inProgressSection": "In Progress",
     "continueExecution": "Continue",
     "startedOn": "Started {date}",
-    "allAssignedProcesses": "All Assigned Processes"
+    "allAssignedProcesses": "All Assigned Processes",
+    "noExecutionsYet": "No runs yet",
+    "runsCompleted": "{count, plural, =1 {# run completed} other {# runs completed}}"
   },
   "Checklist": {
     "progress": "Progress",

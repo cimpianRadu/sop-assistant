@@ -413,7 +413,9 @@
     "inProgressSection": "In desfasurare",
     "continueExecution": "Continua",
     "startedOn": "Inceput la {date}",
-    "allAssignedProcesses": "Toate procesele asignate"
+    "allAssignedProcesses": "Toate procesele asignate",
+    "noExecutionsYet": "Nicio executie inca",
+    "runsCompleted": "{count, plural, =1 {# executie finalizata} few {# executii finalizate} other {# de executii finalizate}}"
   },
   "Checklist": {
     "progress": "Progres",

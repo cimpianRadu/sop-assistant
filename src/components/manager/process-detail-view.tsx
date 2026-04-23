@@ -53,16 +53,18 @@ export function ProcessDetailView({
           icon={ListChecksIcon}
           label={`${t("tabChecklist")} (${steps.length})`}
         />
-        <TabButton
-          active={tab === "history"}
-          onClick={() => setTab("history")}
-          icon={HistoryIcon}
-          label={
-            historyCount > 0
-              ? `${t("tabVersionHistory")} (${historyCount})`
-              : t("tabVersionHistory")
-          }
-        />
+        {history && (
+          <TabButton
+            active={tab === "history"}
+            onClick={() => setTab("history")}
+            icon={HistoryIcon}
+            label={
+              historyCount > 0
+                ? `${t("tabVersionHistory")} (${historyCount})`
+                : t("tabVersionHistory")
+            }
+          />
+        )}
       </div>
 
       {/* 3-column layout: TOC + main + rail (document tab) */}
