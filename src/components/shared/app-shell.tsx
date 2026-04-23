@@ -40,22 +40,20 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-muted/30">
+    <div className="h-screen flex flex-col bg-muted/30">
       <Header openEscalations={openEscalations} />
-      <div className="lg:grid lg:grid-cols-[208px_1fr]">
+      <div className="flex-1 flex overflow-hidden lg:grid lg:grid-cols-[208px_1fr]">
         {/* Desktop sidebar */}
-        <aside className="hidden lg:block border-r bg-background">
-          <div className="sticky top-0 py-4 px-2 min-h-[calc(100vh-3.5rem)] flex flex-col">
-            <SidebarNav
-              role={session.role}
-              orgName={session.org_name}
-              openEscalations={openEscalations}
-            />
-          </div>
+        <aside className="hidden lg:flex flex-col border-r bg-background overflow-y-auto py-4 px-2">
+          <SidebarNav
+            role={session.role}
+            orgName={session.org_name}
+            openEscalations={openEscalations}
+          />
         </aside>
 
-        <main className="px-4 sm:px-6 lg:px-8 py-6 min-w-0 max-w-[1200px]">
-          {children}
+        <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 min-w-0">
+          <div className="max-w-[1200px]">{children}</div>
         </main>
       </div>
     </div>

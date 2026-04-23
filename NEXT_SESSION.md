@@ -145,7 +145,15 @@ Add keys under `Profile.*` in both `messages/en.json` + `messages/ro.json`:
 - [x] `src/lib/actions/executions.ts` — removed unused `executionId` param from `toggleStep`; updated the single call site in `checklist-executor.tsx`.
 - [x] Unused imports cleaned: `Card{Content,Header,Title}` in `org-stats.tsx`; `tc` in `reset-password-form.tsx`; `error` arg in `global-error.tsx` (kept type signature, dropped unused destructure).
 
-# Task: Improve the Sopia Pricing page
+# Task: Improve the Sopia Pricing page — DONE
+
+- [x] Removed the "How upgrading works" 24-hour manual-payment card (was conversion-killer copy).
+- [x] Added Monthly / Annual billing toggle — `PricingTiers` client component owns state; page server component passes session.
+- [x] Annual prices: Growth €79/mo (€948/yr), Business €400/mo (€4,800/yr), 20% off badge.
+- [x] Hoisted `Date.now()` above JSX as `const nowMs = Date.now()` with a scoped eslint-disable (server component runs per-request).
+- [x] Replaced `requestUpgrade` copy with `contactToUpgrade` (Growth) and `contactSales` (Business) — mailto subject now includes billing cycle.
+- [x] i18n: removed `howUpgradeWorks*`, `requestUpgrade`, `growthPrice`, `businessPrice`; added `billingCycle`, `billingMonthly`, `billingAnnual`, `saveAnnual`, `billedMonthly`, `billedAnnuallyTotal`, `contactToUpgrade`, `contactSales` in EN + RO.
+- [x] Middle "Team" tier added — €249/mo, €199/mo annual (€2,388/yr). 10 Managers + unlimited Operators, 100 AI SOPs/mo, priority email support, everything in Growth. "Best value" badge moved from Business → Team (middle-tier anchor).
 
 The current pricing page at src/app/[locale]/pricing/page.tsx has three problems
 the landing-page audit flagged:
@@ -281,6 +289,67 @@ Popup-based demo CTAs are friction and tank conversion. Text links only.
 - [ ] `npx eslint src/app/[locale]/pricing/page.tsx` passes
 - [ ] Visual check on mobile + desktop
 
+# Task: Interactive product tour (Arcade / Navattic)
+
+**Replaces** the "Book a demo" task above. For SMB self-serve (10–50 people
+teams evaluating a €99/mo tool), a click-through tour converts higher than
+a booked call — zero friction, no signup required, scales infinitely. Live
+demos can stay as a mailto CTA for Business-tier prospects.
+
+## Tool
+
+- **Arcade** (https://arcade.software) — free tier, browser extension records
+  clicks, iframe embed. **Start here.**
+- Navattic as an upgrade path if Arcade's free tier gets outgrown. More
+  enterprise-priced, richer interactivity.
+
+## Flows to record (ask user first)
+
+- (a) Manager creates an SOP from a prompt → publishes. ~60–90s.
+- (b) Operator runs the checklist + asks AI a question. ~60–90s.
+
+## Changes
+
+### 1. New `/tour` page
+
+- Title: "See Sopia in action"
+- Subtitle: "Click through the product — no signup needed."
+- 16:9 iframe container for the Arcade embed (`src` to be filled in when the
+  recording is ready — leave a TODO).
+- "What you'll see" bullets (3–4 items describing the flow).
+- CTA below: "Start 14-day free trial" (primary) + muted "or talk to us"
+  mailto (secondary).
+
+### 2. Landing page wiring
+
+- "Watch 60s demo" button currently points to `#demo` anchor with no modal.
+  Option A: rewire to `/tour`. Option B: add a second CTA "Click through
+  the product" next to it. Pick A unless the user wants both.
+
+### 3. Pricing page
+
+- Optional: small muted link below the Business tier card — "Not sure which
+  plan? Talk to us" → `mailto:hello@sopia.xyz`. Matches the Business-tier
+  high-touch posture without a modal.
+
+### 4. i18n
+
+Keys under `Tour.*` in EN + RO: `title`, `subtitle`, `whatYoullSee`,
+`bullet1..4`, `ctaTrial`, `ctaTalk`, `placeholderNotice` (shown while the
+iframe URL is still a TODO).
+
+## What blocks shipping end-to-end
+
+- Arcade account + recorded flow(s) → embed URL.
+
+## Acceptance
+
+- [ ] `/tour` page renders with placeholder iframe + "What you'll see" + CTAs
+- [ ] Landing "Watch 60s demo" points to `/tour`
+- [ ] i18n complete in EN + RO
+- [ ] `npx tsc --noEmit` + `npx eslint` pass
+- [ ] Once Arcade URL exists: paste `src`, remove placeholder notice
+
 ## Nice-to-have polish
 
 - [ ] Dedicated Escalations page — add filters (by process, by operator, by date range)
@@ -288,7 +357,6 @@ Popup-based demo CTAs are friction and tank conversion. Text links only.
 - [ ] Replace `/hero-placeholder.png` reference (not needed now — the hero uses CSS mockup)
 - [ ] Run a `rm -rf .claude/worktrees` cleanup + confirm `.gitignore` has `.claude/worktrees/` + `.claude/settings.local.json`
 - [ ] Record a real 60s product demo and wire it to the `Watch 60s demo` button on landing (currently `#demo` anchor with no modal)
-- [ ] Interactive product tour (Navattic, Arcade) — embedded iframe care lasă userul să dea click prin produs fără signup. Funcționează spectaculos pe landing.
 
 ## Done this session (for context)
 

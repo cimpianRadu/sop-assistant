@@ -30,7 +30,6 @@
     "terms": "Terms",
     "privacy": "Privacy"
   },
-
   "Landing": {
     "trialBadge": "14-day free trial — no credit card required",
     "heroTitle": "Your experts shouldn't be full-time trainers.",
@@ -81,7 +80,6 @@
     "ctaSubtitle": "Start your 14-day free trial. Full access, no credit card required.",
     "getStarted": "Get started for free"
   },
-
   "FAQ": {
     "title": "Frequently Asked Questions",
     "faq1Q": "What is a Standard Operating Procedure (SOP)?",
@@ -101,13 +99,11 @@
     "faq8Q": "Can I use Sopia in Romanian?",
     "faq8A": "Yes! Sopia is fully available in both English and Romanian. The AI generates SOPs in the language you write your description in, and the entire interface switches seamlessly between languages."
   },
-
   "Pricing": {
     "title": "Simple, transparent pricing",
     "subtitle": "Transform your team's expertise into clear, AI-generated procedures. New hires become productive from day one.",
     "perMonth": "/month",
     "growthName": "Growth",
-    "growthPrice": "€99",
     "growthDescription": "Everything you need to onboard your team efficiently.",
     "growthFeature1": "Up to 3 Managers",
     "growthFeature2": "Up to 20 Operators",
@@ -117,7 +113,6 @@
     "growthFeature6": "Execution tracking & analytics",
     "growthFeature7": "Email support",
     "businessName": "Business",
-    "businessPrice": "€500",
     "businessDescription": "For teams that need unlimited capacity and priority support.",
     "businessFeature1": "Unlimited Managers & Operators",
     "businessFeature2": "Unlimited AI-generated SOPs",
@@ -127,14 +122,25 @@
     "bestValue": "Best value",
     "currentPlan": "You're on the Growth plan",
     "trialRemaining": "Trial: {days} {days, plural, one {day} other {days}} remaining",
-    "requestUpgrade": "Request upgrade",
     "startTrial": "Start 14-day free trial",
-    "howUpgradeWorks": "How upgrading works",
-    "howUpgradeWorksDesc": "Click the upgrade button to send us your request. We'll review it and send you a payment link within 24 hours. Once payment is confirmed, your plan is activated immediately.",
     "trialInfo": "14-day free trial. Full access. No credit card required.",
-    "questions": "Questions?"
+    "questions": "Questions?",
+    "billingCycle": "Billing cycle",
+    "billingMonthly": "Monthly",
+    "billingAnnual": "Annual",
+    "saveAnnual": "Save 20%",
+    "billedMonthly": "Billed monthly",
+    "billedAnnuallyTotal": "Billed annually ({total}/year)",
+    "contactToUpgrade": "Contact us to upgrade",
+    "contactSales": "Contact sales",
+    "teamName": "Team",
+    "teamDescription": "For growing teams that need more capacity and priority support.",
+    "teamFeature1": "Up to 10 Managers",
+    "teamFeature2": "Unlimited Operators",
+    "teamFeature3": "100 AI-generated SOPs per month",
+    "teamFeature4": "Priority email support",
+    "teamFeature5": "Everything in Growth"
   },
-
   "Auth": {
     "loginTitle": "Log In",
     "loginSubtitle": "Sign in to your Sopia account",
@@ -171,7 +177,6 @@
     "resetPassword": "Reset password",
     "resettingPassword": "Resetting..."
   },
-
   "Onboarding": {
     "createOrgTitle": "Create your organization",
     "createOrgSubtitle": "Set up your team workspace to get started.",
@@ -180,7 +185,6 @@
     "creating": "Creating...",
     "createOrg": "Create Organization"
   },
-
   "Invite": {
     "title": "You're invited!",
     "invitedTo": "You've been invited to join {orgName} as {role}.",
@@ -194,7 +198,6 @@
     "orgLabel": "Organization",
     "roleLabel": "Role"
   },
-
   "Admin": {
     "dashboard": "Organization Dashboard",
     "members": "Members",
@@ -225,7 +228,6 @@
     "allClear": "All clear",
     "createdAt": "Created {date}"
   },
-
   "TrialExpired": {
     "title": "Your trial has ended",
     "description": "Your 14-day free trial of Sopia has expired. Upgrade to keep your team running smoothly.",
@@ -249,7 +251,6 @@
     "operatorDescription": "Your team's trial has ended. Your admin needs to upgrade the plan before you can continue.",
     "operatorContactAdmin": "Please contact your admin to restore access."
   },
-
   "Nav": {
     "workspace": "Workspace",
     "account": "Account",
@@ -262,7 +263,6 @@
     "profile": "Profile",
     "helpFeedback": "Help & feedback"
   },
-
   "Header": {
     "trialDays": "Trial: {days} {days, plural, one {day} other {days}} left",
     "upgradeNow": "Upgrade now",
@@ -279,7 +279,6 @@
     "reactivate": "Reactivate",
     "menu": "Menu"
   },
-
   "Manager": {
     "yourProcesses": "Your Processes",
     "newProcess": "New Process",
@@ -349,10 +348,8 @@
     "addStep": "Add step",
     "removeStep": "Remove step",
     "stepPlaceholder": "e.g., Open the till and count the float",
-    "saving": "Saving...",
     "saveFailed": "Could not save changes. {error}"
   },
-
   "Assignments": {
     "assignedOperators": "Assigned Operators",
     "selectOperator": "Select an operator...",
@@ -363,7 +360,6 @@
     "noOperators": "No operators assigned yet.",
     "noOrgOperators": "No operators in your organization yet. Invite operators from the Members page."
   },
-
   "Escalations": {
     "title": "Escalations",
     "open": "{count} open",
@@ -391,7 +387,6 @@
     "resolved": "Resolved",
     "noResolvedYet": "No resolved escalations yet."
   },
-
   "Analytics": {
     "totalProcesses": "Total Processes",
     "sopsCreated": "SOPs created",
@@ -402,7 +397,6 @@
     "inProgress": "In Progress",
     "currentlyRunning": "Currently running"
   },
-
   "Operator": {
     "assignedProcesses": "Your Assigned Processes",
     "noProcesses": "No processes assigned",
@@ -421,7 +415,6 @@
     "startedOn": "Started {date}",
     "allAssignedProcesses": "All Assigned Processes"
   },
-
   "Checklist": {
     "progress": "Progress",
     "stepsProgress": "{completed}/{total} steps ({percent}%)",
@@ -430,7 +423,6 @@
     "completeExecution": "Complete Execution",
     "stepsRemaining": "Complete all steps to finish ({remaining} remaining)"
   },
-
   "Help": {
     "needHelp": "Need Help?",
     "helpWithStep": "Help with Step {number}",
@@ -449,7 +441,6 @@
     "defaultEscalationNote": "Operator needs additional assistance.",
     "close": "Close"
   },
-
   "Errors": {
     "unauthorized": "Unauthorized",
     "titleRequired": "Title and description are required.",
@@ -485,19 +476,16 @@
     "unknown_error": "Something went wrong. Please try again.",
     "sole_admin": "You are the only admin of your organization. Please transfer admin role to another member before deleting your account."
   },
-
   "ErrorBoundary": {
     "title": "Something went wrong",
     "description": "An unexpected error occurred. Please try again.",
     "tryAgain": "Try again"
   },
-
   "NotFound": {
     "title": "Page not found",
     "description": "The page you're looking for doesn't exist or has been moved.",
     "goHome": "Go to dashboard"
   },
-
   "Toast": {
     "inviteSent": "Invitation sent successfully",
     "memberRemoved": "Member removed",
@@ -511,7 +499,6 @@
     "inviteResent": "Invite email resent",
     "linkCopied": "Link copied to clipboard"
   },
-
   "Profile": {
     "title": "Profile",
     "personalInfo": "Personal Information",
@@ -538,7 +525,6 @@
     "totalExecutions": "Total Executions",
     "totalExecutionsDesc": "Across all org processes"
   },
-
   "Chat": {
     "chatWithAI": "Chat with AI",
     "title": "AI Assistant",
@@ -561,7 +547,6 @@
     "assistant": "AI",
     "stepBadge": "Step {number}"
   },
-
   "ExecutionDetail": {
     "title": "Execution Details",
     "titleNumbered": "Execution #{number} — {process}",
@@ -598,7 +583,6 @@
     "otherRunsNone": "No other runs yet.",
     "ongoing": "ongoing"
   },
-
   "Terms": {
     "title": "Terms and Conditions",
     "lastUpdated": "Last updated: March 4, 2026",
@@ -625,7 +609,6 @@
     "section10Title": "Changes and Termination",
     "section10Content": "We may update these Terms at any time. We will notify you of significant changes via email or through the Service. Continued use of the Service after changes constitutes acceptance of the updated terms. You may terminate your account at any time by contacting us at hello@sopia.xyz. We may terminate or suspend your account for violation of these terms. Upon termination, your right to use the Service ceases, but we will preserve your data for a reasonable period."
   },
-
   "Privacy": {
     "title": "Privacy Policy",
     "lastUpdated": "Last updated: March 4, 2026",
@@ -652,7 +635,6 @@
     "section10Title": "Changes and Contact",
     "section10Content": "We may update this Privacy Policy from time to time. We will notify you of significant changes via email or through the Service. The \"last updated\" date at the top reflects the most recent revision.\n\nFor any privacy-related questions or concerns, contact us at:\nEmail: hello@sopia.xyz\n\nIf you believe your data protection rights have been violated, you have the right to file a complaint with your local data protection authority."
   },
-
   "SubscriptionEnded": {
     "title": "Your subscription has ended",
     "description": "Your Sopia subscription is no longer active. Reactivate to continue managing your team's procedures.",
@@ -670,7 +652,6 @@
     "operatorDescription": "Your team's subscription has ended. Your admin needs to reactivate before you can continue.",
     "operatorContactAdmin": "Please contact your admin to restore access."
   },
-
   "DeleteAccount": {
     "title": "Delete Account",
     "description": "Permanently delete your account and all associated data. This action cannot be undone.",
@@ -681,7 +662,6 @@
     "confirmButton": "Yes, delete my account",
     "cancelButton": "Cancel"
   },
-
   "PasswordRules": {
     "strength": "Password strength",
     "empty": "",

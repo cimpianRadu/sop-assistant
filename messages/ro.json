@@ -30,7 +30,6 @@
     "terms": "Termeni",
     "privacy": "Confidentialitate"
   },
-
   "Landing": {
     "trialBadge": "14 zile gratuit — fara card",
     "heroTitle": "Oamenii tai experti nu ar trebui sa fie mereu traineri.",
@@ -81,7 +80,6 @@
     "ctaSubtitle": "Incepe gratuit 14 zile. Acces complet, fara card.",
     "getStarted": "Incepe gratuit"
   },
-
   "FAQ": {
     "title": "Intrebari frecvente",
     "faq1Q": "Ce este o Procedura Standard de Operare (SOP)?",
@@ -101,13 +99,11 @@
     "faq8Q": "Pot folosi Sopia in limba romana?",
     "faq8A": "Da! Sopia functioneaza complet in romana si in engleza. AI-ul genereaza proceduri in limba in care scrii descrierea, iar interfata se schimba fara probleme intre cele doua limbi."
   },
-
   "Pricing": {
     "title": "Preturi simple, transparente",
     "subtitle": "Transforma expertiza echipei tale in proceduri clare, generate de AI. Angajatii noi devin productivi din prima zi.",
     "perMonth": "/luna",
     "growthName": "Growth",
-    "growthPrice": "€99",
     "growthDescription": "Tot ce ai nevoie pentru un onboarding eficient al echipei.",
     "growthFeature1": "Pana la 3 Manageri",
     "growthFeature2": "Pana la 20 Operatori",
@@ -117,7 +113,6 @@
     "growthFeature6": "Monitorizare executii si rapoarte",
     "growthFeature7": "Suport prin email",
     "businessName": "Business",
-    "businessPrice": "€500",
     "businessDescription": "Pentru echipe care au nevoie de capacitate nelimitata si suport prioritar.",
     "businessFeature1": "Manageri si Operatori nelimitati",
     "businessFeature2": "SOP-uri generate de AI nelimitate",
@@ -127,14 +122,25 @@
     "bestValue": "Cel mai avantajos",
     "currentPlan": "Esti pe planul Growth",
     "trialRemaining": "Trial: {days} {days, plural, one {zi} other {zile}} ramase",
-    "requestUpgrade": "Solicita upgrade",
     "startTrial": "Incepe gratuit 14 zile",
-    "howUpgradeWorks": "Cum functioneaza upgrade-ul",
-    "howUpgradeWorksDesc": "Apasa butonul de upgrade pentru a ne trimite cererea. O vom analiza si iti vom trimite un link de plata in 24 de ore. Odata confirmata plata, planul este activat imediat.",
     "trialInfo": "14 zile gratuit. Acces complet. Fara card.",
-    "questions": "Intrebari?"
+    "questions": "Intrebari?",
+    "billingCycle": "Ciclu de facturare",
+    "billingMonthly": "Lunar",
+    "billingAnnual": "Anual",
+    "saveAnnual": "Economisesti 20%",
+    "billedMonthly": "Facturat lunar",
+    "billedAnnuallyTotal": "Facturat anual ({total}/an)",
+    "contactToUpgrade": "Contacteaza-ne pentru upgrade",
+    "contactSales": "Contacteaza sales",
+    "teamName": "Team",
+    "teamDescription": "Pentru echipe in crestere care au nevoie de mai multa capacitate si suport prioritar.",
+    "teamFeature1": "Pana la 10 Manageri",
+    "teamFeature2": "Operatori nelimitati",
+    "teamFeature3": "100 de proceduri generate de AI pe luna",
+    "teamFeature4": "Suport prioritar prin email",
+    "teamFeature5": "Tot ce include Growth"
   },
-
   "Auth": {
     "loginTitle": "Autentificare",
     "loginSubtitle": "Conecteaza-te la contul tau Sopia",
@@ -171,7 +177,6 @@
     "resetPassword": "Reseteaza parola",
     "resettingPassword": "Se reseteaza..."
   },
-
   "Onboarding": {
     "createOrgTitle": "Creeaza organizatia ta",
     "createOrgSubtitle": "Configureaza spatiul de lucru al echipei tale.",
@@ -180,7 +185,6 @@
     "creating": "Se creeaza...",
     "createOrg": "Creeaza organizatia"
   },
-
   "Invite": {
     "title": "Ai fost invitat!",
     "invitedTo": "Ai fost invitat sa te alaturi organizatiei {orgName} ca {role}.",
@@ -194,7 +198,6 @@
     "orgLabel": "Organizatie",
     "roleLabel": "Rol"
   },
-
   "Admin": {
     "dashboard": "Panoul organizatiei",
     "members": "Membri",
@@ -225,7 +228,6 @@
     "allClear": "Totul e bine",
     "createdAt": "Creat la {date}"
   },
-
   "TrialExpired": {
     "title": "Perioada de trial s-a incheiat",
     "description": "Perioada ta gratuita de 14 zile pentru Sopia a expirat. Upgradeaza pentru a mentine echipa in functiune.",
@@ -249,7 +251,6 @@
     "operatorDescription": "Perioada de proba a echipei tale s-a incheiat. Adminul trebuie sa upgradeze planul ca sa poti continua.",
     "operatorContactAdmin": "Contacteaza adminul ca sa restabilesti accesul."
   },
-
   "Nav": {
     "workspace": "Spatiu de lucru",
     "account": "Cont",
@@ -262,7 +263,6 @@
     "profile": "Profil",
     "helpFeedback": "Ajutor si feedback"
   },
-
   "Header": {
     "trialDays": "Trial: {days} {days, plural, one {zi} other {zile}} ramase",
     "upgradeNow": "Upgradeaza acum",
@@ -279,7 +279,6 @@
     "reactivate": "Reactiveaza",
     "menu": "Meniu"
   },
-
   "Manager": {
     "yourProcesses": "Procesele tale",
     "newProcess": "Proces nou",
@@ -344,7 +343,6 @@
     "addStep": "Adauga pas",
     "removeStep": "Sterge pasul",
     "stepPlaceholder": "ex., Deschide casa si numara banii din fond",
-    "saving": "Se salveaza...",
     "saveFailed": "Nu s-au putut salva modificarile. {error}",
     "executionHistory": "Istoricul executiilor",
     "noExecutions": "Nicio executie inca. Operatorii pot incepe executarea din panoul lor.",
@@ -352,7 +350,6 @@
     "viewExecution": "Vezi",
     "duration": "{hours}h {minutes}m"
   },
-
   "Assignments": {
     "assignedOperators": "Operatori asignati",
     "selectOperator": "Selecteaza un operator...",
@@ -363,7 +360,6 @@
     "noOperators": "Niciun operator asignat inca.",
     "noOrgOperators": "Niciun operator in organizatie. Invita operatori din pagina de Membri."
   },
-
   "Escalations": {
     "title": "Solicitari de ajutor",
     "open": "{count} deschise",
@@ -391,7 +387,6 @@
     "resolved": "Rezolvat",
     "noResolvedYet": "Nu exista escaladari rezolvate inca."
   },
-
   "Analytics": {
     "totalProcesses": "Total procese",
     "sopsCreated": "SOP-uri create",
@@ -402,7 +397,6 @@
     "inProgress": "In desfasurare",
     "currentlyRunning": "In curs de executie"
   },
-
   "Operator": {
     "assignedProcesses": "Procesele tale asignate",
     "noProcesses": "Niciun proces asignat",
@@ -421,7 +415,6 @@
     "startedOn": "Inceput la {date}",
     "allAssignedProcesses": "Toate procesele asignate"
   },
-
   "Checklist": {
     "progress": "Progres",
     "stepsProgress": "{completed}/{total} pasi ({percent}%)",
@@ -430,7 +423,6 @@
     "completeExecution": "Finalizeaza executia",
     "stepsRemaining": "Completeaza toti pasii pentru a termina ({remaining} ramasi)"
   },
-
   "Help": {
     "needHelp": "Ai nevoie de ajutor?",
     "helpWithStep": "Ajutor pentru Pasul {number}",
@@ -449,7 +441,6 @@
     "defaultEscalationNote": "Operatorul are nevoie de ajutor suplimentar.",
     "close": "Inchide"
   },
-
   "Errors": {
     "unauthorized": "Neautorizat",
     "titleRequired": "Titlul si descrierea sunt obligatorii.",
@@ -485,19 +476,16 @@
     "unknown_error": "Ceva nu a functionat corect. Te rugam sa incerci din nou.",
     "sole_admin": "Esti singurul admin al organizatiei. Te rugam sa transferi rolul de admin altui membru inainte de a-ti sterge contul."
   },
-
   "ErrorBoundary": {
     "title": "Ceva nu a functionat",
     "description": "A aparut o eroare neasteptata. Te rugam sa incerci din nou.",
     "tryAgain": "Incearca din nou"
   },
-
   "NotFound": {
     "title": "Pagina nu a fost gasita",
     "description": "Pagina pe care o cauti nu exista sau a fost mutata.",
     "goHome": "Inapoi la panou"
   },
-
   "Toast": {
     "inviteSent": "Invitatia a fost trimisa cu succes",
     "memberRemoved": "Membrul a fost sters",
@@ -511,7 +499,6 @@
     "inviteResent": "Emailul de invitatie a fost retrimis",
     "linkCopied": "Linkul a fost copiat"
   },
-
   "Profile": {
     "title": "Profil",
     "personalInfo": "Informatii personale",
@@ -538,7 +525,6 @@
     "totalExecutions": "Total executii",
     "totalExecutionsDesc": "Din toate procesele organizatiei"
   },
-
   "Chat": {
     "chatWithAI": "Chat cu AI",
     "title": "Asistent AI",
@@ -561,7 +547,6 @@
     "assistant": "AI",
     "stepBadge": "Pasul {number}"
   },
-
   "ExecutionDetail": {
     "title": "Detalii executie",
     "titleNumbered": "Executie #{number} — {process}",
@@ -598,7 +583,6 @@
     "otherRunsNone": "Nu exista alte rulari inca.",
     "ongoing": "in curs"
   },
-
   "Terms": {
     "title": "Termeni si Conditii",
     "lastUpdated": "Ultima actualizare: 4 martie 2026",
@@ -625,7 +609,6 @@
     "section10Title": "Modificari si Incetare",
     "section10Content": "Putem actualiza acesti Termeni in orice moment. Va vom notifica despre modificarile semnificative prin email sau prin Serviciu. Continuarea utilizarii Serviciului dupa modificari constituie acceptarea termenilor actualizati. Puteti inceta contul dumneavoastra oricand contactandu-ne la hello@sopia.xyz. Putem inceta sau suspenda contul dumneavoastra pentru incalcarea acestor termeni. La incetare, dreptul dumneavoastra de a utiliza Serviciul inceteaza, dar vom pastra datele dumneavoastra pentru o perioada rezonabila."
   },
-
   "Privacy": {
     "title": "Politica de Confidentialitate",
     "lastUpdated": "Ultima actualizare: 4 martie 2026",
@@ -652,7 +635,6 @@
     "section10Title": "Modificari si Contact",
     "section10Content": "Putem actualiza aceasta Politica de Confidentialitate periodic. Va vom notifica despre modificarile semnificative prin email sau prin Serviciu. Data \"ultima actualizare\" din partea de sus reflecta cea mai recenta revizie.\n\nPentru orice intrebari sau preocupari legate de confidentialitate, contactati-ne la:\nEmail: hello@sopia.xyz\n\nDaca considerati ca drepturile dumneavoastra de protectie a datelor au fost incalcate, aveti dreptul de a depune o plangere la autoritatea locala de protectie a datelor."
   },
-
   "SubscriptionEnded": {
     "title": "Abonamentul tau s-a incheiat",
     "description": "Abonamentul tau Sopia nu mai este activ. Reactiveaza pentru a continua sa gestionezi procedurile echipei.",
@@ -670,7 +652,6 @@
     "operatorDescription": "Abonamentul echipei tale s-a incheiat. Adminul trebuie sa reactiveze ca sa poti continua.",
     "operatorContactAdmin": "Contacteaza adminul ca sa restabilesti accesul."
   },
-
   "DeleteAccount": {
     "title": "Sterge contul",
     "description": "Sterge permanent contul tau si toate datele asociate. Aceasta actiune nu poate fi anulata.",
@@ -681,7 +662,6 @@
     "confirmButton": "Da, sterge contul meu",
     "cancelButton": "Anuleaza"
   },
-
   "PasswordRules": {
     "strength": "Puterea parolei",
     "empty": "",

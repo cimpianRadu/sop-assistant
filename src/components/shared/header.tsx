@@ -76,7 +76,7 @@ export async function Header({
   const initials = session.email.slice(0, 2).toUpperCase();
 
   return (
-    <div className="sticky top-0 z-40">
+    <div className="shrink-0">
       {/* Trial banner */}
       {isTrialing && trialDaysLeft !== null && (
         <div className="bg-amber-100 border-b border-amber-300 dark:bg-amber-900/40 dark:border-amber-800">

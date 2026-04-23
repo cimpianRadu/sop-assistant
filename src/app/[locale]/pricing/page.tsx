@@ -3,16 +3,8 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { CheckIcon, MailIcon } from "lucide-react";
+import { PricingTiers } from "@/components/pricing/pricing-tiers";
 
 export async function generateMetadata({
   params,
@@ -77,37 +69,20 @@ export default async function PricingPage({
 
   const isTrialing = session?.subscription_status === "trialing";
   const isActive = session?.subscription_status === "active";
+
+  // Server component renders per-request — current time is the source of truth.
+  // eslint-disable-next-line react-hooks/purity
+  const nowMs = Date.now();
   const daysLeft =
     isTrialing && session?.trial_ends_at
       ? Math.max(
           0,
           Math.ceil(
-            (new Date(session.trial_ends_at).getTime() -
-              // Server component renders per-request — current time is the source of truth
-              // eslint-disable-next-line react-hooks/purity
-              Date.now()) /
+            (new Date(session.trial_ends_at).getTime() - nowMs) /
               (1000 * 60 * 60 * 24)
           )
         )
       : null;
-
-  const growthFeatures = [
-    "growthFeature1",
-    "growthFeature2",
-    "growthFeature3",
-    "growthFeature4",
-    "growthFeature5",
-    "growthFeature6",
-    "growthFeature7",
-  ] as const;
-
-  const businessFeatures = [
-    "businessFeature1",
-    "businessFeature2",
-    "businessFeature3",
-    "businessFeature4",
-    "businessFeature5",
-  ] as const;
 
   return (
     <div className="min-h-screen bg-background">
@@ -164,130 +139,12 @@ export default async function PricingPage({
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {/* Growth plan */}
-          <Card>
-            <CardHeader className="text-center">
-              <div className="flex justify-center mb-2">
-                <Badge variant="secondary">{t("growthName")}</Badge>
-              </div>
-              <CardTitle className="text-3xl">
-                {t("growthPrice")}
-                <span className="text-base font-normal text-muted-foreground">
-                  {t("perMonth")}
-                </span>
-              </CardTitle>
-              <CardDescription>{t("growthDescription")}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <ul className="space-y-3">
-                {growthFeatures.map((key) => (
-                  <li key={key} className="flex items-center gap-3 text-sm">
-                    <CheckIcon className="size-4 text-green-500 shrink-0" />
-                    {t(key)}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="pt-4 space-y-3">
-                {isActive ? (
-                  <div className="text-center">
-                    <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-                      {t("currentPlan")}
-                    </Badge>
-                  </div>
-                ) : isTrialing && daysLeft !== null ? (
-                  <div className="text-center space-y-3">
-                    <Badge
-                      variant="outline"
-                      className="border-amber-500 text-amber-600"
-                    >
-                      {t("trialRemaining", { days: daysLeft })}
-                    </Badge>
-                    <a href="mailto:hello@sopia.xyz?subject=Upgrade to Growth plan" className="block">
-                      <Button className="w-full" size="lg">
-                        <MailIcon className="size-4 mr-2" />
-                        {t("requestUpgrade")}
-                      </Button>
-                    </a>
-                  </div>
-                ) : user ? (
-                  <a href="mailto:hello@sopia.xyz?subject=Subscribe to Growth plan" className="block">
-                    <Button className="w-full" size="lg">
-                      <MailIcon className="size-4 mr-2" />
-                      {t("requestUpgrade")}
-                    </Button>
-                  </a>
-                ) : (
-                  <Link href="/auth/signup" className="block">
-                    <Button className="w-full" size="lg">
-                      {t("startTrial")}
-                    </Button>
-                  </Link>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Business plan */}
-          <Card className="border-primary/50 relative">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-              <Badge className="bg-primary text-primary-foreground">{t("bestValue")}</Badge>
-            </div>
-            <CardHeader className="text-center">
-              <div className="flex justify-center mb-2">
-                <Badge variant="secondary">{t("businessName")}</Badge>
-              </div>
-              <CardTitle className="text-3xl">
-                {t("businessPrice")}
-                <span className="text-base font-normal text-muted-foreground">
-                  {t("perMonth")}
-                </span>
-              </CardTitle>
-              <CardDescription>{t("businessDescription")}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <ul className="space-y-3">
-                {businessFeatures.map((key) => (
-                  <li key={key} className="flex items-center gap-3 text-sm">
-                    <CheckIcon className="size-4 text-green-500 shrink-0" />
-                    {t(key)}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="pt-4">
-                {!user ? (
-                  <Link href="/auth/signup" className="block">
-                    <Button className="w-full" size="lg" variant="outline">
-                      {t("startTrial")}
-                    </Button>
-                  </Link>
-                ) : (
-                  <a href="mailto:hello@sopia.xyz?subject=Upgrade to Business plan" className="block">
-                    <Button className="w-full" size="lg" variant="outline">
-                      <MailIcon className="size-4 mr-2" />
-                      {t("requestUpgrade")}
-                    </Button>
-                  </a>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* How it works note */}
-        <div className="max-w-2xl mx-auto mt-10">
-          <Card className="bg-muted/50">
-            <CardContent className="flex items-start gap-3 py-4">
-              <MailIcon className="size-5 text-primary mt-0.5 shrink-0" />
-              <div>
-                <p className="font-medium text-sm">{t("howUpgradeWorks")}</p>
-                <p className="text-sm text-muted-foreground mt-1">{t("howUpgradeWorksDesc")}</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <PricingTiers
+          isActive={isActive}
+          isTrialing={isTrialing}
+          daysLeft={daysLeft}
+          hasUser={!!user}
+        />
 
         <div className="text-center mt-12 space-y-2">
           <p className="text-sm text-muted-foreground">{t("trialInfo")}</p>
