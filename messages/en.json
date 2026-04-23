@@ -302,7 +302,14 @@
     "noExecutions": "No executions yet. Operators can start executing this process from their dashboard.",
     "aiHelpCount": "{count} AI",
     "viewExecution": "View",
-    "duration": "{hours}h {minutes}m"
+    "duration": "{hours}h {minutes}m",
+    "cardRuns": "{count} {count, plural, one {run} other {runs}}",
+    "cardOperators": "{count} {count, plural, one {operator} other {operators}}",
+    "cardStepsShort": "{count} steps",
+    "cardLastRun": "Last run {when}",
+    "cardNoRuns": "No runs yet",
+    "statusActive": "Active",
+    "statusDraft": "Draft"
   },
 
   "Assignments": {

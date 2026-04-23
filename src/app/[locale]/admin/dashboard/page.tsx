@@ -8,6 +8,7 @@ import { ProcessList } from "@/components/manager/process-list";
 import { EscalationList } from "@/components/manager/escalation-list";
 import { MemberList } from "@/components/admin/member-list";
 import { StatCard } from "@/components/shared/stat-card";
+import { enrichProcesses } from "@/lib/process-enrichment";
 import { AlertTriangleIcon } from "lucide-react";
 import type {
   ProcessWithCreator,
@@ -154,7 +155,10 @@ export default async function AdminDashboard({
 
   const allProcesses = (processes as ProcessWithCreator[]) || [];
   const PROCESS_LIMIT = 6;
-  const visibleProcesses = allProcesses.slice(0, PROCESS_LIMIT);
+  const visibleProcesses = await enrichProcesses(
+    supabase,
+    allProcesses.slice(0, PROCESS_LIMIT)
+  );
 
   const orgDate = org?.created_at
     ? new Date(org.created_at).toLocaleDateString(locale, {

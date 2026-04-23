@@ -7,6 +7,7 @@ import { EscalationList } from "@/components/manager/escalation-list";
 import { StatCard } from "@/components/shared/stat-card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { enrichProcesses } from "@/lib/process-enrichment";
 import { AlertTriangleIcon } from "lucide-react";
 import type { ProcessWithCreator, HelpRequestWithDetails } from "@/lib/types";
 
@@ -213,7 +214,12 @@ export default async function ManagerDashboard({
             <Button size="sm">{t("newProcess")}</Button>
           </Link>
         </div>
-        <ProcessList processes={(processes as ProcessWithCreator[]) || []} />
+        <ProcessList
+          processes={await enrichProcesses(
+            supabase,
+            ((processes as ProcessWithCreator[]) || []).slice(0, 6)
+          )}
+        />
       </div>
 
       {/* Empty-state card when clear */}
