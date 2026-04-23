@@ -1,14 +1,9 @@
-import { Header } from "@/components/shared/header";
+import { AppShell } from "@/components/shared/app-shell";
 
 export default function OperatorLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="min-h-screen bg-muted/30">
-      <Header />
-      <main className="container mx-auto px-4 py-6">{children}</main>
-    </div>
-  );
+  return <AppShell>{children}</AppShell>;
 }

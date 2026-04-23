@@ -247,15 +247,32 @@
     "viewFullPricing": "View full pricing details"
   },
 
+  "Nav": {
+    "workspace": "Workspace",
+    "account": "Account",
+    "dashboard": "Dashboard",
+    "processes": "Processes",
+    "myProcesses": "My Processes",
+    "escalations": "Escalations",
+    "team": "Team",
+    "analytics": "Analytics",
+    "profile": "Profile",
+    "helpFeedback": "Help & feedback"
+  },
+
   "Header": {
     "trialDays": "Trial: {days} {days, plural, one {day} other {days}} left",
     "upgradeNow": "Upgrade now",
     "premium": "Premium",
+    "renewalToday": "Your {plan} plan renews today ({date}). If nothing changes, you'll be charged {price} automatically.",
+    "renewalSoon": "Your {plan} plan renews in {days} {days, plural, one {day} other {days}} ({date}) — {price} will be charged.",
+    "manageBilling": "Manage billing",
     "renewalReminder": "Your subscription renews in {days} {days, plural, one {day} other {days}}",
     "pastDueWarning": "Payment failed. Please update your payment method to avoid service interruption.",
     "updatePayment": "Update payment",
     "cancelledCountdown": "Your subscription ends in {days} {days, plural, one {day} other {days}}",
-    "reactivate": "Reactivate"
+    "reactivate": "Reactivate",
+    "menu": "Menu"
   },
 
   "Manager": {
@@ -301,15 +318,23 @@
 
   "Escalations": {
     "title": "Escalations",
-    "operatorQuestion": "Operator's Question:",
-    "aiResponseGiven": "AI Response Given:",
-    "operatorNote": "Operator's Note:",
+    "open": "{count} open",
+    "operatorQuestion": "Operator's question",
+    "aiResponseGiven": "AI responded — but couldn't answer",
+    "aiResponseGivenResolved": "AI response given",
+    "operatorNote": "Operator's note",
     "resolving": "Resolving...",
-    "markResolved": "Mark as Resolved",
-    "from": "From: {email} · {date}",
+    "markResolved": "Mark as resolved",
+    "updateSop": "Update SOP",
+    "replyOperator": "Reply to operator",
+    "from": "From {email} · {date}",
+    "stepOf": "Step {number} of {total}",
     "step": "Step {number}: {text}",
+    "waitingHours": "{hours}h waiting",
+    "waitingDays": "{days, plural, one {# day} other {# days}} waiting",
     "noEscalations": "No open escalations",
-    "noEscalationsHint": "All escalations have been resolved."
+    "noEscalationsHint": "All escalations have been resolved.",
+    "viewAll": "View all"
   },
 
   "Analytics": {

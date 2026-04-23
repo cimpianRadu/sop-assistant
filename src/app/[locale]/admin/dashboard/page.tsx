@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { ProcessList } from "@/components/manager/process-list";
 import { EscalationList } from "@/components/manager/escalation-list";
 import { MemberList } from "@/components/admin/member-list";
-import { AlertTriangle } from "lucide-react";
+import { StatCard } from "@/components/shared/stat-card";
+import { AlertTriangleIcon } from "lucide-react";
 import type {
   ProcessWithCreator,
   HelpRequestWithDetails,
@@ -30,6 +31,10 @@ export default async function AdminDashboard({
   if (!session) return null;
 
   const supabase = await createClient();
+  // eslint-disable-next-line react-hooks/purity -- server component, runs per-request
+  const nowMs = Date.now();
+  const weekAgo = new Date(nowMs - 7 * 24 * 60 * 60 * 1000).toISOString();
+  const monthAgo = new Date(nowMs - 30 * 24 * 60 * 60 * 1000).toISOString();
 
   const [{ data: org }, { data: members }, { data: processes }] =
     await Promise.all([
@@ -56,6 +61,10 @@ export default async function AdminDashboard({
   let totalExecutions = 0;
   let completedExecutions = 0;
   let inProgressExecutions = 0;
+  let thisWeekExecutions = 0;
+  let thisMonthCompleted = 0;
+  let thisMonthTotal = 0;
+  let activeOperators = 0;
   let escalations: HelpRequestWithDetails[] | null = null;
 
   if (processIds.length > 0) {
@@ -63,7 +72,11 @@ export default async function AdminDashboard({
       { count: totalCount },
       { count: completedCount },
       { count: inProgressCount },
+      { count: weekCount },
+      { count: monthCompleted },
+      { count: monthTotal },
       { data: escalationsData },
+      { data: activeOps },
     ] = await Promise.all([
       supabase
         .from("executions")
@@ -80,6 +93,22 @@ export default async function AdminDashboard({
         .in("process_id", processIds)
         .eq("status", "in_progress"),
       supabase
+        .from("executions")
+        .select("*", { count: "exact", head: true })
+        .in("process_id", processIds)
+        .gte("started_at", weekAgo),
+      supabase
+        .from("executions")
+        .select("*", { count: "exact", head: true })
+        .in("process_id", processIds)
+        .eq("status", "completed")
+        .gte("completed_at", monthAgo),
+      supabase
+        .from("executions")
+        .select("*", { count: "exact", head: true })
+        .in("process_id", processIds)
+        .gte("started_at", monthAgo),
+      supabase
         .from("help_requests")
         .select(
           "*, profiles(email), processes(title), checklist_steps(step_text, step_number)"
@@ -88,15 +117,41 @@ export default async function AdminDashboard({
         .eq("resolved", false)
         .in("process_id", processIds)
         .order("created_at", { ascending: false }),
+      supabase
+        .from("executions")
+        .select("operator_id")
+        .in("process_id", processIds)
+        .eq("status", "in_progress"),
     ]);
 
     totalExecutions = totalCount || 0;
     completedExecutions = completedCount || 0;
     inProgressExecutions = inProgressCount || 0;
+    thisWeekExecutions = weekCount || 0;
+    thisMonthCompleted = monthCompleted || 0;
+    thisMonthTotal = monthTotal || 0;
     escalations = escalationsData;
+    activeOperators = new Set(
+      (activeOps || []).map((e: { operator_id: string }) => e.operator_id)
+    ).size;
   }
 
   const openEscalationsCount = (escalations || []).length;
+  const oldestEscalationDays =
+    escalations && escalations.length > 0
+      ? Math.floor(
+          (nowMs -
+            new Date(
+              escalations[escalations.length - 1].created_at
+            ).getTime()) /
+            (1000 * 60 * 60 * 24)
+        )
+      : 0;
+
+  const completionRate = thisMonthTotal > 0
+    ? Math.round((thisMonthCompleted / thisMonthTotal) * 100)
+    : null;
+
   const allProcesses = (processes as ProcessWithCreator[]) || [];
   const PROCESS_LIMIT = 6;
   const visibleProcesses = allProcesses.slice(0, PROCESS_LIMIT);
@@ -110,67 +165,75 @@ export default async function AdminDashboard({
     : null;
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-5xl space-y-6">
       {/* Org header */}
       <div>
         <h2 className="text-2xl font-bold tracking-tight">{session.org_name}</h2>
         {orgDate && (
           <p className="text-sm text-muted-foreground mt-0.5">
-            {t("createdAt", { date: orgDate })} · {memberCount} {memberCount === 1 ? "member" : "members"} · {processCount} {processCount === 1 ? "process" : "processes"}
+            {t("createdAt", { date: orgDate })} · {memberCount}{" "}
+            {memberCount === 1 ? "member" : "members"} · {processCount}{" "}
+            {processCount === 1 ? "process" : "processes"}
           </p>
         )}
       </div>
 
-      {/* Stat cards — promoted from the buried amber pill */}
+      {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
-        <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
-          <p className="text-xs text-muted-foreground">
-            {t("totalExecutions")}
-          </p>
-          <p className="text-2xl font-bold tabular-nums mt-1">{totalExecutions}</p>
-        </div>
-        <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
-          <p className="text-xs text-muted-foreground">
-            {t("inProgressExecutions")}
-          </p>
-          <p className="text-2xl font-bold tabular-nums mt-1">{inProgressExecutions}</p>
-        </div>
-        <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
-          <p className="text-xs text-muted-foreground">
-            {t("completedExecutions")}
-          </p>
-          <p className="text-2xl font-bold tabular-nums mt-1 text-primary">
-            {completedExecutions}
-          </p>
-        </div>
-        <div
-          className={`rounded-lg border px-3 sm:px-4 py-3 ${
+        <StatCard
+          label={t("totalExecutions")}
+          value={totalExecutions}
+          delta={
+            thisWeekExecutions > 0
+              ? `+${thisWeekExecutions} this week`
+              : undefined
+          }
+          deltaTone={thisWeekExecutions > 0 ? "positive" : "neutral"}
+        />
+        <StatCard
+          label={t("inProgressExecutions")}
+          value={inProgressExecutions}
+          delta={
+            inProgressExecutions > 0
+              ? `${activeOperators} ${activeOperators === 1 ? "operator" : "operators"} active`
+              : undefined
+          }
+          deltaTone="neutral"
+        />
+        <StatCard
+          label={t("completedExecutions")}
+          value={completedExecutions}
+          tone="primary"
+          delta={
+            completionRate !== null
+              ? `${completionRate}% this month`
+              : undefined
+          }
+          deltaTone="positive"
+        />
+        <StatCard
+          label={t("openEscalations")}
+          value={openEscalationsCount}
+          tone={openEscalationsCount > 0 ? "danger" : "default"}
+          icon={openEscalationsCount > 0 ? AlertTriangleIcon : undefined}
+          delta={
             openEscalationsCount > 0
-              ? "border-destructive/40 bg-destructive/5"
-              : "bg-card"
-          }`}
-        >
-          <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-            {openEscalationsCount > 0 && (
-              <AlertTriangle className="size-3.5 text-destructive" />
-            )}
-            {t("openEscalations")}
-          </p>
-          <p
-            className={`text-2xl font-bold tabular-nums mt-1 ${
-              openEscalationsCount > 0 ? "text-destructive" : ""
-            }`}
-          >
-            {openEscalationsCount}
-          </p>
-        </div>
+              ? oldestEscalationDays === 0
+                ? "opened today"
+                : `${oldestEscalationDays} ${oldestEscalationDays === 1 ? "day" : "days"} old`
+              : t("allClear")
+          }
+          deltaTone={openEscalationsCount > 0 ? "danger" : "positive"}
+        />
       </div>
 
       {/* Escalations — moved to TOP when there are any */}
       {openEscalationsCount > 0 && (
-        <EscalationList
-          escalations={(escalations as HelpRequestWithDetails[]) || []}
-        />
+        <div id="escalations">
+          <EscalationList
+            escalations={(escalations as HelpRequestWithDetails[]) || []}
+          />
+        </div>
       )}
 
       {/* Processes section */}
@@ -213,11 +276,13 @@ export default async function AdminDashboard({
         />
       </div>
 
-      {/* Empty-state escalations card — only shown when clear (confidence signal) */}
+      {/* Empty-state escalations card */}
       {openEscalationsCount === 0 && (
-        <EscalationList
-          escalations={(escalations as HelpRequestWithDetails[]) || []}
-        />
+        <div id="escalations">
+          <EscalationList
+            escalations={(escalations as HelpRequestWithDetails[]) || []}
+          />
+        </div>
       )}
     </div>
   );

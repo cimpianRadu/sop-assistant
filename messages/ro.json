@@ -247,15 +247,32 @@
     "viewFullPricing": "Vezi toate detaliile de pret"
   },
 
+  "Nav": {
+    "workspace": "Spatiu de lucru",
+    "account": "Cont",
+    "dashboard": "Panou de control",
+    "processes": "Procese",
+    "myProcesses": "Procesele mele",
+    "escalations": "Escaladari",
+    "team": "Echipa",
+    "analytics": "Analize",
+    "profile": "Profil",
+    "helpFeedback": "Ajutor si feedback"
+  },
+
   "Header": {
     "trialDays": "Trial: {days} {days, plural, one {zi} other {zile}} ramase",
     "upgradeNow": "Upgradeaza acum",
     "premium": "Premium",
+    "renewalToday": "Planul tau {plan} se reinnoieste azi ({date}). Daca nu schimbi nimic, vei fi taxat {price} automat.",
+    "renewalSoon": "Planul tau {plan} se reinnoieste in {days} {days, plural, one {zi} other {zile}} ({date}) — vei fi taxat {price}.",
+    "manageBilling": "Gestioneaza abonamentul",
     "renewalReminder": "Abonamentul se reinnoieste in {days} {days, plural, one {zi} other {zile}}",
     "pastDueWarning": "Plata a esuat. Te rugam sa actualizezi metoda de plata pentru a evita intreruperea serviciului.",
     "updatePayment": "Actualizeaza plata",
     "cancelledCountdown": "Abonamentul se incheie in {days} {days, plural, one {zi} other {zile}}",
-    "reactivate": "Reactiveaza"
+    "reactivate": "Reactiveaza",
+    "menu": "Meniu"
   },
 
   "Manager": {
@@ -301,15 +318,23 @@
 
   "Escalations": {
     "title": "Solicitari de ajutor",
-    "operatorQuestion": "Intrebarea operatorului:",
-    "aiResponseGiven": "Raspunsul AI oferit:",
-    "operatorNote": "Nota operatorului:",
+    "open": "{count} deschise",
+    "operatorQuestion": "Intrebarea operatorului",
+    "aiResponseGiven": "AI a raspuns — dar nu a putut rezolva",
+    "aiResponseGivenResolved": "Raspunsul AI",
+    "operatorNote": "Nota operatorului",
     "resolving": "Se rezolva...",
     "markResolved": "Marcheaza ca rezolvat",
-    "from": "De la: {email} · {date}",
+    "updateSop": "Actualizeaza SOP",
+    "replyOperator": "Raspunde operatorului",
+    "from": "De la {email} · {date}",
+    "stepOf": "Pasul {number} din {total}",
     "step": "Pasul {number}: {text}",
+    "waitingHours": "{hours}h in asteptare",
+    "waitingDays": "{days, plural, one {# zi} other {# zile}} in asteptare",
     "noEscalations": "Nicio solicitare deschisa",
-    "noEscalationsHint": "Toate solicitarile au fost rezolvate."
+    "noEscalationsHint": "Toate solicitarile au fost rezolvate.",
+    "viewAll": "Vezi toate"
   },
 
   "Analytics": {

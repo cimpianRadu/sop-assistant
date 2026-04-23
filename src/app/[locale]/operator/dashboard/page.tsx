@@ -5,6 +5,7 @@ import { getSessionContext } from "@/lib/session";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { StatCard } from "@/components/shared/stat-card";
 import { ClipboardListIcon, PlayIcon, ArrowRightIcon } from "lucide-react";
 
 export default async function OperatorDashboard({
@@ -21,12 +22,15 @@ export default async function OperatorDashboard({
   if (!session) return null;
 
   const supabase = await createClient();
+  // eslint-disable-next-line react-hooks/purity -- server component, runs per-request
+  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const [
     { data: assignments },
     { count: totalCount },
     { count: completedCount },
     { count: inProgressCount },
+    { count: weekCount },
     { data: activeExecutions },
   ] = await Promise.all([
     supabase
@@ -50,6 +54,11 @@ export default async function OperatorDashboard({
       .select("*", { count: "exact", head: true })
       .eq("operator_id", session.user_id)
       .eq("status", "in_progress"),
+    supabase
+      .from("executions")
+      .select("*", { count: "exact", head: true })
+      .eq("operator_id", session.user_id)
+      .gte("started_at", weekAgo),
     supabase
       .from("executions")
       .select("id, process_id, started_at, processes(title)")
@@ -79,6 +88,7 @@ export default async function OperatorDashboard({
   const totalExecutions = totalCount || 0;
   const completedExecutions = completedCount || 0;
   const inProgressExecutions = inProgressCount || 0;
+  const thisWeekExecutions = weekCount || 0;
 
   type ActiveExecution = {
     id: string;
@@ -88,7 +98,7 @@ export default async function OperatorDashboard({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-5xl space-y-6">
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold tracking-tight">
@@ -102,34 +112,29 @@ export default async function OperatorDashboard({
       {/* Stat cards */}
       {totalExecutions > 0 && (
         <div className="grid grid-cols-3 gap-2 sm:gap-3">
-          <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
-            <p className="text-xs text-muted-foreground">
-              {ta("totalExecutions")}
-            </p>
-            <p className="text-2xl font-bold tabular-nums mt-1">
-              {totalExecutions}
-            </p>
-          </div>
-          <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
-            <p className="text-xs text-muted-foreground">
-              {ta("inProgressExecutions")}
-            </p>
-            <p className="text-2xl font-bold tabular-nums mt-1">
-              {inProgressExecutions}
-            </p>
-          </div>
-          <div className="rounded-lg border bg-card px-3 sm:px-4 py-3">
-            <p className="text-xs text-muted-foreground">
-              {ta("completedExecutions")}
-            </p>
-            <p className="text-2xl font-bold tabular-nums mt-1 text-primary">
-              {completedExecutions}
-            </p>
-          </div>
+          <StatCard
+            label={ta("totalExecutions")}
+            value={totalExecutions}
+            delta={
+              thisWeekExecutions > 0
+                ? `+${thisWeekExecutions} this week`
+                : undefined
+            }
+            deltaTone={thisWeekExecutions > 0 ? "positive" : "neutral"}
+          />
+          <StatCard
+            label={ta("inProgressExecutions")}
+            value={inProgressExecutions}
+          />
+          <StatCard
+            label={ta("completedExecutions")}
+            value={completedExecutions}
+            tone="primary"
+          />
         </div>
       )}
 
-      {/* In Progress (prioritised — top) */}
+      {/* In Progress (prioritised) */}
       {activeExecutions && activeExecutions.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center gap-2">
