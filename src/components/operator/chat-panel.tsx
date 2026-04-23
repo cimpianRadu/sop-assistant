@@ -48,10 +48,15 @@ export function ChatPanel({ open, onOpenChange, initialStepContext, executionId,
   const savedMessageIds = useRef<Set<string>>(new Set());
   const helpRequestIdMap = useRef<Map<string, string>>(new Map());
 
-  // Keep ref in sync with state
-  activeStepRef.current = activeStep;
+  // Keep ref in sync with state so the transport's `body` callback (invoked at
+  // send time, not during render) sees the latest active step.
+  useEffect(() => {
+    activeStepRef.current = activeStep;
+  }, [activeStep]);
 
   const { messages, sendMessage, status, error } = useChat({
+    // body is called when sendMessage runs, not during render — ref access is safe here
+    // eslint-disable-next-line react-hooks/refs
     transport: new DefaultChatTransport({
       api: "/api/chat",
       body: () => ({
@@ -196,6 +201,8 @@ export function ChatPanel({ open, onOpenChange, initialStepContext, executionId,
             </div>
           )}
 
+          {/* stepContextMap is a write-once cache keyed by message id — value is stable for a given message */}
+          {/* eslint-disable-next-line react-hooks/refs */}
           {messages.map((message) => {
             const isUser = message.role === "user";
             const stepCtx = stepContextMap.current.get(message.id);

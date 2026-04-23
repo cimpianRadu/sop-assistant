@@ -58,7 +58,7 @@ export function ChecklistExecutor({
       )
     );
 
-    const result = await toggleStep(stepId, newCompleted, executionId);
+    const result = await toggleStep(stepId, newCompleted);
     if (result?.error) {
       setSteps((prev) =>
         prev.map((s) =>

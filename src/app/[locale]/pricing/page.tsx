@@ -82,7 +82,10 @@ export default async function PricingPage({
       ? Math.max(
           0,
           Math.ceil(
-            (new Date(session.trial_ends_at).getTime() - Date.now()) /
+            (new Date(session.trial_ends_at).getTime() -
+              // Server component renders per-request — current time is the source of truth
+              // eslint-disable-next-line react-hooks/purity
+              Date.now()) /
               (1000 * 60 * 60 * 24)
           )
         )

@@ -56,8 +56,7 @@ export async function startExecution(processId: string) {
 
 export async function toggleStep(
   executionStepId: string,
-  completed: boolean,
-  executionId: string
+  completed: boolean
 ) {
   const supabase = await createClient();
   const {

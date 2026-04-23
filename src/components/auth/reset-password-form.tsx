@@ -22,7 +22,6 @@ import { allRulesPass } from "@/lib/password-validation";
 
 export function ResetPasswordForm() {
   const t = useTranslations("Auth");
-  const tc = useTranslations("Common");
   const te = useTranslations("Errors");
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();

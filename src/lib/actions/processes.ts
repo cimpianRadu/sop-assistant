@@ -81,46 +81,67 @@ export async function updateProcess(
   // Verify the process exists and belongs to this org
   const { data: existing, error: fetchError } = await supabase
     .from("processes")
-    .select("id, org_id, current_version")
+    .select("id, org_id, current_version, title, description, sop_text")
     .eq("id", id)
     .single();
 
   if (fetchError || !existing) return { error: "not_found" };
   if (existing.org_id !== session.org_id) return { error: "forbidden" };
 
-  // Update process fields; trigger will set updated_at
-  const { error: updateError } = await supabase
-    .from("processes")
-    .update({
-      title: data.title,
-      description: data.description,
-      sop_text: data.sopText,
-      current_version: existing.current_version + 1,
-    })
-    .eq("id", id);
-
-  if (updateError) return { error: updateError.message };
-
-  // Replace checklist steps (simple strategy: delete + insert)
+  // Compare against current checklist to detect actual changes
   const cleaned = data.checklist.map((s) => s.trim()).filter(Boolean);
-
-  const { error: deleteError } = await supabase
+  const { data: existingSteps } = await supabase
     .from("checklist_steps")
-    .delete()
-    .eq("process_id", id);
+    .select("step_number, step_text")
+    .eq("process_id", id)
+    .order("step_number");
+  const existingChecklist = (existingSteps || []).map((s) => s.step_text);
 
-  if (deleteError) return { error: deleteError.message };
+  const checklistChanged =
+    existingChecklist.length !== cleaned.length ||
+    existingChecklist.some((t, i) => t !== cleaned[i]);
+  const fieldsChanged =
+    existing.title !== data.title ||
+    existing.description !== data.description ||
+    existing.sop_text !== data.sopText;
+  const anythingChanged = fieldsChanged || checklistChanged;
 
-  if (cleaned.length > 0) {
-    const rows = cleaned.map((text, index) => ({
-      process_id: id,
-      step_number: index + 1,
-      step_text: text,
-    }));
-    const { error: insertError } = await supabase
+  // Update process fields; trigger will set updated_at.
+  // Skip the write entirely when nothing changed so updated_at + current_version stay put.
+  if (anythingChanged) {
+    const { error: updateError } = await supabase
+      .from("processes")
+      .update({
+        title: data.title,
+        description: data.description,
+        sop_text: data.sopText,
+        current_version: existing.current_version + 1,
+      })
+      .eq("id", id);
+
+    if (updateError) return { error: updateError.message };
+  }
+
+  // Replace checklist steps only when they actually changed
+  if (checklistChanged) {
+    const { error: deleteError } = await supabase
       .from("checklist_steps")
-      .insert(rows);
-    if (insertError) return { error: insertError.message };
+      .delete()
+      .eq("process_id", id);
+
+    if (deleteError) return { error: deleteError.message };
+
+    if (cleaned.length > 0) {
+      const rows = cleaned.map((text, index) => ({
+        process_id: id,
+        step_number: index + 1,
+        step_text: text,
+      }));
+      const { error: insertError } = await supabase
+        .from("checklist_steps")
+        .insert(rows);
+      if (insertError) return { error: insertError.message };
+    }
   }
 
   revalidatePath(`/manager/processes/${id}`);

@@ -552,12 +552,16 @@
 
   "ExecutionDetail": {
     "title": "Detalii executie",
+    "titleNumbered": "Executie #{number} — {process}",
+    "subtitleCompleted": "Rulare finalizata de {operator} · {current} din {total} pasi",
+    "subtitleInProgress": "Rulare in desfasurare de {operator} · {current} din {total} pasi",
     "operator": "Operator",
     "status": "Status",
     "startedAt": "Inceput la",
     "completedAt": "Finalizat la",
     "duration": "Durata",
     "totalAiInteractions": "Interactiuni AI",
+    "aiInteractionsBreakdown": "{resolved} rezolvate · {escalated} escaladate",
     "stepTimeline": "Cronologia pasilor",
     "step": "Pasul {number}",
     "completedStep": "Finalizat la {date}",
@@ -569,7 +573,18 @@
     "generalQuestions": "Intrebari generale",
     "backToProcess": "← Inapoi la proces",
     "noSteps": "Niciun pas inregistrat",
-    "escalated": "Trimis catre manager"
+    "escalated": "Trimis catre manager",
+    "runSummary": "Rezumat rulare",
+    "executionNumber": "Executie #",
+    "stepsCompleted": "Pasi finalizati",
+    "avgTimePerStep": "Timp mediu pe pas",
+    "aiHelpRate": "Rata de ajutor AI",
+    "longestGap": "Cea mai lunga pauza",
+    "longGapDetected": "Pauza lunga detectata",
+    "longGapDescription": "{duration} intre pasul {a} si pasul {b} — verifica daca operatorul s-a blocat sau daca SOP-ul are tranzitii neclare.",
+    "otherRunsTitle": "Alte rulari ale acestui proces",
+    "otherRunsNone": "Nu exista alte rulari inca.",
+    "ongoing": "in curs"
   },
 
   "Terms": {
