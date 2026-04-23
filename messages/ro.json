@@ -334,7 +334,14 @@
     "waitingDays": "{days, plural, one {# zi} other {# zile}} in asteptare",
     "noEscalations": "Nicio solicitare deschisa",
     "noEscalationsHint": "Toate solicitarile au fost rezolvate.",
-    "viewAll": "Vezi toate"
+    "viewAll": "Vezi toate",
+    "pageTitle": "Escaladari",
+    "pageSubtitle": "Intrebari pe care operatorii le-au escaladat cand AI nu a putut raspunde.",
+    "tabOpen": "Deschise",
+    "tabResolved": "Rezolvate",
+    "tabAll": "Toate",
+    "resolved": "Rezolvat",
+    "noResolvedYet": "Nu exista escaladari rezolvate inca."
   },
 
   "Analytics": {

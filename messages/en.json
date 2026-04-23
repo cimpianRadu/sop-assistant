@@ -334,7 +334,14 @@
     "waitingDays": "{days, plural, one {# day} other {# days}} waiting",
     "noEscalations": "No open escalations",
     "noEscalationsHint": "All escalations have been resolved.",
-    "viewAll": "View all"
+    "viewAll": "View all",
+    "pageTitle": "Escalations",
+    "pageSubtitle": "Questions operators escalated when AI couldn't answer.",
+    "tabOpen": "Open",
+    "tabResolved": "Resolved",
+    "tabAll": "All",
+    "resolved": "Resolved",
+    "noResolvedYet": "No resolved escalations yet."
   },
 
   "Analytics": {

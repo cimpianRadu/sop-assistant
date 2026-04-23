@@ -105,85 +105,107 @@ export function ChecklistExecutor({
         </Alert>
       )}
 
+      {/* Progress card — prominent at top */}
+      <div className="rounded-xl border bg-gradient-to-b from-primary/5 to-card p-4">
+        <div className="flex items-center justify-between mb-2.5 flex-wrap gap-2">
+          <span className="text-sm font-semibold">{t("progress")}</span>
+          <span className="text-sm text-primary font-semibold tabular-nums">
+            {t("stepsProgress", {
+              completed: completedCount,
+              total: totalSteps,
+              percent: progress,
+            })}
+          </span>
+        </div>
+        <div className="w-full bg-background rounded-full h-2.5 overflow-hidden border">
+          <div
+            className="bg-gradient-to-r from-primary to-primary/80 h-full rounded-full transition-all duration-500"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </div>
+
       <Card>
         <CardHeader>
           <CardTitle>{t("title")}</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
-          {steps.map((step) => (
-            <div
-              key={step.id}
-              className="flex items-start gap-3 p-3 rounded-lg border hover:bg-muted/50 transition-colors"
-            >
-              <label className="flex items-start gap-3 flex-1 cursor-pointer">
-                <Checkbox
-                  checked={step.completed}
-                  onCheckedChange={() => handleToggle(step.id, step.completed)}
-                  className="mt-0.5"
-                />
-                <span
-                  className={`text-sm ${
-                    step.completed
-                      ? "line-through text-muted-foreground"
-                      : ""
-                  }`}
-                >
-                  {step.checklist_steps.step_text}
-                </span>
-              </label>
-              {!step.completed && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => openChatForStep(step.checklist_steps)}
-                  className="gap-1.5 shrink-0"
-                >
-                  <HelpCircleIcon className="size-3.5" />
-                  <span className="hidden sm:inline">{tc("chatWithAI")}</span>
-                </Button>
-              )}
-            </div>
-          ))}
+        <CardContent className="space-y-2">
+          {steps.map((step, idx) => {
+            const isActive = !step.completed && idx === completedCount;
+            return (
+              <div
+                key={step.id}
+                className={`flex items-start gap-3 p-3 rounded-lg border transition-all ${
+                  step.completed
+                    ? "bg-primary/5 border-primary/25"
+                    : isActive
+                    ? "border-primary shadow-[0_0_0_3px_rgba(16,166,128,0.1)]"
+                    : "bg-background hover:bg-muted/50"
+                }`}
+              >
+                <label className="flex items-start gap-3 flex-1 cursor-pointer min-w-0">
+                  <Checkbox
+                    checked={step.completed}
+                    onCheckedChange={() =>
+                      handleToggle(step.id, step.completed)
+                    }
+                    className="mt-0.5"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[11px] text-muted-foreground font-semibold mr-1.5 tabular-nums">
+                      {step.checklist_steps.step_number}.
+                    </span>
+                    <span
+                      className={`text-sm leading-relaxed ${
+                        step.completed
+                          ? "line-through text-muted-foreground"
+                          : ""
+                      }`}
+                    >
+                      {step.checklist_steps.step_text}
+                    </span>
+                  </div>
+                </label>
+                {!step.completed && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => openChatForStep(step.checklist_steps)}
+                    className="gap-1.5 shrink-0"
+                  >
+                    <HelpCircleIcon className="size-3.5" />
+                    <span className="hidden sm:inline">{tc("chatWithAI")}</span>
+                  </Button>
+                )}
+              </div>
+            );
+          })}
         </CardContent>
       </Card>
 
-      {/* Sticky bottom bar: progress + actions */}
+      {/* Sticky bottom actions — Complete + Chat */}
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="container mx-auto max-w-3xl px-4 py-3 space-y-3">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between mb-1.5">
-                <span className="text-sm font-medium">{t("progress")}</span>
-                <span className="text-xs text-muted-foreground">
-                  {t("stepsProgress", {
-                    completed: completedCount,
-                    total: totalSteps,
-                    percent: progress,
-                  })}
-                </span>
-              </div>
-              <div className="w-full bg-muted rounded-full h-2">
-                <div
-                  className="bg-primary h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-            </div>
-            <Button variant="outline" onClick={openChat} className="gap-2 shrink-0">
-              <MessageCircleIcon className="size-4" />
-              {tc("chatWithAI")}
-            </Button>
-          </div>
+        <div className="container mx-auto max-w-3xl px-4 py-3 flex items-center gap-3">
           <Button
             onClick={handleComplete}
             disabled={!allCompleted || completing}
-            className="w-full"
+            className="flex-1"
           >
             {completing
               ? t("completing")
               : allCompleted
               ? t("completeExecution")
-              : t("stepsRemaining", { remaining: totalSteps - completedCount })}
+              : t("stepsRemaining", {
+                  remaining: totalSteps - completedCount,
+                })}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={openChat}
+            className="gap-2 shrink-0"
+          >
+            <MessageCircleIcon className="size-4" />
+            <span className="hidden sm:inline">{tc("chatWithAI")}</span>
           </Button>
         </div>
       </div>

@@ -45,7 +45,7 @@ function buildSections(role: NavRole, openEscalations: number): NavSection[] {
       icon: FileTextIcon,
     });
     workspace.push({
-      href: `/${role}/dashboard#escalations`,
+      href: "/manager/escalations",
       labelKey: "escalations",
       icon: AlertTriangleIcon,
       badge: openEscalations,
@@ -102,30 +102,28 @@ export function SidebarNav({
   return (
     <nav
       aria-label="Primary"
-      className={cn("flex flex-col gap-1", compact ? "px-0" : "px-2")}
+      className="flex flex-col gap-0.5 flex-1 min-h-0"
     >
-      {sections.map((section) => (
-        <div key={section.labelKey} className="mb-3">
-          <p className="px-3 pt-2 pb-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+      {sections.map((section, idx) => (
+        <div key={section.labelKey} className={cn(idx > 0 && "mt-4")}>
+          <p className="px-2 pb-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
             {t(section.labelKey)}
           </p>
           <ul className="flex flex-col gap-0.5">
             {section.items.map((item) => {
               const Icon = item.icon;
-              const active =
-                pathname === item.href ||
-                (item.href.includes("#") &&
-                  pathname === item.href.split("#")[0]);
+              const hrefBase = item.href.split("#")[0];
+              const active = pathname === hrefBase;
               return (
                 <li key={item.href + item.labelKey}>
                   <Link
                     href={item.href}
                     onClick={onNavigate}
                     className={cn(
-                      "flex items-center gap-2.5 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                      "flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors",
                       active
                         ? "bg-primary/10 text-primary"
-                        : "text-foreground hover:bg-muted"
+                        : "text-foreground/80 hover:bg-muted hover:text-foreground"
                     )}
                   >
                     <Icon className="size-4 shrink-0" />
@@ -145,22 +143,20 @@ export function SidebarNav({
 
       <a
         href="mailto:hello@sopia.xyz?subject=Feedback on Sopia"
-        className="flex items-center gap-2.5 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors mt-auto"
+        className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors mt-auto"
       >
         <HelpCircleIcon className="size-4 shrink-0" />
         <span className="truncate">{t("helpFeedback")}</span>
       </a>
 
-      {orgName && (
-        <div className="mt-2 pt-3 border-t px-3 text-[11px] text-muted-foreground">
-          <p className="font-medium text-foreground truncate capitalize">
-            {orgName}
-          </p>
+      {orgName && !compact && (
+        <div className="mt-3 pt-3 border-t px-2.5 text-[11px] text-muted-foreground">
+          <p className="font-medium text-foreground truncate">{orgName}</p>
           <p className="truncate capitalize mt-0.5">{role}</p>
         </div>
       )}
 
-      {/* Unused Analytics icon placeholder to satisfy linter (future nav item). */}
+      {/* Unused icon import placeholder (reserved for Analytics future nav). */}
       <BarChart3Icon className="hidden" aria-hidden />
     </nav>
   );
