@@ -3,11 +3,11 @@
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Card,
   CardContent,
@@ -42,7 +42,6 @@ export function EditProcessForm({
   const [steps, setSteps] = useState<string[]>(
     initialChecklist.length > 0 ? initialChecklist : [""]
   );
-  const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function updateStep(index: number, value: string) {
@@ -59,16 +58,31 @@ export function EditProcessForm({
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError(null);
     startTransition(async () => {
-      const result = await updateProcess(processId, {
-        title,
-        description,
-        sopText,
-        checklist: steps,
-      });
-      if (result?.error) {
-        setError(t("saveFailed", { error: result.error }));
+      const toastId = toast.loading(t("saving"));
+      try {
+        const result = await updateProcess(processId, {
+          title,
+          description,
+          sopText,
+          checklist: steps,
+        });
+        // updateProcess() redirects on success and never returns a value;
+        // reaching this branch means it returned an error payload.
+        if (result?.error) {
+          toast.error(t("saveFailed", { error: result.error }), { id: toastId });
+        }
+      } catch (err) {
+        // NEXT_REDIRECT throws — that's the success path. Toast success then
+        // let Next handle the navigation.
+        const message = err instanceof Error ? err.message : "";
+        if (message.includes("NEXT_REDIRECT")) {
+          toast.success(t("saveSuccess"), { id: toastId });
+          throw err;
+        }
+        toast.error(t("saveFailed", { error: message || "unknown" }), {
+          id: toastId,
+        });
       }
     });
   }
@@ -80,12 +94,6 @@ export function EditProcessForm({
           <CardTitle>{t("editProcess")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-5">
-          {error && (
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-
           <div className="space-y-2">
             <Label htmlFor="title">{t("processTitle")}</Label>
             <Input

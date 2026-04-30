@@ -13,10 +13,13 @@ import {
   PlayCircle,
   Sparkles,
   CheckCircle2,
-  Check,
-  X,
-  Minus,
   ArrowRight,
+  Wand2,
+  ListChecks,
+  MessageCircleQuestion,
+  LineChart,
+  Lightbulb,
+  Languages,
 } from "lucide-react";
 
 export async function generateMetadata({
@@ -167,49 +170,100 @@ function HeroVisual({ alt }: { alt: string }) {
   );
 }
 
-function TrustedBy({ text }: { text: string }) {
-  const logos = ["ACMECORP", "NORTHWIND", "BYTEWORKS", "OPERIO", "LOGOIPSUM"];
+/**
+ * Mini illustrations for the "How it works" section. Pure SVG, no images.
+ * Each frame is a tiny screenshot-like diagram that mirrors the actual UI.
+ */
+function StepIllustration1() {
   return (
-    <div className="mt-14 flex flex-col items-center gap-5 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-7 sm:gap-y-3">
-      <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2">
-        {logos.map((name) => (
-          <span
-            key={name}
-            className="text-xs sm:text-sm font-bold tracking-wider text-muted-foreground/60"
-          >
-            {name}
-          </span>
-        ))}
-      </div>
-      <span className="text-xs sm:text-sm text-muted-foreground">— {text}</span>
-    </div>
+    <svg
+      viewBox="0 0 120 80"
+      role="img"
+      aria-hidden="true"
+      className="w-full h-full"
+    >
+      {/* prompt bubble */}
+      <rect x="6" y="20" width="36" height="22" rx="4" fill="#F4F4F5" stroke="#E4E4E7" />
+      <rect x="11" y="26" width="24" height="2" rx="1" fill="#A1A1AA" />
+      <rect x="11" y="31" width="18" height="2" rx="1" fill="#A1A1AA" />
+      <rect x="11" y="36" width="14" height="2" rx="1" fill="#A1A1AA" />
+      {/* sparkle + arrow */}
+      <path d="M53 18 l1.5 3 l3 1.5 l-3 1.5 l-1.5 3 l-1.5 -3 l-3 -1.5 l3 -1.5 z" fill="#2AA5A0" />
+      <path d="M48 32 L66 32 M62 28 L66 32 L62 36" stroke="#2AA5A0" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      {/* document with numbered steps */}
+      <rect x="72" y="10" width="42" height="60" rx="4" fill="white" stroke="#2AA5A0" strokeWidth="1.5" />
+      <circle cx="80" cy="22" r="2.5" fill="#2AA5A0" />
+      <rect x="86" y="20.5" width="22" height="3" rx="1.5" fill="#A1A1AA" />
+      <circle cx="80" cy="34" r="2.5" fill="#2AA5A0" />
+      <rect x="86" y="32.5" width="20" height="3" rx="1.5" fill="#A1A1AA" />
+      <circle cx="80" cy="46" r="2.5" fill="#2AA5A0" />
+      <rect x="86" y="44.5" width="22" height="3" rx="1.5" fill="#A1A1AA" />
+      <circle cx="80" cy="58" r="2.5" fill="#2AA5A0" />
+      <rect x="86" y="56.5" width="16" height="3" rx="1.5" fill="#A1A1AA" />
+    </svg>
   );
 }
 
-function Yes({ label }: { label?: string }) {
+function StepIllustration2() {
   return (
-    <span className="inline-flex items-start gap-1.5 text-primary font-semibold">
-      <Check className="size-4 shrink-0 mt-0.5" />
-      {label && <span className="text-foreground/90 font-medium">{label}</span>}
-    </span>
+    <svg
+      viewBox="0 0 120 80"
+      role="img"
+      aria-hidden="true"
+      className="w-full h-full"
+    >
+      {/* row 1 — done */}
+      <rect x="6" y="6" width="108" height="20" rx="4" fill="#2AA5A0" fillOpacity="0.1" stroke="#2AA5A0" strokeOpacity="0.3" />
+      <circle cx="18" cy="16" r="6" fill="#2AA5A0" />
+      <path d="M14.5 16 l2.5 2.5 l4.5 -4.5" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="30" y="11" width="56" height="3" rx="1.5" fill="#52525B" />
+      <rect x="30" y="17.5" width="34" height="2.5" rx="1.25" fill="#A1A1AA" />
+      {/* row 2 — active */}
+      <rect x="6" y="30" width="108" height="20" rx="4" fill="white" stroke="#2AA5A0" strokeWidth="2" />
+      <circle cx="18" cy="40" r="6" fill="white" stroke="#2AA5A0" strokeWidth="2" />
+      <rect x="30" y="35" width="50" height="3" rx="1.5" fill="#27272A" />
+      <rect x="30" y="41.5" width="30" height="2.5" rx="1.25" fill="#A1A1AA" />
+      {/* row 3 — pending */}
+      <rect x="6" y="54" width="108" height="20" rx="4" fill="white" stroke="#E4E4E7" />
+      <circle cx="18" cy="64" r="6" fill="white" stroke="#A1A1AA" strokeWidth="1.5" />
+      <rect x="30" y="59" width="48" height="3" rx="1.5" fill="#A1A1AA" />
+      <rect x="30" y="65.5" width="26" height="2.5" rx="1.25" fill="#D4D4D8" />
+    </svg>
   );
 }
 
-function No({ label }: { label?: string }) {
+function StepIllustration3() {
   return (
-    <span className="inline-flex items-start gap-1.5 text-muted-foreground/60">
-      <X className="size-4 shrink-0 mt-0.5" />
-      {label && <span className="text-muted-foreground">{label}</span>}
-    </span>
-  );
-}
-
-function Partial({ label }: { label: string }) {
-  return (
-    <span className="inline-flex items-start gap-1.5 text-amber-600 dark:text-amber-500">
-      <Minus className="size-4 shrink-0 mt-0.5" />
-      <span className="text-muted-foreground">{label}</span>
-    </span>
+    <svg
+      viewBox="0 0 120 80"
+      role="img"
+      aria-hidden="true"
+      className="w-full h-full"
+    >
+      {/* operator question bubble */}
+      <path
+        d="M6 14 a4 4 0 0 1 4 -4 h26 a4 4 0 0 1 4 4 v14 a4 4 0 0 1 -4 4 h-18 l-5 5 v-5 h-3 a4 4 0 0 1 -4 -4 z"
+        fill="#F4F4F5"
+        stroke="#E4E4E7"
+      />
+      <text x="23" y="26" fontSize="14" fontWeight="700" fill="#71717A" textAnchor="middle">
+        ?
+      </text>
+      {/* AI response bubble */}
+      <path
+        d="M114 38 a4 4 0 0 0 -4 -4 h-46 a4 4 0 0 0 -4 4 v18 a4 4 0 0 0 4 4 h36 l5 5 v-5 h5 a4 4 0 0 0 4 -4 z"
+        fill="#2AA5A0"
+        fillOpacity="0.1"
+        stroke="#2AA5A0"
+      />
+      <path
+        d="M68 42 l1.5 3 l3 1.5 l-3 1.5 l-1.5 3 l-1.5 -3 l-3 -1.5 l3 -1.5 z"
+        fill="#2AA5A0"
+      />
+      <rect x="78" y="44" width="30" height="2.5" rx="1.25" fill="#2AA5A0" fillOpacity="0.55" />
+      <rect x="78" y="49" width="24" height="2.5" rx="1.25" fill="#2AA5A0" fillOpacity="0.55" />
+      <rect x="78" y="54" width="18" height="2.5" rx="1.25" fill="#2AA5A0" fillOpacity="0.55" />
+    </svg>
   );
 }
 
@@ -244,9 +298,48 @@ export default async function Home({
   const tf = await getTranslations("FAQ");
 
   const features = [
-    { title: t("feature1Title"), desc: t("feature1Desc") },
-    { title: t("feature2Title"), desc: t("feature2Desc") },
-    { title: t("feature3Title"), desc: t("feature3Desc") },
+    { title: t("feature1Title"), desc: t("feature1Desc"), Illustration: StepIllustration1 },
+    { title: t("feature2Title"), desc: t("feature2Desc"), Illustration: StepIllustration2 },
+    { title: t("feature3Title"), desc: t("feature3Desc"), Illustration: StepIllustration3 },
+  ];
+
+  const benefits = [
+    {
+      title: t("benefit1Title"),
+      desc: t("benefit1Desc"),
+      Icon: Wand2,
+      tint: "bg-primary/10 text-primary",
+    },
+    {
+      title: t("benefit2Title"),
+      desc: t("benefit2Desc"),
+      Icon: ListChecks,
+      tint: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
+    },
+    {
+      title: t("benefit3Title"),
+      desc: t("benefit3Desc"),
+      Icon: MessageCircleQuestion,
+      tint: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
+    },
+    {
+      title: t("benefit4Title"),
+      desc: t("benefit4Desc"),
+      Icon: LineChart,
+      tint: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+    },
+    {
+      title: t("benefit5Title"),
+      desc: t("benefit5Desc"),
+      Icon: Lightbulb,
+      tint: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
+    },
+    {
+      title: t("benefit6Title"),
+      desc: t("benefit6Desc"),
+      Icon: Languages,
+      tint: "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400",
+    },
   ];
 
   const painPoints = [
@@ -334,7 +427,6 @@ export default async function Home({
         </div>
 
         <HeroVisual alt={t("productAlt")} />
-        <TrustedBy text={t("trustedBy")} />
       </section>
 
       {/* Sound familiar */}
@@ -364,113 +456,91 @@ export default async function Home({
 
       {/* How it works */}
       <section className="border-t">
-        <div className="container mx-auto px-4 py-16 max-w-4xl">
+        <div className="container mx-auto px-4 py-16 max-w-5xl">
           <h2 className="text-2xl sm:text-3xl font-bold text-center mb-2">
             {t("howItWorks")}
           </h2>
           <p className="text-center text-muted-foreground mb-10">
             {t("howItWorksSubtitle")}
           </p>
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, i) => (
-              <div key={i} className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-sm font-medium">
-                    {i + 1}
-                  </span>
-                  <h3 className="font-semibold">{feature.title}</h3>
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+            {features.map((feature, i) => {
+              const Illustration = feature.Illustration;
+              return (
+                <div
+                  key={i}
+                  className="group rounded-xl border bg-card p-5 sm:p-6 transition-shadow hover:shadow-[0_8px_30px_-12px_rgba(42,165,160,0.25)]"
+                >
+                  <div className="aspect-[3/2] w-full rounded-lg border bg-background p-3 mb-5 flex items-center justify-center">
+                    <Illustration />
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-sm font-semibold">
+                      {i + 1}
+                    </span>
+                    <h3 className="font-semibold">{feature.title}</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {feature.desc}
+                  </p>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {feature.desc}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Why Sopia (comparison) */}
+      {/* Benefits */}
       <section className="border-t bg-muted/50">
         <div className="container mx-auto px-4 py-16 max-w-5xl">
           <div className="text-center mb-10">
             <div className="text-xs font-semibold uppercase tracking-widest text-primary mb-3">
-              {t("whyEyebrow")}
+              {t("benefitsEyebrow")}
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold mb-3">
-              {t("whyTitle")}
+              {t("benefitsTitle")}
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              {t("whyLede")}
+              {t("benefitsSubtitle")}
             </p>
           </div>
 
-          <div className="rounded-xl border bg-background overflow-x-auto">
-            <table className="w-full text-sm min-w-[640px]">
-              <caption className="sr-only">
-                Comparison of Sopia, Scribe/Tango, Trainual and Notion AI
-              </caption>
-              <thead>
-                <tr className="border-b bg-muted/40">
-                  <th className="text-left font-semibold text-xs text-foreground py-3 px-4 uppercase tracking-wide">
-                    {t("whyCol1")}
-                  </th>
-                  <th className="text-left font-bold text-xs text-primary py-3 px-4 uppercase tracking-wide bg-primary/10">
-                    {t("whyCol2")}
-                  </th>
-                  <th className="text-left font-semibold text-xs text-muted-foreground py-3 px-4 uppercase tracking-wide">
-                    {t("whyCol3")}
-                  </th>
-                  <th className="text-left font-semibold text-xs text-muted-foreground py-3 px-4 uppercase tracking-wide">
-                    {t("whyCol4")}
-                  </th>
-                  <th className="text-left font-semibold text-xs text-muted-foreground py-3 px-4 uppercase tracking-wide">
-                    {t("whyCol5")}
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="[&>tr:not(:last-child)]:border-b [&>tr>td]:py-3.5 [&>tr>td]:px-4 [&>tr>td]:align-top">
-                <tr>
-                  <td className="font-medium">{t("whyRow1")}</td>
-                  <td className="bg-primary/5"><Yes label={t("whyRow1Sopia")} /></td>
-                  <td><No label={t("whyRow1Col3")} /></td>
-                  <td><No label={t("whyRow1Col4")} /></td>
-                  <td><Partial label={t("whyRow1Col5")} /></td>
-                </tr>
-                <tr>
-                  <td className="font-medium">{t("whyRow2")}</td>
-                  <td className="bg-primary/5"><Yes label={t("whyRow2Sopia")} /></td>
-                  <td><No label={t("whyRow2Col3")} /></td>
-                  <td><Partial label={t("whyRow2Col4")} /></td>
-                  <td><No label={t("whyRow2Col5")} /></td>
-                </tr>
-                <tr>
-                  <td className="font-medium">{t("whyRow3")}</td>
-                  <td className="bg-primary/5"><Yes label={t("whyRow3Sopia")} /></td>
-                  <td><No /></td>
-                  <td><No /></td>
-                  <td><No /></td>
-                </tr>
-                <tr>
-                  <td className="font-medium">{t("whyRow4")}</td>
-                  <td className="bg-primary/5"><Yes /></td>
-                  <td><No /></td>
-                  <td><No /></td>
-                  <td><No /></td>
-                </tr>
-                <tr>
-                  <td className="font-medium">{t("whyRow5")}</td>
-                  <td className="bg-primary/5"><Yes /></td>
-                  <td><No /></td>
-                  <td><Partial label={t("whyRow5Col4")} /></td>
-                  <td><No /></td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {benefits.map((b, i) => {
+              const Icon = b.Icon;
+              return (
+                <div
+                  key={i}
+                  className="rounded-lg border bg-background p-5 space-y-2.5"
+                >
+                  <span
+                    className={`inline-flex items-center justify-center size-10 rounded-lg ${b.tint}`}
+                  >
+                    <Icon className="size-5" />
+                  </span>
+                  <h3 className="font-semibold text-sm sm:text-base">
+                    {b.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {b.desc}
+                  </p>
+                </div>
+              );
+            })}
           </div>
 
-          <p className="mt-8 text-center italic text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {t("whyKicker")}
-          </p>
+          {/* Pricing band */}
+          <div className="mt-10 rounded-xl border bg-background px-5 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-sm text-muted-foreground text-center sm:text-left">
+              {t("pricingBandText")}
+            </p>
+            <Link href="/pricing">
+              <Button size="sm" variant="outline" className="gap-1.5">
+                {t("viewPlans")}
+                <ArrowRight className="size-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 

@@ -32,9 +32,9 @@ const TEAM_MONTHLY = 249;
 const TEAM_ANNUAL_PER_MONTH = 199; // 20% off
 const TEAM_ANNUAL_TOTAL = TEAM_ANNUAL_PER_MONTH * 12; // 2388
 
-const BUSINESS_MONTHLY = 500;
-const BUSINESS_ANNUAL_PER_MONTH = 400; // 20% off
-const BUSINESS_ANNUAL_TOTAL = BUSINESS_ANNUAL_PER_MONTH * 12; // 4800
+const BUSINESS_MONTHLY = 799;
+const BUSINESS_ANNUAL_PER_MONTH = 639; // 20% off, rounded
+const BUSINESS_ANNUAL_TOTAL = BUSINESS_ANNUAL_PER_MONTH * 12; // 7668
 
 function formatEUR(value: number) {
   return `€${value.toLocaleString("en-US")}`;
@@ -67,6 +67,7 @@ export function PricingTiers({ isActive, isTrialing, daysLeft, hasUser }: Props)
     "teamFeature3",
     "teamFeature4",
     "teamFeature5",
+    "teamFeature6",
   ] as const;
 
   const businessFeatures = [
@@ -75,6 +76,7 @@ export function PricingTiers({ isActive, isTrialing, daysLeft, hasUser }: Props)
     "businessFeature3",
     "businessFeature4",
     "businessFeature5",
+    "businessFeature6",
   ] as const;
 
   return (
