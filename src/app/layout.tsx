@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -66,6 +67,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // GA only loads in production builds when the ID env var is set, so dev
+  // pageviews don't pollute the funnel.
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const isProd = process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
+  const enableGa = isProd && gaId;
+
   return (
     <html lang="ro" suppressHydrationWarning>
       <body
@@ -74,6 +81,7 @@ export default function RootLayout({
         <EnvBanner />
         {children}
         <Toaster />
+        {enableGa && <GoogleAnalytics gaId={gaId} />}
       </body>
     </html>
   );
