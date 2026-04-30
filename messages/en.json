@@ -100,7 +100,7 @@
     "faq6Q": "Is my data secure?",
     "faq6A": "Yes. Sopia is hosted on Supabase with servers in the EU. All data is encrypted in transit and at rest. Row-level security policies ensure each organization can only access its own data.",
     "faq7Q": "What happens after the 14-day free trial?",
-    "faq7A": "After your trial ends, your data is safely preserved. You can upgrade to the Growth plan (€99/month) to continue. There's no pressure — your SOPs, checklists, and execution history stay intact.",
+    "faq7A": "After your trial ends, your data stays safe. You can pick the plan that fits — Growth (€99/mo), Team (€249/mo), or Business (€799/mo) — to keep going. No pressure: your SOPs, checklists, and execution history stay intact.",
     "faq8Q": "Can I use Sopia in Romanian?",
     "faq8A": "Yes! Sopia is fully available in both English and Romanian. The AI generates SOPs in the language you write your description in, and the entire interface switches seamlessly between languages."
   },
