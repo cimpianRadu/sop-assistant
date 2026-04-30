@@ -159,8 +159,13 @@ export async function middleware(request: NextRequest) {
   const blockedPages = ["/trial-expired", "/subscription-ended"];
   const isOnBlockedPage = blockedPages.includes(cleanPath);
 
-  // Subscription enforcement (exempt: blocked pages + /pricing + /profile)
-  if (!isOnBlockedPage && cleanPath !== "/pricing" && cleanPath !== "/profile") {
+  // Subscription enforcement (exempt: blocked pages + /pricing + /profile + /insights)
+  if (
+    !isOnBlockedPage &&
+    cleanPath !== "/pricing" &&
+    cleanPath !== "/profile" &&
+    cleanPath !== "/insights"
+  ) {
     if (!hasAccess) {
       // Expired trial → /trial-expired; everything else → /subscription-ended
       const destination = status === "expired" || status === "trialing"

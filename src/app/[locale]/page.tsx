@@ -5,6 +5,8 @@ import { createClient } from "@/lib/supabase/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
+import { TrackedLink } from "@/components/shared/tracked-link";
+import { GA_EVENTS } from "@/lib/analytics/events";
 import {
   Clock,
   Brain,
@@ -418,15 +420,15 @@ export default async function Home({
           </span>
           <div className="flex items-center gap-2 sm:gap-3">
             <LanguageSwitcher />
-            <Link href="/pricing" className="hidden sm:block">
+            <TrackedLink href="/pricing" event={GA_EVENTS.VIEW_PRICING} eventParams={{ source: "header_nav" }} className="hidden sm:block">
               <Button variant="ghost" size="sm">{tc("pricing")}</Button>
-            </Link>
+            </TrackedLink>
             <Link href="/auth/login" className="hidden sm:block">
               <Button variant="ghost" size="sm">{tc("logIn")}</Button>
             </Link>
-            <Link href="/auth/signup">
+            <TrackedLink href="/auth/signup" event={GA_EVENTS.START_TRIAL_CLICK} eventParams={{ source: "header_cta" }}>
               <Button size="sm">{tc("startFreeTrial")}</Button>
-            </Link>
+            </TrackedLink>
           </div>
         </div>
       </header>
@@ -443,18 +445,18 @@ export default async function Home({
           {t("heroSubtitle")}
         </p>
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-3">
-          <Link href="/auth/signup" className="sm:w-auto">
+          <TrackedLink href="/auth/signup" event={GA_EVENTS.START_TRIAL_CLICK} eventParams={{ source: "hero" }} className="sm:w-auto">
             <Button size="lg" className="w-full sm:w-auto gap-2">
               {t("startTrial")}
               <ArrowRight className="size-4" />
             </Button>
-          </Link>
-          <Link href="#demo" className="sm:w-auto">
+          </TrackedLink>
+          <TrackedLink href="#demo" event={GA_EVENTS.WATCH_DEMO_CLICK} eventParams={{ source: "hero" }} className="sm:w-auto">
             <Button variant="outline" size="lg" className="w-full sm:w-auto gap-2">
               <PlayCircle className="size-4" />
               {t("watchDemo")}
             </Button>
-          </Link>
+          </TrackedLink>
         </div>
 
         <HeroVisual alt={t("productAlt")} />
@@ -626,7 +628,7 @@ export default async function Home({
                 {t("pricingHookSub")}
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <Link href="/auth/signup">
+                <TrackedLink href="/auth/signup" event={GA_EVENTS.START_TRIAL_CLICK} eventParams={{ source: "pricing_hook" }}>
                   <Button
                     size="lg"
                     className="gap-2 bg-white text-primary hover:bg-white/95 font-semibold shadow-lg"
@@ -634,8 +636,8 @@ export default async function Home({
                     {t("startTrial")}
                     <ArrowRight className="size-4" />
                   </Button>
-                </Link>
-                <Link href="/pricing">
+                </TrackedLink>
+                <TrackedLink href="/pricing" event={GA_EVENTS.VIEW_PRICING} eventParams={{ source: "pricing_hook" }}>
                   <Button
                     size="lg"
                     variant="outline"
@@ -643,7 +645,7 @@ export default async function Home({
                   >
                     {t("viewPlans")}
                   </Button>
-                </Link>
+                </TrackedLink>
               </div>
               <p className="text-xs text-primary-foreground/80 mt-5">
                 {t("pricingBandText")}
@@ -673,12 +675,12 @@ export default async function Home({
           </ul>
 
           <div className="flex justify-center">
-            <Link href="/auth/signup">
+            <TrackedLink href="/auth/signup" event={GA_EVENTS.START_TRIAL_CLICK} eventParams={{ source: "trial_checklist" }}>
               <Button size="lg" className="gap-2">
                 {t("getStarted")}
                 <ArrowRight className="size-4" />
               </Button>
-            </Link>
+            </TrackedLink>
           </div>
         </div>
       </section>
