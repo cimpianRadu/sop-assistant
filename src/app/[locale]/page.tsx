@@ -14,12 +14,11 @@ import {
   Sparkles,
   CheckCircle2,
   ArrowRight,
-  Wand2,
-  ListChecks,
-  MessageCircleQuestion,
-  LineChart,
-  Lightbulb,
-  Languages,
+  TrendingUp,
+  ShieldCheck,
+  Rocket,
+  LifeBuoy,
+  Target,
 } from "lucide-react";
 
 export async function generateMetadata({
@@ -303,41 +302,45 @@ export default async function Home({
     { title: t("feature3Title"), desc: t("feature3Desc"), Illustration: StepIllustration3 },
   ];
 
-  const benefits = [
+  const benefitsGroupA = [
     {
       title: t("benefit1Title"),
       desc: t("benefit1Desc"),
-      Icon: Wand2,
-      tint: "bg-primary/10 text-primary",
+      Icon: Clock,
+      tint: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
     },
     {
       title: t("benefit2Title"),
       desc: t("benefit2Desc"),
-      Icon: ListChecks,
-      tint: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
+      Icon: TrendingUp,
+      tint: "bg-primary/10 text-primary",
+      featured: true,
     },
     {
       title: t("benefit3Title"),
       desc: t("benefit3Desc"),
-      Icon: MessageCircleQuestion,
-      tint: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
+      Icon: ShieldCheck,
+      tint: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
     },
+  ];
+
+  const benefitsGroupB = [
     {
       title: t("benefit4Title"),
       desc: t("benefit4Desc"),
-      Icon: LineChart,
-      tint: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+      Icon: Rocket,
+      tint: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
     },
     {
       title: t("benefit5Title"),
       desc: t("benefit5Desc"),
-      Icon: Lightbulb,
-      tint: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
+      Icon: LifeBuoy,
+      tint: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
     },
     {
       title: t("benefit6Title"),
       desc: t("benefit6Desc"),
-      Icon: Languages,
+      Icon: Target,
       tint: "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400",
     },
   ];
@@ -505,41 +508,119 @@ export default async function Home({
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {benefits.map((b, i) => {
-              const Icon = b.Icon;
-              return (
-                <div
-                  key={i}
-                  className="rounded-lg border bg-background p-5 space-y-2.5"
-                >
-                  <span
-                    className={`inline-flex items-center justify-center size-10 rounded-lg ${b.tint}`}
+          {/* Group A — for senior people */}
+          <div className="mb-10">
+            <div className="flex items-center gap-3 mb-5">
+              <span className="text-xs font-bold uppercase tracking-widest text-primary">
+                {t("benefitsGroupA")}
+              </span>
+              <div className="h-px flex-1 bg-border" />
+            </div>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {benefitsGroupA.map((b, i) => {
+                const Icon = b.Icon;
+                const featured = "featured" in b && b.featured;
+                return (
+                  <div
+                    key={i}
+                    className={`rounded-lg border bg-background p-5 space-y-2.5 ${
+                      featured
+                        ? "ring-1 ring-primary/30 shadow-[0_0_0_4px_rgba(42,165,160,0.06)]"
+                        : ""
+                    }`}
                   >
-                    <Icon className="size-5" />
-                  </span>
-                  <h3 className="font-semibold text-sm sm:text-base">
-                    {b.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {b.desc}
-                  </p>
-                </div>
-              );
-            })}
+                    <span
+                      className={`inline-flex items-center justify-center size-10 rounded-lg ${b.tint}`}
+                    >
+                      <Icon className="size-5" />
+                    </span>
+                    <h3 className="font-semibold text-sm sm:text-base">
+                      {b.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {b.desc}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Pricing band */}
-          <div className="mt-10 rounded-xl border bg-background px-5 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-sm text-muted-foreground text-center sm:text-left">
-              {t("pricingBandText")}
-            </p>
-            <Link href="/pricing">
-              <Button size="sm" variant="outline" className="gap-1.5">
-                {t("viewPlans")}
-                <ArrowRight className="size-4" />
-              </Button>
-            </Link>
+          {/* Group B — for everyone else */}
+          <div>
+            <div className="flex items-center gap-3 mb-5">
+              <span className="text-xs font-bold uppercase tracking-widest text-primary">
+                {t("benefitsGroupB")}
+              </span>
+              <div className="h-px flex-1 bg-border" />
+            </div>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {benefitsGroupB.map((b, i) => {
+                const Icon = b.Icon;
+                return (
+                  <div
+                    key={i}
+                    className="rounded-lg border bg-background p-5 space-y-2.5"
+                  >
+                    <span
+                      className={`inline-flex items-center justify-center size-10 rounded-lg ${b.tint}`}
+                    >
+                      <Icon className="size-5" />
+                    </span>
+                    <h3 className="font-semibold text-sm sm:text-base">
+                      {b.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {b.desc}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Pricing hook band — bold, primary, hard to miss */}
+          <div className="mt-14 relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-primary to-[#1D7A76] text-primary-foreground px-6 sm:px-12 py-10 sm:py-14 text-center shadow-[0_25px_70px_-20px_rgba(42,165,160,0.55)]">
+            {/* Decorative blob */}
+            <div
+              aria-hidden="true"
+              className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-white/10 blur-3xl"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute -bottom-24 -left-16 w-64 h-64 rounded-full bg-white/5 blur-3xl"
+            />
+            <div className="relative">
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 leading-[1.1] tracking-tight">
+                {t("pricingHookTitle")}
+              </h3>
+              <p className="text-primary-foreground/90 mb-7 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
+                {t("pricingHookSub")}
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Link href="/auth/signup">
+                  <Button
+                    size="lg"
+                    className="gap-2 bg-white text-primary hover:bg-white/95 font-semibold shadow-lg"
+                  >
+                    {t("startTrial")}
+                    <ArrowRight className="size-4" />
+                  </Button>
+                </Link>
+                <Link href="/pricing">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="gap-2 bg-transparent text-primary-foreground border-primary-foreground/40 hover:bg-white/10 hover:text-primary-foreground"
+                  >
+                    {t("viewPlans")}
+                  </Button>
+                </Link>
+              </div>
+              <p className="text-xs text-primary-foreground/80 mt-5">
+                {t("pricingBandText")}
+              </p>
+            </div>
           </div>
         </div>
       </section>
