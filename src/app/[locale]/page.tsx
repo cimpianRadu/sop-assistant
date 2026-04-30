@@ -231,6 +231,34 @@ function StepIllustration2() {
   );
 }
 
+/**
+ * Bespoke checkmark badge — echoes the Sopia compass logo's two-tone teal.
+ * Soft halo + main teal disc + darker bottom-half overlay for depth + crisp
+ * rounded white check.
+ */
+function FancyCheck({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      role="img"
+      aria-hidden="true"
+      className={className}
+    >
+      <circle cx="12" cy="12" r="11" fill="#2AA5A0" fillOpacity="0.14" />
+      <circle cx="12" cy="12" r="9" fill="#2AA5A0" />
+      <path d="M3 12 a9 9 0 0 0 18 0 Z" fill="#1D7A76" fillOpacity="0.35" />
+      <path
+        d="M7.5 12.3 l2.8 2.8 l6.2 -6.4"
+        stroke="white"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+    </svg>
+  );
+}
+
 function StepIllustration3() {
   return (
     <svg
@@ -636,7 +664,7 @@ export default async function Home({
           <ul className="rounded-xl border bg-card p-6 sm:p-8 grid sm:grid-cols-2 gap-x-8 gap-y-4 mb-8">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
               <li key={n} className="flex items-start gap-3 text-sm">
-                <CheckCircle2 className="size-5 text-primary shrink-0 mt-0.5" />
+                <FancyCheck className="size-5 shrink-0 mt-0.5" />
                 <span className="text-foreground/90 leading-relaxed">
                   {t(`trialItem${n}` as "trialItem1")}
                 </span>
