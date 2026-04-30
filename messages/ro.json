@@ -73,8 +73,16 @@
     "pricingHookSub": "Si pentru intrebarile care raman, Sopia raspunde 24/7 — predictibilitate pentru echipa, incredere pentru noii angajati.",
     "pricingBandText": "Planuri de la €99/luna · 14 zile gratuit · Fara card",
     "viewPlans": "Vezi planurile",
-    "ctaTitle": "Gata sa le dai expertilor timpul inapoi?",
-    "ctaSubtitle": "Incepe gratuit 14 zile. Acces complet, fara card.",
+    "ctaTitle": "Tot ce primesti in trial",
+    "ctaSubtitle": "14 zile. Acces complet. Fara surprize.",
+    "trialItem1": "Digitalizare completa a procedurilor — din limbaj simplu in pasi executabili",
+    "trialItem2": "Suport AI in timpul executiei — operatorii nu raman blocati",
+    "trialItem3": "Statistici si feedback pentru fiecare rulare",
+    "trialItem4": "Observability completa — vezi in timp real unde sta echipa",
+    "trialItem5": "AI detecteaza frictiunea si propune corecturi la SOP",
+    "trialItem6": "Incredere si autonomie pentru noii angajati din ziua 1",
+    "trialItem7": "Timp recuperat pentru tine si expertii tai",
+    "trialItem8": "Acces complet, fara card, anulezi oricand",
     "getStarted": "Incepe gratuit"
   },
   "FAQ": {

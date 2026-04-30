@@ -73,8 +73,16 @@
     "pricingHookSub": "And for the questions that remain, Sopia answers 24/7 — predictability for your team, confidence for new hires.",
     "pricingBandText": "Plans from €99/mo · 14-day free trial · No credit card",
     "viewPlans": "View plans",
-    "ctaTitle": "Ready to give your experts their time back?",
-    "ctaSubtitle": "Start your 14-day free trial. Full access, no credit card required.",
+    "ctaTitle": "Everything in your free trial",
+    "ctaSubtitle": "14 days. Full access. No surprises.",
+    "trialItem1": "Full procedure digitization — from plain language to executable steps",
+    "trialItem2": "AI support during execution — operators never stuck on a step",
+    "trialItem3": "Stats and feedback for every procedure run",
+    "trialItem4": "Full observability — see where the team stands, in real time",
+    "trialItem5": "AI spots friction and proposes SOP edits automatically",
+    "trialItem6": "Confidence and autonomy for new hires from day one",
+    "trialItem7": "Time recovered for you and your experts",
+    "trialItem8": "Full access, no credit card, cancel anytime",
     "getStarted": "Get started for free"
   },
   "FAQ": {

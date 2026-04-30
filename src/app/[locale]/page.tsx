@@ -625,17 +625,33 @@ export default async function Home({
         </div>
       </section>
 
-      {/* Final CTA */}
+      {/* Trial checklist — what's included */}
       <section className="border-t">
-        <div className="container mx-auto px-4 py-16 max-w-2xl text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-3">{t("ctaTitle")}</h2>
-          <p className="text-muted-foreground mb-6">{t("ctaSubtitle")}</p>
-          <Link href="/auth/signup">
-            <Button size="lg" className="gap-2">
-              {t("getStarted")}
-              <ArrowRight className="size-4" />
-            </Button>
-          </Link>
+        <div className="container mx-auto px-4 py-16 max-w-3xl">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3">{t("ctaTitle")}</h2>
+            <p className="text-muted-foreground">{t("ctaSubtitle")}</p>
+          </div>
+
+          <ul className="rounded-xl border bg-card p-6 sm:p-8 grid sm:grid-cols-2 gap-x-8 gap-y-4 mb-8">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+              <li key={n} className="flex items-start gap-3 text-sm">
+                <CheckCircle2 className="size-5 text-primary shrink-0 mt-0.5" />
+                <span className="text-foreground/90 leading-relaxed">
+                  {t(`trialItem${n}` as "trialItem1")}
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex justify-center">
+            <Link href="/auth/signup">
+              <Button size="lg" className="gap-2">
+                {t("getStarted")}
+                <ArrowRight className="size-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
