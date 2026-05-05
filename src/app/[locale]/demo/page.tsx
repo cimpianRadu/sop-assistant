@@ -6,6 +6,7 @@ import { Logo } from "@/components/shared/logo";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
 import { TrackedLink } from "@/components/shared/tracked-link";
 import { TrackedExternalLink } from "@/components/shared/tracked-external-link";
+import { DemoVideo } from "@/components/shared/demo-video";
 import { GA_EVENTS } from "@/lib/analytics/events";
 import { CALENDLY_DEMO_URL } from "@/lib/external-links";
 import { Calendar, ArrowLeft } from "lucide-react";
@@ -97,13 +98,10 @@ export default async function DemoPage({
               {t(`section_${section.key}_description`)}
             </p>
             {section.video ? (
-              <video
+              <DemoVideo
                 src={section.video}
                 poster={section.poster ?? undefined}
-                controls
-                playsInline
-                preload="metadata"
-                className="w-full rounded-xl border bg-muted/30 aspect-video"
+                ariaLabel={t(`section_${section.key}_title`)}
               />
             ) : (
               <div className="rounded-xl border bg-muted/30 aspect-video flex items-center justify-center text-sm text-muted-foreground">
