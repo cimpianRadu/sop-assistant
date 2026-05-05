@@ -26,6 +26,8 @@ export const GA_EVENTS = {
   WATCH_DEMO_CLICK: "watch_demo_click",
   /** Demo video reached play — fires from the <video> onPlay handler. */
   DEMO_VIDEO_PLAY: "demo_video_play",
+  /** Click on "Book a demo" CTA (Calendly) — header, post-hero band, FAQ tail. */
+  BOOK_DEMO_CLICK: "book_demo_click",
   /** User submitted the signup form (auth/signup page). */
   SIGNUP_SUBMIT: "signup_submit",
 } as const;

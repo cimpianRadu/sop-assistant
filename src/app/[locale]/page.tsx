@@ -6,13 +6,17 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
 import { TrackedLink } from "@/components/shared/tracked-link";
+import { TrackedExternalLink } from "@/components/shared/tracked-external-link";
+import { Logo } from "@/components/shared/logo";
 import { GA_EVENTS } from "@/lib/analytics/events";
+import { CALENDLY_DEMO_URL } from "@/lib/external-links";
 import {
   Clock,
   Brain,
   AlertTriangle,
   FileX,
   PlayCircle,
+  Calendar,
   Sparkles,
   CheckCircle2,
   ArrowRight,
@@ -43,26 +47,6 @@ export async function generateMetadata({
   };
 }
 
-function Logo({ size = 24 }: { size?: number }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 40 40"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="shrink-0"
-    >
-      <circle cx="20" cy="20" r="17.5" stroke="#2AA5A0" strokeWidth="2" fill="none" />
-      <line x1="20" y1="2.5" x2="20" y2="5.5" stroke="#2AA5A0" strokeWidth="1.5" />
-      <line x1="37.5" y1="20" x2="34.5" y2="20" stroke="#2AA5A0" strokeWidth="1.5" />
-      <line x1="20" y1="37.5" x2="20" y2="34.5" stroke="#2AA5A0" strokeWidth="1.5" />
-      <line x1="2.5" y1="20" x2="5.5" y2="20" stroke="#2AA5A0" strokeWidth="1.5" />
-      <path d="M20 6 L26 20 L20 34 L14 20 Z" fill="#2AA5A0" />
-      <path d="M20 6 L26 20 L20 20 L14 20 Z" fill="#1D7A76" />
-    </svg>
-  );
-}
 
 /**
  * Product visual — a stylised two-pane mockup of Sopia's editor + operator
@@ -426,6 +410,17 @@ export default async function Home({
             <Link href="/auth/login" className="hidden sm:block">
               <Button variant="ghost" size="sm">{tc("logIn")}</Button>
             </Link>
+            <TrackedExternalLink
+              href={CALENDLY_DEMO_URL}
+              event={GA_EVENTS.BOOK_DEMO_CLICK}
+              eventParams={{ source: "header_cta" }}
+              className="hidden sm:block"
+            >
+              <Button variant="outline" size="sm" className="gap-1.5">
+                <Calendar className="size-3.5" />
+                {tc("bookDemo")}
+              </Button>
+            </TrackedExternalLink>
             <TrackedLink href="/auth/signup" event={GA_EVENTS.START_TRIAL_CLICK} eventParams={{ source: "header_cta" }}>
               <Button size="sm">{tc("startFreeTrial")}</Button>
             </TrackedLink>
@@ -460,6 +455,39 @@ export default async function Home({
         </div>
 
         <HeroVisual alt={t("productAlt")} />
+      </section>
+
+      {/* Book a demo band — sits below the hero/demo visual to capture viewers
+          who finished watching and want a human conversation before they sign up. */}
+      <section className="border-t bg-gradient-to-br from-primary/[0.04] via-background to-background">
+        <div className="container mx-auto px-4 py-12 sm:py-14 max-w-3xl text-center">
+          <h3 className="text-xl sm:text-2xl font-bold tracking-tight mb-3">
+            {t("bookDemoBandTitle")}
+          </h3>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mb-6 leading-relaxed">
+            {t("bookDemoBandSub")}
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <TrackedExternalLink
+              href={CALENDLY_DEMO_URL}
+              event={GA_EVENTS.BOOK_DEMO_CLICK}
+              eventParams={{ source: "post_hero_band" }}
+            >
+              <Button size="lg" className="gap-2">
+                <Calendar className="size-4" />
+                {t("bookDemoBandCta")}
+              </Button>
+            </TrackedExternalLink>
+            <TrackedLink
+              href="/demo"
+              event={GA_EVENTS.WATCH_DEMO_CLICK}
+              eventParams={{ source: "post_hero_band" }}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {t("bookDemoBandSecondary")}
+            </TrackedLink>
+          </div>
+        </div>
       </section>
 
       {/* Sound familiar */}
@@ -704,6 +732,17 @@ export default async function Home({
               </details>
             ))}
           </div>
+          <p className="text-center text-sm text-muted-foreground mt-8">
+            {tf("seeFullDemoPrefix")}{" "}
+            <TrackedLink
+              href="/demo"
+              event={GA_EVENTS.WATCH_DEMO_CLICK}
+              eventParams={{ source: "faq_tail" }}
+              className="text-primary hover:underline font-medium"
+            >
+              {tf("seeFullDemoLink")}
+            </TrackedLink>
+          </p>
         </div>
       </section>
 
