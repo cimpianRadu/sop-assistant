@@ -429,7 +429,17 @@ export default async function Home({
       </header>
 
       {/* Hero */}
-      <section className="container mx-auto px-4 pt-12 pb-8 sm:pt-20 sm:pb-14 max-w-5xl text-center">
+      <section className="relative overflow-hidden">
+        {/* Subtle teal radial glow behind the hero */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 -z-10 h-[640px] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(42,165,160,0.12),transparent_70%)]"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 -z-10 h-[640px] bg-gradient-to-b from-primary/[0.04] via-transparent to-transparent"
+        />
+        <div className="container mx-auto px-4 pt-12 pb-8 sm:pt-20 sm:pb-14 max-w-5xl text-center">
         <span className="inline-block mb-6 px-4 py-2 text-sm font-semibold rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shadow-[0_0_15px_rgba(42,165,160,0.3)]">
           {t("trialBadge")}
         </span>
@@ -454,7 +464,8 @@ export default async function Home({
           </TrackedLink>
         </div>
 
-        <HeroVisual alt={t("productAlt")} />
+          <HeroVisual alt={t("productAlt")} />
+        </div>
       </section>
 
       {/* Book a demo band — sits below the hero/demo visual to capture viewers
@@ -490,63 +501,92 @@ export default async function Home({
         </div>
       </section>
 
-      {/* Sound familiar */}
+      {/* Problem → Solution (merged Sound Familiar + How It Works) */}
       <section className="border-t bg-muted/50">
-        <div className="container mx-auto px-4 py-16 max-w-4xl">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">
-            {t("soundFamiliar")}
-          </h2>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {painPoints.map((p, i) => {
-              const Icon = p.Icon;
-              return (
-                <div
-                  key={i}
-                  className="flex items-start gap-3 p-4 rounded-lg bg-background border"
-                >
-                  <span className={`inline-flex items-center justify-center size-9 rounded-lg shrink-0 ${p.tint}`}>
-                    <Icon className="size-5" />
-                  </span>
-                  <p className="text-sm leading-relaxed pt-1.5">{p.text}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="border-t">
         <div className="container mx-auto px-4 py-16 max-w-5xl">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-2">
-            {t("howItWorks")}
-          </h2>
-          <p className="text-center text-muted-foreground mb-10">
-            {t("howItWorksSubtitle")}
-          </p>
-          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            {features.map((feature, i) => {
-              const Illustration = feature.Illustration;
-              return (
-                <div
-                  key={i}
-                  className="group rounded-xl border bg-card p-5 sm:p-6 transition-shadow hover:shadow-[0_8px_30px_-12px_rgba(42,165,160,0.25)]"
-                >
-                  <div className="aspect-[3/2] w-full rounded-lg border bg-background p-3 mb-5 flex items-center justify-center">
-                    <Illustration />
-                  </div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-sm font-semibold">
-                      {i + 1}
+          <div className="text-center mb-10 max-w-3xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-3">
+              {t("problemSolutionTitle")}
+            </h2>
+            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
+              {t("problemSolutionSub")}
+            </p>
+          </div>
+
+          {/* Sound familiar — compact pain pills */}
+          <div className="mb-12">
+            <p className="text-center text-xs uppercase tracking-widest font-semibold text-muted-foreground mb-4">
+              {t("soundFamiliar")}
+            </p>
+            <div className="grid sm:grid-cols-2 gap-3 max-w-3xl mx-auto">
+              {painPoints.map((p, i) => {
+                const Icon = p.Icon;
+                return (
+                  <div
+                    key={i}
+                    className="flex items-start gap-3 p-3 rounded-lg bg-background/60 border"
+                  >
+                    <span className={`inline-flex items-center justify-center size-8 rounded-lg shrink-0 ${p.tint}`}>
+                      <Icon className="size-4" />
                     </span>
-                    <h3 className="font-semibold">{feature.title}</h3>
+                    <p className="text-sm leading-relaxed pt-1">{p.text}</p>
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {feature.desc}
-                  </p>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Solution — 3 step cards */}
+          <div className="mb-10">
+            <p className="text-center text-xs uppercase tracking-widest font-semibold text-primary mb-4">
+              {t("howItWorks")}
+            </p>
+            <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+              {features.map((feature, i) => {
+                const Illustration = feature.Illustration;
+                return (
+                  <div
+                    key={i}
+                    className="group rounded-xl border bg-card p-5 sm:p-6 transition-shadow hover:shadow-[0_8px_30px_-12px_rgba(42,165,160,0.25)]"
+                  >
+                    <div className="aspect-[3/2] w-full rounded-lg border bg-background p-3 mb-5 flex items-center justify-center">
+                      <Illustration />
+                    </div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-sm font-semibold">
+                        {i + 1}
+                      </span>
+                      <h3 className="font-semibold">{feature.title}</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {feature.desc}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* CTA strip — one decisive action + soft secondary */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
+            <TrackedLink
+              href="/auth/signup"
+              event={GA_EVENTS.START_TRIAL_CLICK}
+              eventParams={{ source: "problem_solution" }}
+            >
+              <Button size="lg" className="gap-2">
+                {t("startTrial")}
+                <ArrowRight className="size-4" />
+              </Button>
+            </TrackedLink>
+            <TrackedLink
+              href="/demo"
+              event={GA_EVENTS.WATCH_DEMO_CLICK}
+              eventParams={{ source: "problem_solution" }}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {t("problemSolutionSecondary")}
+            </TrackedLink>
           </div>
         </div>
       </section>
