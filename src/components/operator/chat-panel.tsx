@@ -276,7 +276,12 @@ export function ChatPanel({ open, onOpenChange, initialStepContext, executionId,
         {messages.length >= 2 && !escalated && (
           <div className="px-4">
             {!showEscalation ? (
-              <Button variant="ghost" size="sm" onClick={() => setShowEscalation(true)} className="text-muted-foreground w-full">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowEscalation(true)}
+                className="w-full bg-amber-50 hover:bg-amber-100 border-amber-300 text-amber-900 dark:bg-amber-950/30 dark:hover:bg-amber-950/50 dark:border-amber-800 dark:text-amber-200"
+              >
                 <AlertTriangleIcon className="size-4 mr-2" />
                 {t("escalateToManager")}
               </Button>

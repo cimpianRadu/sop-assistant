@@ -1,6 +1,6 @@
 import { AppShell } from "@/components/shared/app-shell";
 
-export default function ProfileLayout({
+export default function AppLayout({
   children,
 }: {
   children: React.ReactNode;
