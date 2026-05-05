@@ -443,7 +443,7 @@ export default async function Home({
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 40 40"
           fill="none"
-          className="pointer-events-none absolute -z-10 -left-16 sm:-left-8 md:left-4 lg:left-12 top-4 sm:top-8 md:top-12 lg:top-16 w-[260px] sm:w-[440px] md:w-[680px] lg:w-[900px] h-auto rotate-12 opacity-25 dark:opacity-35"
+          className="pointer-events-none absolute -z-10 -left-16 sm:-left-8 md:left-4 lg:left-12 top-4 sm:top-8 md:top-12 lg:top-16 w-[260px] sm:w-[440px] md:w-[680px] lg:w-[900px] h-auto rotate-[20deg] opacity-25 dark:opacity-35"
           style={{
             // Mask anchored on the left so the compass dissolves to transparent
             // before it reaches the centered headline. Protects text contrast
