@@ -435,14 +435,24 @@ export default async function Home({
           aria-hidden="true"
           className="absolute inset-x-0 top-0 -z-10 h-[760px] bg-[radial-gradient(ellipse_70%_55%_at_50%_-5%,rgba(42,165,160,0.12),transparent_70%)]"
         />
-        {/* Big compass — visible, sits as the hero's background presence on the left.
-            Bleeds off the left edge so it doesn't read as a centered watermark. */}
+        {/* Big compass — anchors the hero on the left. Tilted right and faded at
+            the edges (radial mask) so it dissolves into the page background instead
+            of reading as a hard logo dropped on top of the section. */}
         <svg
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 40 40"
           fill="none"
-          className="pointer-events-none absolute -z-10 -left-16 sm:-left-8 md:left-4 lg:left-12 top-4 sm:top-8 md:top-12 lg:top-16 w-[260px] sm:w-[440px] md:w-[680px] lg:w-[900px] h-auto opacity-30 dark:opacity-40"
+          className="pointer-events-none absolute -z-10 -left-16 sm:-left-8 md:left-4 lg:left-12 top-4 sm:top-8 md:top-12 lg:top-16 w-[260px] sm:w-[440px] md:w-[680px] lg:w-[900px] h-auto rotate-12 opacity-25 dark:opacity-35"
+          style={{
+            // Mask anchored on the left so the compass dissolves to transparent
+            // before it reaches the centered headline. Protects text contrast
+            // and readability — nothing visible bleeds behind the title area.
+            maskImage:
+              "radial-gradient(ellipse 60% 70% at 20% 50%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 35%, transparent 65%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 60% 70% at 20% 50%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 35%, transparent 65%)",
+          }}
         >
           <circle cx="20" cy="20" r="17.5" stroke="#2AA5A0" strokeWidth="0.5" />
           <line x1="20" y1="2.5" x2="20" y2="5.5" stroke="#2AA5A0" strokeWidth="0.4" />
