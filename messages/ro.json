@@ -41,8 +41,8 @@
     "watchDemo": "Vezi demo 60s",
     "productAlt": "Editorul de SOP Sopia si vederea de executie pentru operator",
     "bookDemoBandTitle": "Vrei sa vezi Sopia cu procedurile tale?",
-    "bookDemoBandSub": "Programeaza un call de 15 minute. Luam o procedura reala a ta si iti arat cum ar functiona in Sopia — fara slide-uri, doar munca ta de zi cu zi.",
-    "bookDemoBandCta": "Programeaza demo 15 min",
+    "bookDemoBandSub": "Programeaza un call de 30 de minute. Luam o procedura reala a ta si iti arat cum ar functiona in Sopia — fara slide-uri, doar munca ta de zi cu zi.",
+    "bookDemoBandCta": "Programeaza demo 30 min",
     "bookDemoBandSecondary": "Sau vezi demo-ul complet →",
     "soundFamiliar": "Iti suna cunoscut?",
     "painPoint1": "Expertii pierd ore intregi explicand aceleasi lucruri noilor angajati",
@@ -127,8 +127,8 @@
     "section_escalations_title": "Inchide bucla pe blocaje",
     "section_escalations_description": "Cand AI nu poate raspunde, intrebarea ajunge in coada de escalations cu context complet — operator, pas, intrebarea exacta. Raspunzi, marchezi rezolvat, sau actualizezi procedura ca sa nu se mai intample.",
     "ctaTitle": "Vrei sa vezi cu procedurile tale reale?",
-    "ctaSubtitle": "Programeaza un call de 15 minute. Luam o procedura de-a ta si iti arat cum ar functiona in Sopia — fara slide-uri, doar munca ta.",
-    "ctaPrimary": "Programeaza demo 15 min"
+    "ctaSubtitle": "Programeaza un call de 30 de minute. Luam o procedura de-a ta si iti arat cum ar functiona in Sopia — fara slide-uri, doar munca ta.",
+    "ctaPrimary": "Programeaza demo 30 min"
   },
   "Pricing": {
     "title": "Preturi simple, transparente",

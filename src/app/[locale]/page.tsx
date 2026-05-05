@@ -446,7 +446,7 @@ export default async function Home({
               <ArrowRight className="size-4" />
             </Button>
           </TrackedLink>
-          <TrackedLink href="#demo" event={GA_EVENTS.WATCH_DEMO_CLICK} eventParams={{ source: "hero" }} className="sm:w-auto">
+          <TrackedLink href="/demo" event={GA_EVENTS.WATCH_DEMO_CLICK} eventParams={{ source: "hero" }} className="sm:w-auto">
             <Button variant="outline" size="lg" className="w-full sm:w-auto gap-2">
               <PlayCircle className="size-4" />
               {t("watchDemo")}

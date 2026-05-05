@@ -52,7 +52,13 @@ export async function middleware(request: NextRequest) {
   });
 
   // Public routes (no auth required)
-  if (cleanPath === "/" || cleanPath === "/pricing" || cleanPath === "/terms" || cleanPath === "/privacy") {
+  if (
+    cleanPath === "/" ||
+    cleanPath === "/pricing" ||
+    cleanPath === "/terms" ||
+    cleanPath === "/privacy" ||
+    cleanPath === "/demo"
+  ) {
     return supabaseResponse;
   }
 

@@ -41,8 +41,8 @@
     "watchDemo": "Watch 60s demo",
     "productAlt": "Sopia SOP editor and operator execution view",
     "bookDemoBandTitle": "Want to see Sopia working with your procedures?",
-    "bookDemoBandSub": "Book a 15-minute call. We'll walk through one of your real procedures and show how Sopia would handle it — no slides, just your actual work.",
-    "bookDemoBandCta": "Book a 15-min demo",
+    "bookDemoBandSub": "Book a 30-minute call. We'll walk through one of your real procedures and show how Sopia would handle it — no slides, just your actual work.",
+    "bookDemoBandCta": "Book a 30-min demo",
     "bookDemoBandSecondary": "Or see the full product demo →",
     "soundFamiliar": "Sound familiar?",
     "painPoint1": "Experts spending hours training new hires instead of doing their job",
@@ -127,8 +127,8 @@
     "section_escalations_title": "Close the loop on blockers",
     "section_escalations_description": "When AI can't answer, the question lands in your escalations queue with full context — operator, step, exact wording. Reply, mark resolved, or update the SOP so it never happens again.",
     "ctaTitle": "Want to see it on your real procedures?",
-    "ctaSubtitle": "Book a 15-minute call. We'll walk through one of yours and show how Sopia would handle it — no slides, just your work.",
-    "ctaPrimary": "Book a 15-min demo"
+    "ctaSubtitle": "Book a 30-minute call. We'll walk through one of yours and show how Sopia would handle it — no slides, just your work.",
+    "ctaPrimary": "Book a 30-min demo"
   },
   "Pricing": {
     "title": "Simple, transparent pricing",
