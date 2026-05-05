@@ -430,14 +430,9 @@ export default async function Home({
 
       {/* Hero */}
       <section className="relative overflow-hidden">
-        {/* Subtle teal radial glow behind the hero */}
         <div
           aria-hidden="true"
           className="absolute inset-x-0 top-0 -z-10 h-[640px] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(42,165,160,0.12),transparent_70%)]"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 top-0 -z-10 h-[640px] bg-gradient-to-b from-primary/[0.04] via-transparent to-transparent"
         />
         <div className="container mx-auto px-4 pt-12 pb-8 sm:pt-20 sm:pb-14 max-w-5xl text-center">
         <span className="inline-block mb-6 px-4 py-2 text-sm font-semibold rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shadow-[0_0_15px_rgba(42,165,160,0.3)]">
