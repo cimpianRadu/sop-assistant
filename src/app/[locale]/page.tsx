@@ -434,6 +434,23 @@ export default async function Home({
           aria-hidden="true"
           className="absolute inset-x-0 top-0 -z-10 h-[640px] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(42,165,160,0.12),transparent_70%)]"
         />
+        {/* Oversized compass — rotated, bleeds off the right edge so it reads
+            as a design element anchoring the hero, not a centered watermark. */}
+        <svg
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 40 40"
+          fill="none"
+          className="pointer-events-none absolute -z-10 -right-32 sm:-right-40 md:-right-56 -top-12 sm:-top-16 md:-top-20 w-[520px] sm:w-[720px] md:w-[920px] h-auto -rotate-12 opacity-[0.06] dark:opacity-[0.10]"
+        >
+          <circle cx="20" cy="20" r="17.5" stroke="#2AA5A0" strokeWidth="0.5" />
+          <line x1="20" y1="2.5" x2="20" y2="5.5" stroke="#2AA5A0" strokeWidth="0.4" />
+          <line x1="37.5" y1="20" x2="34.5" y2="20" stroke="#2AA5A0" strokeWidth="0.4" />
+          <line x1="20" y1="37.5" x2="20" y2="34.5" stroke="#2AA5A0" strokeWidth="0.4" />
+          <line x1="2.5" y1="20" x2="5.5" y2="20" stroke="#2AA5A0" strokeWidth="0.4" />
+          <path d="M20 6 L26 20 L20 34 L14 20 Z" fill="#2AA5A0" />
+          <path d="M20 6 L26 20 L20 20 L14 20 Z" fill="#1D7A76" />
+        </svg>
         <div className="container mx-auto px-4 pt-12 pb-8 sm:pt-20 sm:pb-14 max-w-5xl text-center">
         <span className="inline-block mb-6 px-4 py-2 text-sm font-semibold rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shadow-[0_0_15px_rgba(42,165,160,0.3)]">
           {t("trialBadge")}
