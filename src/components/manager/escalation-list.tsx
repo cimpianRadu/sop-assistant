@@ -63,7 +63,7 @@ export function EscalationList({
       <Card>
         <CardContent className="pt-6">
           <EmptyState
-            icon={CheckCircle2Icon}
+            icon={<CheckCircle2Icon />}
             title={t("noEscalations")}
             description={t("noEscalationsHint")}
           />

@@ -73,7 +73,7 @@ export function MemberList({
     return (
       <Card>
         <CardContent className="pt-6">
-          <EmptyState icon={UsersIcon} title={t("noMembers")} />
+          <EmptyState icon={<UsersIcon />} title={t("noMembers")} />
         </CardContent>
       </Card>
     );

@@ -144,7 +144,7 @@ export default async function EscalationsPage({
           <Card>
             <CardContent className="pt-6">
               <EmptyState
-                icon={CheckCircle2Icon}
+                icon={<CheckCircle2Icon />}
                 title={t("noResolvedYet")}
               />
             </CardContent>

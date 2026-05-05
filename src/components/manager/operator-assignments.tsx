@@ -105,7 +105,7 @@ export function OperatorAssignments({
         ) : null}
 
         {initialAssignments.length === 0 ? (
-          <EmptyState icon={UsersIcon} title={t("noOperators")} />
+          <EmptyState icon={<UsersIcon />} title={t("noOperators")} />
         ) : (
           <div className="space-y-2">
             {initialAssignments.map((assignment) => (

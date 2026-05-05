@@ -18,7 +18,7 @@ export function ProcessList({
   if (processes.length === 0) {
     return (
       <EmptyState
-        icon={FileTextIcon}
+        icon={<FileTextIcon />}
         title={t("noProcesses")}
         description={t("noProcessesHint")}
       />
