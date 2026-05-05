@@ -24,10 +24,10 @@ export async function generateMetadata({
 }
 
 const SECTIONS = [
-  { key: "create", videoIndex: 1, video: null },
-  { key: "execute", videoIndex: 2, video: null },
-  { key: "oversee", videoIndex: 3, video: null },
-  { key: "escalations", videoIndex: 4, video: "/demo/escalations.mp4" },
+  { key: "create", videoIndex: 1, video: null, poster: null },
+  { key: "execute", videoIndex: 2, video: null, poster: null },
+  { key: "oversee", videoIndex: 3, video: "/demo/oversee.mp4", poster: "/demo/oversee-poster.jpg" },
+  { key: "escalations", videoIndex: 4, video: "/demo/escalations.mp4", poster: "/demo/escalations-poster.jpg" },
 ] as const;
 
 export default async function DemoPage({
@@ -99,6 +99,7 @@ export default async function DemoPage({
             {section.video ? (
               <video
                 src={section.video}
+                poster={section.poster ?? undefined}
                 controls
                 playsInline
                 preload="metadata"
