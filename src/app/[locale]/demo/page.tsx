@@ -25,7 +25,7 @@ export async function generateMetadata({
 
 const SECTIONS = [
   { key: "create", videoIndex: 1, video: null, poster: null },
-  { key: "execute", videoIndex: 2, video: null, poster: null },
+  { key: "execute", videoIndex: 2, video: "/demo/execute.mp4", poster: "/demo/execute-poster.jpg" },
   { key: "oversee", videoIndex: 3, video: "/demo/oversee.mp4", poster: "/demo/oversee-poster.jpg" },
   { key: "escalations", videoIndex: 4, video: "/demo/escalations.mp4", poster: "/demo/escalations-poster.jpg" },
 ] as const;
