@@ -24,10 +24,10 @@ export async function generateMetadata({
 }
 
 const SECTIONS = [
-  { key: "create", videoIndex: 1 },
-  { key: "execute", videoIndex: 2 },
-  { key: "oversee", videoIndex: 3 },
-  { key: "escalations", videoIndex: 4 },
+  { key: "create", videoIndex: 1, video: null },
+  { key: "execute", videoIndex: 2, video: null },
+  { key: "oversee", videoIndex: 3, video: null },
+  { key: "escalations", videoIndex: 4, video: "/demo/escalations.mp4" },
 ] as const;
 
 export default async function DemoPage({
@@ -96,9 +96,19 @@ export default async function DemoPage({
             <p className="text-sm sm:text-base text-muted-foreground max-w-2xl">
               {t(`section_${section.key}_description`)}
             </p>
-            <div className="rounded-xl border bg-muted/30 aspect-video flex items-center justify-center text-sm text-muted-foreground">
-              {t("videoComingSoon")}
-            </div>
+            {section.video ? (
+              <video
+                src={section.video}
+                controls
+                playsInline
+                preload="metadata"
+                className="w-full rounded-xl border bg-muted/30 aspect-video"
+              />
+            ) : (
+              <div className="rounded-xl border bg-muted/30 aspect-video flex items-center justify-center text-sm text-muted-foreground">
+                {t("videoComingSoon")}
+              </div>
+            )}
           </section>
         ))}
       </div>
