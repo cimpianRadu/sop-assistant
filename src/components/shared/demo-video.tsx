@@ -3,6 +3,14 @@
 import { useRef, useState } from "react";
 import { PlayIcon } from "lucide-react";
 
+type VideoEl = HTMLVideoElement & {
+  webkitEnterFullscreen?: () => void;
+};
+
+type ScreenOrientationLockable = ScreenOrientation & {
+  lock?: (orientation: "landscape" | "portrait") => Promise<void>;
+};
+
 export function DemoVideo({
   src,
   poster,
@@ -15,9 +23,36 @@ export function DemoVideo({
   const ref = useRef<HTMLVideoElement>(null);
   const [started, setStarted] = useState(false);
 
-  function handlePlay() {
+  async function handlePlay() {
     setStarted(true);
-    ref.current?.play();
+    const video = ref.current as VideoEl | null;
+    if (!video) return;
+
+    video.play();
+
+    // On mobile (touch + narrow viewport), kick into fullscreen so the video
+    // shows landscape instead of cramped inside a 16:9 container on a portrait phone.
+    const isMobile =
+      typeof window !== "undefined" &&
+      window.matchMedia("(max-width: 768px)").matches &&
+      window.matchMedia("(pointer: coarse)").matches;
+
+    if (!isMobile) return;
+
+    try {
+      if (typeof video.webkitEnterFullscreen === "function") {
+        // iOS Safari — native fullscreen auto-rotates landscape.
+        video.webkitEnterFullscreen();
+      } else if (typeof video.requestFullscreen === "function") {
+        await video.requestFullscreen();
+        const orientation = screen.orientation as ScreenOrientationLockable | undefined;
+        if (orientation?.lock) {
+          await orientation.lock("landscape").catch(() => {});
+        }
+      }
+    } catch {
+      // Fullscreen blocked — fall back to inline playback.
+    }
   }
 
   return (

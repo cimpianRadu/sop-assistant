@@ -38,7 +38,7 @@
     "heroSubtitle": "Si pentru intrebarile care raman, Sopia raspunde 24/7 — predictibilitate pentru echipa, incredere pentru noii angajati.",
     "startTrial": "Digitalizeaza prima procedura",
     "viewPricing": "Vezi preturile",
-    "watchDemo": "Vezi demo 60s",
+    "watchDemo": "Vezi demo",
     "productAlt": "Editorul de proceduri Sopia si vederea de executie pentru operator",
     "bookDemoBandTitle": "Vrei sa vezi Sopia cu procedurile tale?",
     "bookDemoBandSub": "Programeaza un call de 30 de minute. Luam o procedura reala a ta si iti arat cum ar functiona in Sopia — fara slide-uri, doar munca ta de zi cu zi.",
@@ -115,9 +115,9 @@
     "seeFullDemoLink": "Vezi demo-ul complet →"
   },
   "Demo": {
-    "metaTitle": "Sopia in 90 de secunde — demo produs",
+    "metaTitle": "Demo produs Sopia",
     "metaDescription": "Vezi cum Sopia transforma proceduri scrise simplu in checklist-uri ghidate de AI, apoi arata managerului unde s-a blocat echipa.",
-    "pageTitle": "Sopia in 90 de secunde",
+    "pageTitle": "Vezi Sopia in actiune",
     "pageSubtitle": "Patru clipuri scurte care acopera tot fluxul — de la crearea unei proceduri pana la felul in care echipa o executa.",
     "backToHome": "Inapoi acasa",
     "videoComingSoon": "Video in curand",

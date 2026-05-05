@@ -38,7 +38,7 @@
     "heroSubtitle": "And for the questions that remain, Sopia answers 24/7 — predictability for your team, confidence for new hires.",
     "startTrial": "Digitize your first procedure",
     "viewPricing": "View pricing",
-    "watchDemo": "Watch 60s demo",
+    "watchDemo": "Watch demo",
     "productAlt": "Sopia procedure editor and operator execution view",
     "bookDemoBandTitle": "Want to see Sopia working with your procedures?",
     "bookDemoBandSub": "Book a 30-minute call. We'll walk through one of your real procedures and show how Sopia would handle it — no slides, just your actual work.",
@@ -115,9 +115,9 @@
     "seeFullDemoLink": "Watch the full product demo →"
   },
   "Demo": {
-    "metaTitle": "Sopia in 90 seconds — product demo",
+    "metaTitle": "Sopia product demo",
     "metaDescription": "See how Sopia turns plain-language procedures into AI-guided checklists, then shows managers exactly where their team got stuck.",
-    "pageTitle": "Sopia in 90 seconds",
+    "pageTitle": "See Sopia in action",
     "pageSubtitle": "Four short clips covering the full loop — from creating a procedure to seeing how your team actually executes it.",
     "backToHome": "Back to home",
     "videoComingSoon": "Video coming soon",

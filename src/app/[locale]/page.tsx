@@ -8,6 +8,7 @@ import { LanguageSwitcher } from "@/components/shared/language-switcher";
 import { TrackedLink } from "@/components/shared/tracked-link";
 import { TrackedExternalLink } from "@/components/shared/tracked-external-link";
 import { Logo } from "@/components/shared/logo";
+import { HeroLoopVideo } from "@/components/shared/hero-loop-video";
 import { GA_EVENTS } from "@/lib/analytics/events";
 import { CALENDLY_DEMO_URL } from "@/lib/external-links";
 import {
@@ -17,7 +18,6 @@ import {
   FileX,
   PlayCircle,
   Calendar,
-  Sparkles,
   CheckCircle2,
   ArrowRight,
   TrendingUp,
@@ -49,175 +49,6 @@ export async function generateMetadata({
 
 
 /**
- * Product visual — a stylised two-pane mockup of Sopia's editor + operator
- * execution view. Pure CSS/HTML, no external image. Replace with a real
- * screenshot or Lottie/video once available.
- */
-function HeroVisual({ alt }: { alt: string }) {
-  return (
-    <div
-      role="img"
-      aria-label={alt}
-      className="relative mx-auto mt-12 sm:mt-14 w-full max-w-5xl rounded-xl border bg-card shadow-[0_20px_60px_-20px_rgba(0,0,0,0.18)] overflow-hidden"
-    >
-      {/* Window chrome */}
-      <div className="flex items-center gap-2 border-b bg-muted/50 px-3 sm:px-4 py-2">
-        <div className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
-        <div className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
-        <div className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
-        <div className="mx-auto hidden sm:block text-xs text-muted-foreground bg-background rounded px-3 py-0.5">
-          app.sopia.xyz/procedures/onboarding
-        </div>
-      </div>
-
-      {/* Body — two panes on md+, stacked on mobile */}
-      <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x">
-        {/* Left: SOP editor */}
-        <div className="p-4 sm:p-6 space-y-3 text-left">
-          <div className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground">
-            SOP Editor · Manager view
-          </div>
-          <div className="text-sm sm:text-base font-bold text-foreground">
-            Onboard a new customer
-          </div>
-          <div className="rounded-md border bg-muted/40 p-2.5 text-xs text-muted-foreground leading-relaxed">
-            &ldquo;When a new customer signs up, we verify their business, send onboarding docs, and schedule a kickoff call within 48h…&rdquo;
-          </div>
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-foreground text-background px-2.5 py-1 text-[11px] font-medium">
-            <Sparkles className="size-3" />
-            AI generating steps…
-          </div>
-          <div className="space-y-1.5 pt-1">
-            {[
-              "Verify business registration in CRM",
-              "Send welcome pack via email",
-              "Book kickoff call (within 48h)",
-              "Assign customer success owner",
-            ].map((step, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-2 rounded-md bg-primary/10 px-2.5 py-1.5 text-xs"
-              >
-                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-primary text-primary-foreground text-[10px] font-bold">
-                  {i + 1}
-                </span>
-                <span className="text-foreground/90">{step}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Right: Operator execution */}
-        <div className="p-4 sm:p-6 space-y-3 text-left">
-          <div className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground">
-            Execution · Operator view
-          </div>
-          <div className="text-sm sm:text-base font-bold text-foreground">
-            Onboarding — Acme Corp
-          </div>
-
-          {[
-            { label: "Verify business registration", hint: "Completed 2m ago", state: "done" },
-            { label: "Send welcome pack", hint: "Completed 1m ago", state: "done" },
-            { label: "Book kickoff call (within 48h)", hint: "In progress", state: "active" },
-            { label: "Assign customer success owner", hint: null, state: "pending" },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className={`flex items-start gap-2.5 rounded-md border px-2.5 py-2 text-xs ${
-                item.state === "done"
-                  ? "bg-primary/10 border-primary/30"
-                  : item.state === "active"
-                  ? "bg-background border-primary shadow-[0_0_0_3px_rgba(42,165,160,0.12)]"
-                  : "bg-background"
-              }`}
-            >
-              {item.state === "done" ? (
-                <CheckCircle2 className="size-4 text-primary shrink-0 mt-0.5" />
-              ) : (
-                <div className="h-4 w-4 rounded border border-muted-foreground/30 shrink-0 mt-0.5" />
-              )}
-              <div className="flex-1 min-w-0">
-                <div className="font-medium text-foreground/90">{item.label}</div>
-                {item.hint && (
-                  <div className="text-muted-foreground text-[11px] mt-0.5">{item.hint}</div>
-                )}
-              </div>
-            </div>
-          ))}
-
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-2.5 py-1 text-[11px] font-medium">
-            💬 Stuck? Ask AI or escalate
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/**
- * Mini illustrations for the "How it works" section. Pure SVG, no images.
- * Each frame is a tiny screenshot-like diagram that mirrors the actual UI.
- */
-function StepIllustration1() {
-  return (
-    <svg
-      viewBox="0 0 120 80"
-      role="img"
-      aria-hidden="true"
-      className="w-full h-full"
-    >
-      {/* prompt bubble */}
-      <rect x="6" y="20" width="36" height="22" rx="4" fill="#F4F4F5" stroke="#E4E4E7" />
-      <rect x="11" y="26" width="24" height="2" rx="1" fill="#A1A1AA" />
-      <rect x="11" y="31" width="18" height="2" rx="1" fill="#A1A1AA" />
-      <rect x="11" y="36" width="14" height="2" rx="1" fill="#A1A1AA" />
-      {/* sparkle + arrow */}
-      <path d="M53 18 l1.5 3 l3 1.5 l-3 1.5 l-1.5 3 l-1.5 -3 l-3 -1.5 l3 -1.5 z" fill="#2AA5A0" />
-      <path d="M48 32 L66 32 M62 28 L66 32 L62 36" stroke="#2AA5A0" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-      {/* document with numbered steps */}
-      <rect x="72" y="10" width="42" height="60" rx="4" fill="white" stroke="#2AA5A0" strokeWidth="1.5" />
-      <circle cx="80" cy="22" r="2.5" fill="#2AA5A0" />
-      <rect x="86" y="20.5" width="22" height="3" rx="1.5" fill="#A1A1AA" />
-      <circle cx="80" cy="34" r="2.5" fill="#2AA5A0" />
-      <rect x="86" y="32.5" width="20" height="3" rx="1.5" fill="#A1A1AA" />
-      <circle cx="80" cy="46" r="2.5" fill="#2AA5A0" />
-      <rect x="86" y="44.5" width="22" height="3" rx="1.5" fill="#A1A1AA" />
-      <circle cx="80" cy="58" r="2.5" fill="#2AA5A0" />
-      <rect x="86" y="56.5" width="16" height="3" rx="1.5" fill="#A1A1AA" />
-    </svg>
-  );
-}
-
-function StepIllustration2() {
-  return (
-    <svg
-      viewBox="0 0 120 80"
-      role="img"
-      aria-hidden="true"
-      className="w-full h-full"
-    >
-      {/* row 1 — done */}
-      <rect x="6" y="6" width="108" height="20" rx="4" fill="#2AA5A0" fillOpacity="0.1" stroke="#2AA5A0" strokeOpacity="0.3" />
-      <circle cx="18" cy="16" r="6" fill="#2AA5A0" />
-      <path d="M14.5 16 l2.5 2.5 l4.5 -4.5" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-      <rect x="30" y="11" width="56" height="3" rx="1.5" fill="#52525B" />
-      <rect x="30" y="17.5" width="34" height="2.5" rx="1.25" fill="#A1A1AA" />
-      {/* row 2 — active */}
-      <rect x="6" y="30" width="108" height="20" rx="4" fill="white" stroke="#2AA5A0" strokeWidth="2" />
-      <circle cx="18" cy="40" r="6" fill="white" stroke="#2AA5A0" strokeWidth="2" />
-      <rect x="30" y="35" width="50" height="3" rx="1.5" fill="#27272A" />
-      <rect x="30" y="41.5" width="30" height="2.5" rx="1.25" fill="#A1A1AA" />
-      {/* row 3 — pending */}
-      <rect x="6" y="54" width="108" height="20" rx="4" fill="white" stroke="#E4E4E7" />
-      <circle cx="18" cy="64" r="6" fill="white" stroke="#A1A1AA" strokeWidth="1.5" />
-      <rect x="30" y="59" width="48" height="3" rx="1.5" fill="#A1A1AA" />
-      <rect x="30" y="65.5" width="26" height="2.5" rx="1.25" fill="#D4D4D8" />
-    </svg>
-  );
-}
-
-/**
  * Bespoke checkmark badge — echoes the Sopia compass logo's two-tone teal.
  * Soft halo + main teal disc + darker bottom-half overlay for depth + crisp
  * rounded white check.
@@ -241,41 +72,6 @@ function FancyCheck({ className = "" }: { className?: string }) {
         strokeLinejoin="round"
         fill="none"
       />
-    </svg>
-  );
-}
-
-function StepIllustration3() {
-  return (
-    <svg
-      viewBox="0 0 120 80"
-      role="img"
-      aria-hidden="true"
-      className="w-full h-full"
-    >
-      {/* operator question bubble */}
-      <path
-        d="M6 14 a4 4 0 0 1 4 -4 h26 a4 4 0 0 1 4 4 v14 a4 4 0 0 1 -4 4 h-18 l-5 5 v-5 h-3 a4 4 0 0 1 -4 -4 z"
-        fill="#F4F4F5"
-        stroke="#E4E4E7"
-      />
-      <text x="23" y="26" fontSize="14" fontWeight="700" fill="#71717A" textAnchor="middle">
-        ?
-      </text>
-      {/* AI response bubble */}
-      <path
-        d="M114 38 a4 4 0 0 0 -4 -4 h-46 a4 4 0 0 0 -4 4 v18 a4 4 0 0 0 4 4 h36 l5 5 v-5 h5 a4 4 0 0 0 4 -4 z"
-        fill="#2AA5A0"
-        fillOpacity="0.1"
-        stroke="#2AA5A0"
-      />
-      <path
-        d="M68 42 l1.5 3 l3 1.5 l-3 1.5 l-1.5 3 l-1.5 -3 l-3 -1.5 l3 -1.5 z"
-        fill="#2AA5A0"
-      />
-      <rect x="78" y="44" width="30" height="2.5" rx="1.25" fill="#2AA5A0" fillOpacity="0.55" />
-      <rect x="78" y="49" width="24" height="2.5" rx="1.25" fill="#2AA5A0" fillOpacity="0.55" />
-      <rect x="78" y="54" width="18" height="2.5" rx="1.25" fill="#2AA5A0" fillOpacity="0.55" />
     </svg>
   );
 }
@@ -309,12 +105,6 @@ export default async function Home({
   const t = await getTranslations("Landing");
   const tc = await getTranslations("Common");
   const tf = await getTranslations("FAQ");
-
-  const features = [
-    { title: t("feature1Title"), desc: t("feature1Desc"), Illustration: StepIllustration1 },
-    { title: t("feature2Title"), desc: t("feature2Desc"), Illustration: StepIllustration2 },
-    { title: t("feature3Title"), desc: t("feature3Desc"), Illustration: StepIllustration3 },
-  ];
 
   const benefitsGroupA = [
     {
@@ -487,7 +277,7 @@ export default async function Home({
           </TrackedLink>
         </div>
 
-          <HeroVisual alt={t("productAlt")} />
+          <HeroLoopVideo alt={t("productAlt")} />
         </div>
       </section>
 
@@ -536,54 +326,23 @@ export default async function Home({
             </p>
           </div>
 
-          {/* Sound familiar — compact pain pills */}
-          <div className="mb-12">
-            <p className="text-center text-xs uppercase tracking-widest font-semibold text-muted-foreground mb-4">
+          {/* Sound familiar — card grid (2x2 mobile, 4x1 desktop) */}
+          <div className="mb-10">
+            <p className="text-center text-xs uppercase tracking-widest font-semibold text-muted-foreground mb-5">
               {t("soundFamiliar")}
             </p>
-            <div className="grid sm:grid-cols-2 gap-3 max-w-3xl mx-auto">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               {painPoints.map((p, i) => {
                 const Icon = p.Icon;
                 return (
                   <div
                     key={i}
-                    className="flex items-start gap-3 p-3 rounded-lg bg-background/60 border"
+                    className="rounded-xl border bg-card p-4 sm:p-5 transition-shadow hover:shadow-[0_8px_30px_-12px_rgba(42,165,160,0.18)]"
                   >
-                    <span className={`inline-flex items-center justify-center size-8 rounded-lg shrink-0 ${p.tint}`}>
+                    <span className={`inline-flex items-center justify-center size-9 rounded-lg mb-3 ${p.tint}`}>
                       <Icon className="size-4" />
                     </span>
-                    <p className="text-sm leading-relaxed pt-1">{p.text}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Solution — 3 step cards */}
-          <div className="mb-10">
-            <p className="text-center text-xs uppercase tracking-widest font-semibold text-primary mb-4">
-              {t("howItWorks")}
-            </p>
-            <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-              {features.map((feature, i) => {
-                const Illustration = feature.Illustration;
-                return (
-                  <div
-                    key={i}
-                    className="group rounded-xl border bg-card p-5 sm:p-6 transition-shadow hover:shadow-[0_8px_30px_-12px_rgba(42,165,160,0.25)]"
-                  >
-                    <div className="aspect-[3/2] w-full rounded-lg border bg-background p-3 mb-5 flex items-center justify-center">
-                      <Illustration />
-                    </div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-sm font-semibold">
-                        {i + 1}
-                      </span>
-                      <h3 className="font-semibold">{feature.title}</h3>
-                    </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {feature.desc}
-                    </p>
+                    <p className="text-sm leading-snug text-foreground/90">{p.text}</p>
                   </div>
                 );
               })}
