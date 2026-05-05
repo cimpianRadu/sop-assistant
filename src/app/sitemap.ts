@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://sopia.xyz";
 
-  const publicPages = ["/", "/pricing", "/terms", "/privacy"];
+  const publicPages = ["/", "/pricing", "/terms", "/privacy", "/procedure-ai-supervisor"];
   const locales = ["", "/en"];
 
   return publicPages.flatMap((page) =>
