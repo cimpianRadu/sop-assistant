@@ -429,7 +429,7 @@ export default async function Home({
       </header>
 
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden isolate">
         {/* Soft teal wash at the top — meshes with the page background, no hard edges */}
         <div
           aria-hidden="true"
@@ -442,7 +442,7 @@ export default async function Home({
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 40 40"
           fill="none"
-          className="pointer-events-none absolute -z-10 -left-16 sm:-left-8 md:left-4 lg:left-12 top-4 sm:top-8 md:top-12 lg:top-16 w-[260px] sm:w-[440px] md:w-[680px] lg:w-[900px] h-auto opacity-[0.18] sm:opacity-[0.22] md:opacity-[0.28] lg:opacity-[0.32] dark:opacity-[0.30] sm:dark:opacity-[0.35] md:dark:opacity-[0.40] lg:dark:opacity-[0.45]"
+          className="pointer-events-none absolute -z-10 -left-16 sm:-left-8 md:left-4 lg:left-12 top-4 sm:top-8 md:top-12 lg:top-16 w-[260px] sm:w-[440px] md:w-[680px] lg:w-[900px] h-auto opacity-30 dark:opacity-40"
         >
           <circle cx="20" cy="20" r="17.5" stroke="#2AA5A0" strokeWidth="0.5" />
           <line x1="20" y1="2.5" x2="20" y2="5.5" stroke="#2AA5A0" strokeWidth="0.4" />
