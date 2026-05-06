@@ -741,5 +741,12 @@
     "loginDescription": "Sign in to your Sopia account to manage and execute your team's standard operating procedures.",
     "signupTitle": "Sign Up",
     "signupDescription": "Create your free Sopia account. 14-day trial, no credit card required."
+  },
+  "Consent": {
+    "ariaLabel": "Cookie consent",
+    "body": "We use cookies to analyze traffic and improve Sopia. Essential cookies are always on; analytics cookies only run if you accept.",
+    "privacyLink": "Privacy policy",
+    "accept": "Accept all",
+    "reject": "Reject all"
   }
 }

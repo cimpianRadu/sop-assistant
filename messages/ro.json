@@ -741,5 +741,12 @@
     "loginDescription": "Conecteaza-te la contul tau Sopia pentru a gestiona si executa procedurile echipei tale.",
     "signupTitle": "Inregistrare",
     "signupDescription": "Creeaza contul tau Sopia gratuit. 14 zile de proba, fara card bancar."
+  },
+  "Consent": {
+    "ariaLabel": "Consimtamant cookies",
+    "body": "Folosim cookies ca sa analizam traficul si sa imbunatatim Sopia. Cookies-urile esentiale sunt mereu active; cele de analiza ruleaza doar daca accepti.",
+    "privacyLink": "Politica de confidentialitate",
+    "accept": "Accepta toate",
+    "reject": "Refuza toate"
   }
 }

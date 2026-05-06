@@ -81,7 +81,21 @@ export default function RootLayout({
         <EnvBanner />
         {children}
         <Toaster />
-        {enableGa && <GoogleAnalytics gaId={gaId} />}
+        {enableGa && (
+          <>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer=window.dataLayer||[];
+                  window.gtag=function(){window.dataLayer.push(arguments);};
+                  window.gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});
+                  try{var s=localStorage.getItem('sopia-consent-v1');if(s){var c=JSON.parse(s).choice;if(c==='all'){window.gtag('consent','update',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'});}}}catch(e){}
+                `,
+              }}
+            />
+            <GoogleAnalytics gaId={gaId} />
+          </>
+        )}
       </body>
     </html>
   );

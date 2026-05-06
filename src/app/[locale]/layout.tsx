@@ -2,6 +2,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { ConsentBanner } from "@/components/shared/consent-banner";
 
 type Props = {
   children: React.ReactNode;
@@ -29,6 +30,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         }}
       />
       {children}
+      <ConsentBanner />
     </NextIntlClientProvider>
   );
 }
