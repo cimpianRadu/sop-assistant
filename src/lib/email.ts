@@ -105,3 +105,47 @@ export async function sendInviteEmail({
 
   return { success: true };
 }
+
+export async function sendUpgradeRequestEmail({
+  orgName,
+  orgId,
+  plan,
+  cycle,
+  requestedByEmail,
+  requestedByName,
+}: {
+  orgName: string;
+  orgId: string;
+  plan: string;
+  cycle: string;
+  requestedByEmail: string;
+  requestedByName: string | null;
+}) {
+  const subject = `Upgrade request: ${orgName} → ${plan} (${cycle})`;
+  const html = `<!DOCTYPE html>
+<html><body style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 24px;">
+  <h2 style="margin: 0 0 16px;">New upgrade request</h2>
+  <table cellpadding="6" style="font-size: 14px; border-collapse: collapse;">
+    <tr><td><strong>Org</strong></td><td>${escapeHtml(orgName)} <code>(${escapeHtml(orgId)})</code></td></tr>
+    <tr><td><strong>Plan</strong></td><td>${escapeHtml(plan)}</td></tr>
+    <tr><td><strong>Cycle</strong></td><td>${escapeHtml(cycle)}</td></tr>
+    <tr><td><strong>Requested by</strong></td><td>${escapeHtml(requestedByName ?? "")} &lt;${escapeHtml(requestedByEmail)}&gt;</td></tr>
+  </table>
+  <p style="margin-top: 24px; color: #6b7280; font-size: 13px;">Reply to this user with payment details, then flip <code>organizations.subscription_status</code> to <code>active</code> in Supabase.</p>
+</body></html>`;
+
+  const { error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to: "hello@sopia.xyz",
+    replyTo: requestedByEmail,
+    subject,
+    html,
+  });
+
+  if (error) {
+    console.error("Failed to send upgrade request email:", error);
+    return { error: error.message };
+  }
+
+  return { success: true };
+}

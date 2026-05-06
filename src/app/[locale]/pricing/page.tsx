@@ -144,6 +144,9 @@ export default async function PricingPage({
           isTrialing={isTrialing}
           daysLeft={daysLeft}
           hasUser={!!user}
+          canRequestUpgrade={
+            session?.role === "admin" || session?.role === "manager"
+          }
         />
 
         <div className="text-center mt-12 space-y-2">

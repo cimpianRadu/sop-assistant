@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,35 +13,44 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CheckIcon, MailIcon } from "lucide-react";
+import { CheckIcon, Loader2Icon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { createUpgradeRequest } from "@/lib/actions/upgrade-requests";
 
 type Cycle = "monthly" | "annual";
+type Plan = "growth" | "team" | "business";
 
 type Props = {
   isActive: boolean;
   isTrialing: boolean;
   daysLeft: number | null;
   hasUser: boolean;
+  canRequestUpgrade: boolean;
 };
 
 const GROWTH_MONTHLY = 99;
-const GROWTH_ANNUAL_PER_MONTH = 79; // 20% off, rounded
-const GROWTH_ANNUAL_TOTAL = GROWTH_ANNUAL_PER_MONTH * 12; // 948
+const GROWTH_ANNUAL_PER_MONTH = 79;
+const GROWTH_ANNUAL_TOTAL = GROWTH_ANNUAL_PER_MONTH * 12;
 
 const TEAM_MONTHLY = 249;
-const TEAM_ANNUAL_PER_MONTH = 199; // 20% off
-const TEAM_ANNUAL_TOTAL = TEAM_ANNUAL_PER_MONTH * 12; // 2388
+const TEAM_ANNUAL_PER_MONTH = 199;
+const TEAM_ANNUAL_TOTAL = TEAM_ANNUAL_PER_MONTH * 12;
 
 const BUSINESS_MONTHLY = 799;
-const BUSINESS_ANNUAL_PER_MONTH = 639; // 20% off, rounded
-const BUSINESS_ANNUAL_TOTAL = BUSINESS_ANNUAL_PER_MONTH * 12; // 7668
+const BUSINESS_ANNUAL_PER_MONTH = 639;
+const BUSINESS_ANNUAL_TOTAL = BUSINESS_ANNUAL_PER_MONTH * 12;
 
 function formatEUR(value: number) {
   return `€${value.toLocaleString("en-US")}`;
 }
 
-export function PricingTiers({ isActive, isTrialing, daysLeft, hasUser }: Props) {
+export function PricingTiers({
+  isActive,
+  isTrialing,
+  daysLeft,
+  hasUser,
+  canRequestUpgrade,
+}: Props) {
   const t = useTranslations("Pricing");
   const [cycle, setCycle] = useState<Cycle>("monthly");
 
@@ -81,7 +91,6 @@ export function PricingTiers({ isActive, isTrialing, daysLeft, hasUser }: Props)
 
   return (
     <>
-      {/* Billing cycle toggle */}
       <div className="flex justify-center mb-8">
         <div
           role="tablist"
@@ -123,7 +132,6 @@ export function PricingTiers({ isActive, isTrialing, daysLeft, hasUser }: Props)
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {/* Growth plan */}
         <Card>
           <CardHeader className="text-center">
             <div className="flex justify-center mb-2">
@@ -154,57 +162,18 @@ export function PricingTiers({ isActive, isTrialing, daysLeft, hasUser }: Props)
               ))}
             </ul>
 
-            <div className="pt-4 space-y-3">
-              {isActive ? (
-                <div className="text-center">
-                  <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-                    {t("currentPlan")}
-                  </Badge>
-                </div>
-              ) : isTrialing && daysLeft !== null ? (
-                <div className="text-center space-y-3">
-                  <Badge
-                    variant="outline"
-                    className="border-amber-500 text-amber-600"
-                  >
-                    {t("trialRemaining", { days: daysLeft })}
-                  </Badge>
-                  <a
-                    href={`mailto:hello@sopia.xyz?subject=${encodeURIComponent(
-                      `Upgrade to Growth (${cycle})`
-                    )}`}
-                    className="block"
-                  >
-                    <Button className="w-full" size="lg">
-                      <MailIcon className="size-4 mr-2" />
-                      {t("contactToUpgrade")}
-                    </Button>
-                  </a>
-                </div>
-              ) : hasUser ? (
-                <a
-                  href={`mailto:hello@sopia.xyz?subject=${encodeURIComponent(
-                    `Subscribe to Growth (${cycle})`
-                  )}`}
-                  className="block"
-                >
-                  <Button className="w-full" size="lg">
-                    <MailIcon className="size-4 mr-2" />
-                    {t("contactToUpgrade")}
-                  </Button>
-                </a>
-              ) : (
-                <Link href="/auth/signup" className="block">
-                  <Button className="w-full" size="lg">
-                    {t("startTrial")}
-                  </Button>
-                </Link>
-              )}
-            </div>
+            <PlanCta
+              plan="growth"
+              cycle={cycle}
+              isActive={isActive}
+              isTrialing={isTrialing}
+              daysLeft={daysLeft}
+              hasUser={hasUser}
+              canRequestUpgrade={canRequestUpgrade}
+            />
           </CardContent>
         </Card>
 
-        {/* Team plan */}
         <Card className="border-primary/50 relative">
           <div className="absolute -top-3 left-1/2 -translate-x-1/2">
             <Badge className="bg-primary text-primary-foreground">
@@ -240,31 +209,18 @@ export function PricingTiers({ isActive, isTrialing, daysLeft, hasUser }: Props)
               ))}
             </ul>
 
-            <div className="pt-4">
-              {!hasUser ? (
-                <Link href="/auth/signup" className="block">
-                  <Button className="w-full" size="lg">
-                    {t("startTrial")}
-                  </Button>
-                </Link>
-              ) : (
-                <a
-                  href={`mailto:hello@sopia.xyz?subject=${encodeURIComponent(
-                    `Upgrade to Team (${cycle})`
-                  )}`}
-                  className="block"
-                >
-                  <Button className="w-full" size="lg">
-                    <MailIcon className="size-4 mr-2" />
-                    {t("contactToUpgrade")}
-                  </Button>
-                </a>
-              )}
-            </div>
+            <PlanCta
+              plan="team"
+              cycle={cycle}
+              isActive={false}
+              isTrialing={isTrialing}
+              daysLeft={daysLeft}
+              hasUser={hasUser}
+              canRequestUpgrade={canRequestUpgrade}
+            />
           </CardContent>
         </Card>
 
-        {/* Business plan */}
         <Card>
           <CardHeader className="text-center">
             <div className="flex justify-center mb-2">
@@ -295,30 +251,133 @@ export function PricingTiers({ isActive, isTrialing, daysLeft, hasUser }: Props)
               ))}
             </ul>
 
-            <div className="pt-4">
-              {!hasUser ? (
-                <Link href="/auth/signup" className="block">
-                  <Button className="w-full" size="lg" variant="outline">
-                    {t("startTrial")}
-                  </Button>
-                </Link>
-              ) : (
-                <a
-                  href={`mailto:hello@sopia.xyz?subject=${encodeURIComponent(
-                    `Upgrade to Business (${cycle})`
-                  )}`}
-                  className="block"
-                >
-                  <Button className="w-full" size="lg" variant="outline">
-                    <MailIcon className="size-4 mr-2" />
-                    {t("contactSales")}
-                  </Button>
-                </a>
-              )}
-            </div>
+            <PlanCta
+              plan="business"
+              cycle={cycle}
+              isActive={false}
+              isTrialing={isTrialing}
+              daysLeft={daysLeft}
+              hasUser={hasUser}
+              canRequestUpgrade={canRequestUpgrade}
+              variant="outline"
+              salesCopy
+            />
           </CardContent>
         </Card>
       </div>
     </>
+  );
+}
+
+function PlanCta({
+  plan,
+  cycle,
+  isActive,
+  isTrialing,
+  daysLeft,
+  hasUser,
+  canRequestUpgrade,
+  variant = "default",
+  salesCopy = false,
+}: {
+  plan: Plan;
+  cycle: Cycle;
+  isActive: boolean;
+  isTrialing: boolean;
+  daysLeft: number | null;
+  hasUser: boolean;
+  canRequestUpgrade: boolean;
+  variant?: "default" | "outline";
+  salesCopy?: boolean;
+}) {
+  const t = useTranslations("Pricing");
+  const [pending, startTransition] = useTransition();
+  const [submitted, setSubmitted] = useState(false);
+
+  if (!hasUser) {
+    return (
+      <div className="pt-4 space-y-2 text-center">
+        <Link href="/auth/signup" className="block">
+          <Button className="w-full" size="lg" variant={variant}>
+            {t("startTrial")}
+          </Button>
+        </Link>
+        <p className="text-xs text-muted-foreground">{t("noCardRequired")}</p>
+      </div>
+    );
+  }
+
+  if (isActive && plan === "growth") {
+    return (
+      <div className="pt-4 text-center">
+        <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+          {t("currentPlan")}
+        </Badge>
+      </div>
+    );
+  }
+
+  const ctaLabel = salesCopy ? t("contactSales") : t("contactToUpgrade");
+
+  if (!canRequestUpgrade) {
+    return (
+      <div className="pt-4 text-center">
+        <Button
+          className="w-full"
+          size="lg"
+          variant={variant}
+          disabled
+          title="Only admins or managers can request an upgrade"
+        >
+          {ctaLabel}
+        </Button>
+      </div>
+    );
+  }
+
+  function handleClick() {
+    if (pending || submitted) return;
+    startTransition(async () => {
+      const result = await createUpgradeRequest({ plan, cycle });
+      if ("error" in result) {
+        toast.error(t("requestFailedTitle"), {
+          description: t("requestFailedDescription"),
+        });
+        return;
+      }
+      setSubmitted(true);
+      toast.success(t("requestSubmittedTitle"), {
+        description: t("requestSubmittedDescription"),
+      });
+    });
+  }
+
+  return (
+    <div className="pt-4 space-y-3">
+      {isTrialing && daysLeft !== null && (
+        <div className="text-center">
+          <Badge
+            variant="outline"
+            className="border-amber-500 text-amber-600"
+          >
+            {t("trialRemaining", { days: daysLeft })}
+          </Badge>
+        </div>
+      )}
+      <Button
+        className="w-full"
+        size="lg"
+        variant={variant}
+        onClick={handleClick}
+        disabled={pending || submitted}
+      >
+        {pending && <Loader2Icon className="size-4 mr-2 animate-spin" />}
+        {pending
+          ? t("submittingRequest")
+          : submitted
+          ? t("requestSubmittedTitle")
+          : ctaLabel}
+      </Button>
+    </div>
   );
 }
