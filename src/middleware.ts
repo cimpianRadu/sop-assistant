@@ -30,6 +30,19 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // SEO + crawler endpoints — must be reachable without auth or i18n rewrites.
+  // Without this, GoogleBot/ClaudeBot get redirected to /auth/login and the
+  // site is effectively un-crawlable.
+  if (
+    pathname === "/robots.txt" ||
+    pathname === "/sitemap.xml" ||
+    pathname.startsWith("/sitemap-") ||
+    pathname === "/manifest.webmanifest" ||
+    pathname === "/manifest.json"
+  ) {
+    return NextResponse.next();
+  }
+
   // Step 1: Let next-intl handle locale detection/rewriting
   const i18nResponse = handleI18nRouting(request);
 
@@ -51,13 +64,17 @@ export async function middleware(request: NextRequest) {
     supabaseResponse.headers.set(key, value);
   });
 
-  // Public routes (no auth required)
+  // Public routes (no auth required). Includes marketing + blog so crawlers
+  // and unauthenticated visitors can read public content.
   if (
     cleanPath === "/" ||
     cleanPath === "/pricing" ||
     cleanPath === "/terms" ||
     cleanPath === "/privacy" ||
-    cleanPath === "/demo"
+    cleanPath === "/demo" ||
+    cleanPath === "/procedure-ai-supervisor" ||
+    cleanPath === "/blog" ||
+    cleanPath.startsWith("/blog/")
   ) {
     return supabaseResponse;
   }
