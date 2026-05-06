@@ -84,13 +84,37 @@ Fiecare pas executat se înregistrează automat: cine, când, ce valoare, de la 
 
 Dacă un pas nu s-a făcut, e marcat ca lipsă. Asta e mai bine pentru tine pe termen lung. Ai dovada că sistemul funcționează, plus ai datele să corectezi.
 
-## Cum arată asta în mâna operatorului
+## Cum arată asta concret în Sopia
 
-La Sopia, am construit aplicația exact pentru gap-ul ăsta. Operatorul deschide telefonul la 6:30, vede checklist-ul de deschidere, bifează pas cu pas. AI-ul îl ghidează: dacă temperatura iese din limită, îi spune ce să facă în continuare; dacă uită un pas, îi reamintește înainte să închidă tura. La final, totul se semnează digital.
+Aici e partea pe care o vezi rar în articole de "digitalizare": cum arată efectiv munca de a transforma planul HACCP de pe hârtie în proceduri pe care echipa le execută.
 
-Pentru patron, asta înseamnă: deschide dashboard-ul săptămânal, vede ce s-a făcut, ce s-a ratat, unde sunt riscuri. La control, exportă raportul HACCP pe perioada cerută în 10 secunde.
+**Setup-ul (o singură dată, ~30 de minute pentru o cafenea):**
 
-Nu înlocuiește planul tău HACCP. Îl pune să funcționeze.
+Tu sau managerul deschideți Sopia, click pe "Creează procedură". Scrieți două lucruri:
+
+- **Titlu**: "Verificare temperaturi frigidere, deschidere"
+- **Descriere**: ce e scris în HACCP-ul tău despre frigidere. Exemplu real: "3 frigidere de verificat la deschidere: vitrina lapte (max 4°C), congelator înghețată (max -18°C), camera rece (max 4°C). Dacă depășește limita, mut marfa în alt frigider, sun tehnicianul, completez registrul de neconformități. Verificare la 6:30 dimineața, semnat de operatorul de tură."
+
+Apăsați **Generate**. AI-ul Sopia (rulează pe Claude) îți întoarce automat:
+
+- **SOP-ul scris** (200-500 cuvinte, formatat clar: context, responsabilități, pași detaliați, acțiuni corective)
+- **Checklist de pași acționabili** (5-15 pași, fiecare începe cu un verb, fiecare verificabil): "1. Verifică termometrul frigiderului vitrina lapte. 2. Notează valoarea în câmpul de date. 3. Dacă peste 4°C, mută marfa și sună tehnicianul. ..."
+
+Editezi dacă vrei să schimbi ceva, salvezi. Repeți pentru fiecare punct critic din HACCP-ul tău: spălare vase, recepție marfă, igienă personal, curățenie suprafețe. La o cafenea tipică ies 6-12 proceduri. **Setup-ul total: o după-amiază**, nu o săptămână de muncă.
+
+**Execuția zilnică (operatorul, pe telefon):**
+
+A doua zi la 6:30, operatorul deschide aplicația. Vede ce proceduri are de făcut pe tura asta. Deschide prima, vede checklist-ul, bifează pas cu pas pe măsură ce execută. Când introduce o valoare (ex: temperatura), datele se salvează cu timestamp real.
+
+Dacă apare ceva neașteptat (termometrul defect, o valoare ciudată, un pas neclar), apasă pe icon-ul de chat de lângă pas. AI-ul Sopia răspunde **folosind SOP-ul tău și pasul curent ca context**, nu cu sfaturi generale. Dacă SOP-ul tău spune "sună tehnicianul X la numărul Y", asta îi spune și AI-ul.
+
+La final de tură, semnează digital. Tot ce s-a făcut și ce s-a ratat se înregistrează automat.
+
+**Pentru tine, ca patron:**
+
+Dashboard săptămânal: vezi ce procese s-au executat, care au pași ratați, unde apar pattern-uri de probleme (ex: "operatoarea de seara ratează verificarea temperaturilor de 3 ori pe săptămână"). La control ANSVSA, exporți raportul pe perioada cerută în 10 secunde.
+
+Nu înlocuiește planul tău HACCP. Îl pune să funcționeze, fără să te transformi în operator de aplicație.
 
 ## Ce verifică ANSVSA și cum se rezolvă audit trail-ul
 

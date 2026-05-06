@@ -77,13 +77,37 @@ Open at 6:30: 8 steps. Mid-service check at 11:00: 3 steps. Close at 22:00: 7 st
 
 Every action logs itself: who, when, what value, from which device. When the FSA inspector asks for the last 30 days of cold-storage records, you export a PDF in seconds, with timestamps that match your point-of-sale data and CCTV. If steps were missed, they show as missed. That's better for you long-term, because you can see where the system is breaking down and fix it before the inspector does.
 
-## What this looks like on the floor
+## What this actually looks like in Sopia
 
-We built Sopia for this exact gap. The morning lead opens the app at 6:30, sees the open checklist, works through each step. AI guidance walks them through anything unusual: a temperature reading out of range triggers the corrective-action prompt automatically; a missed step gets flagged before they can sign off the shift. Everything signs digitally with a timestamp.
+Here's the part most "go digital" articles skip: what it actually takes to turn the binder into procedures your team runs.
 
-For the owner, that means a weekly dashboard showing what got done, what got missed, and where risk is concentrated. At inspection, you export the HACCP record for the requested period in 10 seconds.
+**Setup (one-time, ~30 minutes for a small café):**
 
-It doesn't replace your HACCP plan. It makes the plan execute itself.
+You or your manager open Sopia, click "Create procedure", and enter two things:
+
+- **Title**: "Cold storage temperature check, open shift"
+- **Description**: paste or paraphrase the relevant section from your HACCP plan. For example: "3 fridges to check at open, display fridge milk and dairy (5°C max), walk-in chiller (5°C max), freezer (-18°C max). If reading is over the limit: move stock to a working unit, call the engineer, log the non-conformance and corrective action. Check at 6:30 a.m., signed by the morning lead."
+
+Click **Generate**. Sopia's AI (running on Claude) returns:
+
+- **The written SOP** (200-500 words, properly formatted: context, responsibilities, step-by-step actions, corrective actions)
+- **An actionable checklist** (5-15 steps, each starting with a verb, each verifiable): "1. Check the thermometer on the milk and dairy fridge. 2. Enter the reading. 3. If over 5°C, move stock and call the engineer. ..."
+
+You edit anything that needs adjusting, you save. Repeat for each critical control point in your HACCP plan: dishwasher temperature, hot-hold checks, goods-in, cleaning logs, personal hygiene. A typical café ends up with 6-12 procedures. **Total setup time: one afternoon**, not a project.
+
+**Daily execution (the operator, on a phone):**
+
+Next morning at 6:30, your morning lead opens the app. They see which procedures are due for the shift. Open the first, work through the checklist, tick each step as they go. When they enter a reading, it's saved with a real timestamp.
+
+If something unexpected comes up (broken thermometer, an unfamiliar reading, a step that's unclear), they tap the chat icon next to the step. Sopia's AI replies **using your specific SOP and the current step as context**, not generic advice. If your SOP says "call engineer X on number Y", that's what the AI tells them.
+
+At the end of shift, they sign digitally. What was done and what was missed is logged automatically.
+
+**For you, the owner:**
+
+Weekly dashboard: which procedures ran, which had missed steps, where patterns are forming ("evening lead misses temperature checks three times a week"). When the FSA inspector arrives, you export the HACCP record for the requested period in 10 seconds.
+
+It doesn't replace your HACCP plan. It makes the plan execute itself, without turning you into the person who chases people for paperwork.
 
 ## What FSA inspectors actually check
 
