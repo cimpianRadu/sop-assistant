@@ -194,6 +194,9 @@ export default async function Home({
           </span>
           <div className="flex items-center gap-2 sm:gap-3">
             <LanguageSwitcher />
+            <Link href="/blog" className="hidden sm:block">
+              <Button variant="ghost" size="sm">Blog</Button>
+            </Link>
             <TrackedLink href="/pricing" event={GA_EVENTS.VIEW_PRICING} eventParams={{ source: "header_nav" }} className="hidden sm:block">
               <Button variant="ghost" size="sm">{tc("pricing")}</Button>
             </TrackedLink>
