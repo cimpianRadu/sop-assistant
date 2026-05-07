@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/logo";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
+import { MarketingMobileMenu } from "@/components/shared/marketing-mobile-menu";
 import { TrackedLink } from "@/components/shared/tracked-link";
 import { TrackedExternalLink } from "@/components/shared/tracked-external-link";
 import { GA_EVENTS } from "@/lib/analytics/events";
@@ -52,8 +53,9 @@ export default async function ProcedureAiSupervisorPage({
             <Logo />
             Sopia
           </Link>
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3">
             <LanguageSwitcher />
+            <MarketingMobileMenu source="procedure_ai_supervisor_mobile_menu" />
             <TrackedExternalLink
               href={CALENDLY_DEMO_URL}
               event={GA_EVENTS.BOOK_DEMO_CLICK}

@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/logo";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
+import { MarketingMobileMenu } from "@/components/shared/marketing-mobile-menu";
 import { TrackedLink } from "@/components/shared/tracked-link";
 import { TrackedExternalLink } from "@/components/shared/tracked-external-link";
 import { GA_EVENTS } from "@/lib/analytics/events";
@@ -32,7 +33,7 @@ export default async function BlogLayout({
             <Logo />
             {tc("appName")}
           </Link>
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3">
             <LanguageSwitcher />
             <Link href="/blog" className="hidden sm:block">
               <Button variant="ghost" size="sm">
@@ -60,6 +61,7 @@ export default async function BlogLayout({
                 {tc("bookDemo")}
               </Button>
             </TrackedExternalLink>
+            <MarketingMobileMenu source="blog_mobile_menu" />
             <TrackedLink
               href="/auth/signup"
               event={GA_EVENTS.START_TRIAL_CLICK}

@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
+import { MarketingMobileMenu } from "@/components/shared/marketing-mobile-menu";
 import { PricingTiers } from "@/components/pricing/pricing-tiers";
 
 export async function generateMetadata({
@@ -107,7 +108,7 @@ export default async function PricingPage({
             </svg>
             {tc("appName")}
           </Link>
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3">
             <LanguageSwitcher />
             {user ? (
               <Link href={`/${session?.role || "operator"}/dashboard`}>
@@ -122,6 +123,7 @@ export default async function PricingPage({
                     {tc("logIn")}
                   </Button>
                 </Link>
+                <MarketingMobileMenu source="pricing_mobile_menu" />
                 <Link href="/auth/signup">
                   <Button size="sm">{tc("startFreeTrial")}</Button>
                 </Link>

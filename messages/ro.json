@@ -30,7 +30,11 @@
     "days": "zile",
     "viewAll": "Vezi toate",
     "terms": "Termeni",
-    "privacy": "Confidentialitate"
+    "privacy": "Confidentialitate",
+    "blog": "Blog",
+    "menu": "Meniu",
+    "watchDemo": "Vezi demo",
+    "home": "Acasa"
   },
   "Landing": {
     "trialBadge": "14 zile gratuit — fara card",

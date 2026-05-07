@@ -30,7 +30,11 @@
     "days": "days",
     "viewAll": "View all",
     "terms": "Terms",
-    "privacy": "Privacy"
+    "privacy": "Privacy",
+    "blog": "Blog",
+    "menu": "Menu",
+    "watchDemo": "Watch demo",
+    "home": "Home"
   },
   "Landing": {
     "trialBadge": "14-day free trial — no credit card required",

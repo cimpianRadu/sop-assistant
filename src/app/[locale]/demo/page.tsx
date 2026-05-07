@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/logo";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
+import { MarketingMobileMenu } from "@/components/shared/marketing-mobile-menu";
 import { TrackedLink } from "@/components/shared/tracked-link";
 import { TrackedExternalLink } from "@/components/shared/tracked-external-link";
 import { DemoVideo } from "@/components/shared/demo-video";
@@ -50,7 +51,7 @@ export default async function DemoPage({
             <Logo />
             {tc("appName")}
           </Link>
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3">
             <LanguageSwitcher />
             <Link href="/" className="hidden sm:block">
               <Button variant="ghost" size="sm" className="gap-1.5">
@@ -58,6 +59,7 @@ export default async function DemoPage({
                 {t("backToHome")}
               </Button>
             </Link>
+            <MarketingMobileMenu source="demo_mobile_menu" />
             <TrackedExternalLink
               href={CALENDLY_DEMO_URL}
               event={GA_EVENTS.BOOK_DEMO_CLICK}

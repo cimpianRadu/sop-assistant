@@ -9,6 +9,7 @@ import { TrackedLink } from "@/components/shared/tracked-link";
 import { TrackedExternalLink } from "@/components/shared/tracked-external-link";
 import { Logo } from "@/components/shared/logo";
 import { HeroLoopVideo } from "@/components/shared/hero-loop-video";
+import { MarketingMobileMenu } from "@/components/shared/marketing-mobile-menu";
 import { GA_EVENTS } from "@/lib/analytics/events";
 import { CALENDLY_DEMO_URL } from "@/lib/external-links";
 import {
@@ -192,7 +193,7 @@ export default async function Home({
             <Logo />
             {tc("appName")}
           </span>
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3">
             <LanguageSwitcher />
             <Link href="/blog" className="hidden sm:block">
               <Button variant="ghost" size="sm">Blog</Button>
@@ -214,6 +215,7 @@ export default async function Home({
                 {tc("bookDemo")}
               </Button>
             </TrackedExternalLink>
+            <MarketingMobileMenu source="home_mobile_menu" />
             <TrackedLink href="/auth/signup" event={GA_EVENTS.START_TRIAL_CLICK} eventParams={{ source: "header_cta" }}>
               <Button size="sm">{tc("startFreeTrial")}</Button>
             </TrackedLink>
