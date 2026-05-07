@@ -49,13 +49,15 @@ export default async function ProcedureAiSupervisorPage({
       {/* Nav */}
       <header className="border-b">
         <div className="container mx-auto flex items-center justify-between h-14 px-4">
-          <Link href="/" className="flex items-center gap-1.5 font-semibold text-lg">
-            <Logo />
-            Sopia
-          </Link>
+          <div className="flex items-center gap-2">
+            <MarketingMobileMenu source="procedure_ai_supervisor_mobile_menu" />
+            <Link href="/" className="flex items-center gap-1.5 font-semibold text-lg">
+              <Logo />
+              Sopia
+            </Link>
+          </div>
           <div className="flex items-center gap-1.5 sm:gap-3">
             <LanguageSwitcher />
-            <MarketingMobileMenu source="procedure_ai_supervisor_mobile_menu" />
             <TrackedExternalLink
               href={CALENDLY_DEMO_URL}
               event={GA_EVENTS.BOOK_DEMO_CLICK}

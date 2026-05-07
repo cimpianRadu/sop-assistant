@@ -89,25 +89,28 @@ export default async function PricingPage({
     <div className="min-h-screen bg-background">
       <header className="border-b">
         <div className="container mx-auto flex items-center justify-between h-14 px-4">
-          <Link href="/" className="flex items-center gap-1.5 font-semibold text-lg">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 40 40"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="shrink-0"
-            >
-              <circle cx="20" cy="20" r="17.5" stroke="#2AA5A0" strokeWidth="2" fill="none" />
-              <line x1="20" y1="2.5" x2="20" y2="5.5" stroke="#2AA5A0" strokeWidth="1.5" />
-              <line x1="37.5" y1="20" x2="34.5" y2="20" stroke="#2AA5A0" strokeWidth="1.5" />
-              <line x1="20" y1="37.5" x2="20" y2="34.5" stroke="#2AA5A0" strokeWidth="1.5" />
-              <line x1="2.5" y1="20" x2="5.5" y2="20" stroke="#2AA5A0" strokeWidth="1.5" />
-              <path d="M20 6 L26 20 L20 34 L14 20 Z" fill="#2AA5A0" />
-              <path d="M20 6 L26 20 L20 20 L14 20 Z" fill="#1D7A76" />
-            </svg>
-            {tc("appName")}
-          </Link>
+          <div className="flex items-center gap-2">
+            {!user && <MarketingMobileMenu source="pricing_mobile_menu" />}
+            <Link href="/" className="flex items-center gap-1.5 font-semibold text-lg">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 40 40"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="shrink-0"
+              >
+                <circle cx="20" cy="20" r="17.5" stroke="#2AA5A0" strokeWidth="2" fill="none" />
+                <line x1="20" y1="2.5" x2="20" y2="5.5" stroke="#2AA5A0" strokeWidth="1.5" />
+                <line x1="37.5" y1="20" x2="34.5" y2="20" stroke="#2AA5A0" strokeWidth="1.5" />
+                <line x1="20" y1="37.5" x2="20" y2="34.5" stroke="#2AA5A0" strokeWidth="1.5" />
+                <line x1="2.5" y1="20" x2="5.5" y2="20" stroke="#2AA5A0" strokeWidth="1.5" />
+                <path d="M20 6 L26 20 L20 34 L14 20 Z" fill="#2AA5A0" />
+                <path d="M20 6 L26 20 L20 20 L14 20 Z" fill="#1D7A76" />
+              </svg>
+              {tc("appName")}
+            </Link>
+          </div>
           <div className="flex items-center gap-1.5 sm:gap-3">
             <LanguageSwitcher />
             {user ? (
@@ -123,7 +126,6 @@ export default async function PricingPage({
                     {tc("logIn")}
                   </Button>
                 </Link>
-                <MarketingMobileMenu source="pricing_mobile_menu" />
                 <Link href="/auth/signup">
                   <Button size="sm">{tc("startFreeTrial")}</Button>
                 </Link>

@@ -47,10 +47,13 @@ export default async function DemoPage({
       {/* Nav */}
       <header className="border-b">
         <div className="container mx-auto flex items-center justify-between h-14 px-4">
-          <Link href="/" className="flex items-center gap-1.5 font-semibold text-lg">
-            <Logo />
-            {tc("appName")}
-          </Link>
+          <div className="flex items-center gap-2">
+            <MarketingMobileMenu source="demo_mobile_menu" />
+            <Link href="/" className="flex items-center gap-1.5 font-semibold text-lg">
+              <Logo />
+              {tc("appName")}
+            </Link>
+          </div>
           <div className="flex items-center gap-1.5 sm:gap-3">
             <LanguageSwitcher />
             <Link href="/" className="hidden sm:block">
@@ -59,7 +62,6 @@ export default async function DemoPage({
                 {t("backToHome")}
               </Button>
             </Link>
-            <MarketingMobileMenu source="demo_mobile_menu" />
             <TrackedExternalLink
               href={CALENDLY_DEMO_URL}
               event={GA_EVENTS.BOOK_DEMO_CLICK}

@@ -115,10 +115,14 @@ export function ExecutionTrendChart({
           {/* Chart area */}
           <div
             ref={chartRef}
-            className="relative flex-1 h-44 touch-none"
-            onPointerMove={(e) => handleMove(e.clientX)}
-            onPointerDown={(e) => handleMove(e.clientX)}
-            onPointerLeave={() => setActiveIdx(null)}
+            className="relative flex-1 h-44"
+            onPointerMove={(e) => {
+              if (e.pointerType === "mouse") handleMove(e.clientX);
+            }}
+            onPointerLeave={(e) => {
+              if (e.pointerType === "mouse") setActiveIdx(null);
+            }}
+            onClick={(e) => handleMove(e.clientX)}
           >
             <svg
               viewBox={`0 0 ${W} ${H}`}

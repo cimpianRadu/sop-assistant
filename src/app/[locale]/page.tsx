@@ -189,10 +189,13 @@ export default async function Home({
       {/* Nav */}
       <header className="border-b">
         <div className="container mx-auto flex items-center justify-between h-14 px-4">
-          <span className="flex items-center gap-1.5 font-semibold text-lg">
-            <Logo />
-            {tc("appName")}
-          </span>
+          <div className="flex items-center gap-2">
+            <MarketingMobileMenu source="home_mobile_menu" />
+            <span className="flex items-center gap-1.5 font-semibold text-lg">
+              <Logo />
+              {tc("appName")}
+            </span>
+          </div>
           <div className="flex items-center gap-1.5 sm:gap-3">
             <LanguageSwitcher />
             <Link href="/blog" className="hidden sm:block">
@@ -215,7 +218,6 @@ export default async function Home({
                 {tc("bookDemo")}
               </Button>
             </TrackedExternalLink>
-            <MarketingMobileMenu source="home_mobile_menu" />
             <TrackedLink href="/auth/signup" event={GA_EVENTS.START_TRIAL_CLICK} eventParams={{ source: "header_cta" }}>
               <Button size="sm">{tc("startFreeTrial")}</Button>
             </TrackedLink>
