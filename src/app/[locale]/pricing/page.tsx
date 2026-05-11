@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
 import { MarketingMobileMenu } from "@/components/shared/marketing-mobile-menu";
+import { ContactInfo } from "@/components/shared/contact-info";
 import { PricingTiers } from "@/components/pricing/pricing-tiers";
 
 export async function generateMetadata({
@@ -153,17 +154,12 @@ export default async function PricingPage({
           }
         />
 
-        <div className="text-center mt-12 space-y-2">
+        <div className="text-center mt-12 space-y-3">
           <p className="text-sm text-muted-foreground">{t("trialInfo")}</p>
-          <p className="text-sm text-muted-foreground">
-            {t("questions")}{" "}
-            <a
-              href="mailto:hello@sopia.xyz"
-              className="underline hover:text-foreground"
-            >
-              {tc("contactUs")}
-            </a>
-          </p>
+          <p className="text-sm text-muted-foreground">{t("questions")}</p>
+          <div className="flex justify-center text-sm text-muted-foreground">
+            <ContactInfo />
+          </div>
         </div>
       </main>
     </div>

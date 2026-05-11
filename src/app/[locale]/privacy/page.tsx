@@ -3,6 +3,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
+import { ContactInfo } from "@/components/shared/contact-info";
 
 export async function generateMetadata({
   params,
@@ -101,21 +102,14 @@ export default async function PrivacyPage({
           ))}
         </div>
 
-        <div className="mt-12 pt-8 border-t text-sm text-muted-foreground">
-          <p>
-            {t("questions")}{" "}
-            <a
-              href="mailto:hello@sopia.xyz"
-              className="underline hover:text-foreground"
-            >
-              hello@sopia.xyz
-            </a>
-          </p>
+        <div className="mt-12 pt-8 border-t text-sm text-muted-foreground space-y-3">
+          <p>{t("questions")}</p>
+          <ContactInfo variant="stacked" />
         </div>
       </main>
 
       <footer className="border-t">
-        <div className="container mx-auto px-4 py-6 flex items-center justify-between text-sm text-muted-foreground">
+        <div className="container mx-auto px-4 py-6 flex flex-col gap-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <Link href="/" className="flex items-center gap-1.5 hover:text-foreground">
             <svg width="18" height="18" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
               <circle cx="20" cy="20" r="17.5" stroke="#2AA5A0" strokeWidth="2" fill="none" />
@@ -128,13 +122,11 @@ export default async function PrivacyPage({
             </svg>
             {tc("appName")}
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <Link href="/terms" className="hover:text-foreground">
               {t("termsLink")}
             </Link>
-            <a href="mailto:hello@sopia.xyz" className="hover:text-foreground">
-              {tc("contact")}
-            </a>
+            <ContactInfo />
           </div>
         </div>
       </footer>

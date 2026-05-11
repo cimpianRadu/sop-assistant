@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/shared/logo";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
 import { MarketingMobileMenu } from "@/components/shared/marketing-mobile-menu";
+import { ContactInfo } from "@/components/shared/contact-info";
 import { TrackedLink } from "@/components/shared/tracked-link";
 import { TrackedExternalLink } from "@/components/shared/tracked-external-link";
 import { GA_EVENTS } from "@/lib/analytics/events";
@@ -91,7 +92,7 @@ export default async function BlogLayout({
                 : "Senior expertise where it matters."}
             </span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <Link href="/blog" className="hover:text-foreground transition">
               Blog
             </Link>
@@ -101,6 +102,7 @@ export default async function BlogLayout({
             <Link href="/privacy" className="hover:text-foreground transition">
               {locale === "ro" ? "Confidențialitate" : "Privacy"}
             </Link>
+            <ContactInfo />
           </div>
         </div>
       </footer>

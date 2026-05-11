@@ -13,6 +13,7 @@ import {
   type TopProcess,
 } from "@/components/shared/top-processes-card";
 import { DeleteAccountSection } from "@/components/shared/delete-account-section";
+import { ContactInfo } from "@/components/shared/contact-info";
 import { ChevronRightIcon } from "lucide-react";
 
 export default async function ProfilePage({
@@ -103,16 +104,14 @@ export default async function ProfilePage({
 
       <DeleteAccountSection />
 
-      <div className="pt-4 border-t text-sm text-muted-foreground flex items-center gap-4 flex-wrap">
+      <div className="pt-4 border-t text-sm text-muted-foreground flex items-center gap-x-4 gap-y-2 flex-wrap">
         <Link href="/terms" className="hover:text-foreground">
           {tc("terms")}
         </Link>
         <Link href="/privacy" className="hover:text-foreground">
           {tc("privacy")}
         </Link>
-        <a href="mailto:hello@sopia.xyz" className="hover:text-foreground">
-          {tc("contactUs")}
-        </a>
+        <ContactInfo />
       </div>
     </div>
   );

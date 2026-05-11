@@ -10,6 +10,7 @@ import { TrackedExternalLink } from "@/components/shared/tracked-external-link";
 import { Logo } from "@/components/shared/logo";
 import { HeroLoopVideo } from "@/components/shared/hero-loop-video";
 import { MarketingMobileMenu } from "@/components/shared/marketing-mobile-menu";
+import { ContactInfo } from "@/components/shared/contact-info";
 import { GA_EVENTS } from "@/lib/analytics/events";
 import { CALENDLY_DEMO_URL } from "@/lib/external-links";
 import {
@@ -577,22 +578,19 @@ export default async function Home({
 
       {/* Footer */}
       <footer className="border-t">
-        <div className="container mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">
+        <div className="container mx-auto px-4 py-6 flex flex-col gap-4 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <span className="flex items-center gap-1.5">
             <Logo size={18} />
             {tc("appName")}
           </span>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <Link href="/pricing" className="flex items-center gap-1.5 hover:text-foreground">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
               {tc("pricing")}
             </Link>
             <Link href="/terms" className="hover:text-foreground">{tc("terms")}</Link>
             <Link href="/privacy" className="hover:text-foreground">{tc("privacy")}</Link>
-            <a href="mailto:hello@sopia.xyz" className="flex items-center gap-1.5 hover:text-foreground">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-              {tc("contact")}
-            </a>
+            <ContactInfo />
           </div>
         </div>
       </footer>
