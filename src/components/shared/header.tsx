@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { getSessionContext } from "@/lib/session";
+import { isFounderEmail } from "@/lib/analytics/founder-gate";
 import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -191,6 +192,7 @@ export async function Header({
                 role={session.role}
                 orgName={session.org_name}
                 openEscalations={openEscalations}
+                isPlatformAdmin={isFounderEmail(session.email)}
               />
               <Link
                 href={`/${session.role}/dashboard`}

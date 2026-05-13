@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { getSessionContext } from "@/lib/session";
+import { isFounderEmail } from "@/lib/analytics/founder-gate";
 import { Header } from "./header";
 import { SidebarNav } from "./sidebar-nav";
 
@@ -49,6 +50,7 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
             role={session.role}
             orgName={session.org_name}
             openEscalations={openEscalations}
+            isPlatformAdmin={isFounderEmail(session.email)}
           />
         </aside>
 

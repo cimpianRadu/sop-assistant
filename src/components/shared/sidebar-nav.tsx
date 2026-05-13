@@ -11,6 +11,7 @@ import {
   BarChart3Icon,
   UserIcon,
   HelpCircleIcon,
+  ShieldCheckIcon,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -29,7 +30,11 @@ type NavSection = {
   items: NavItem[];
 };
 
-function buildSections(role: NavRole, openEscalations: number): NavSection[] {
+function buildSections(
+  role: NavRole,
+  openEscalations: number,
+  isPlatformAdmin: boolean
+): NavSection[] {
   const workspace: NavItem[] = [
     {
       href: `/${role}/dashboard`,
@@ -76,6 +81,20 @@ function buildSections(role: NavRole, openEscalations: number): NavSection[] {
     { labelKey: "workspace", items: workspace },
     { labelKey: "account", items: account },
   ];
+
+  if (isPlatformAdmin) {
+    sections.push({
+      labelKey: "platform",
+      items: [
+        {
+          href: "/platform/ai-usage",
+          labelKey: "platform",
+          icon: ShieldCheckIcon,
+        },
+      ],
+    });
+  }
+
   return sections;
 }
 
@@ -83,6 +102,7 @@ type Props = {
   role: NavRole;
   openEscalations?: number;
   orgName?: string;
+  isPlatformAdmin?: boolean;
   onNavigate?: () => void;
   /** When true, renders with compact spacing suitable for a drawer. */
   compact?: boolean;
@@ -92,12 +112,13 @@ export function SidebarNav({
   role,
   openEscalations = 0,
   orgName,
+  isPlatformAdmin = false,
   onNavigate,
   compact = false,
 }: Props) {
   const t = useTranslations("Nav");
   const pathname = usePathname();
-  const sections = buildSections(role, openEscalations);
+  const sections = buildSections(role, openEscalations, isPlatformAdmin);
 
   return (
     <nav
@@ -113,7 +134,11 @@ export function SidebarNav({
             {section.items.map((item) => {
               const Icon = item.icon;
               const hrefBase = item.href.split("#")[0];
-              const active = pathname === hrefBase;
+              // The Platform item points at /platform/ai-usage but should
+              // light up on any /platform/* subpage.
+              const active = hrefBase.startsWith("/platform")
+                ? pathname.startsWith("/platform")
+                : pathname === hrefBase;
               return (
                 <li key={item.href + item.labelKey}>
                   <Link

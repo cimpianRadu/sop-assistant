@@ -17,9 +17,15 @@ type Props = {
   role: NavRole;
   orgName: string;
   openEscalations?: number;
+  isPlatformAdmin?: boolean;
 };
 
-export function MobileNav({ role, orgName, openEscalations = 0 }: Props) {
+export function MobileNav({
+  role,
+  orgName,
+  openEscalations = 0,
+  isPlatformAdmin = false,
+}: Props) {
   const [open, setOpen] = useState(false);
   const th = useTranslations("Header");
 
@@ -44,6 +50,7 @@ export function MobileNav({ role, orgName, openEscalations = 0 }: Props) {
             role={role}
             orgName={orgName}
             openEscalations={openEscalations}
+            isPlatformAdmin={isPlatformAdmin}
             onNavigate={() => setOpen(false)}
             compact
           />
