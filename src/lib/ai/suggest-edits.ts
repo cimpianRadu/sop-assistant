@@ -2,11 +2,13 @@ import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@/lib/supabase/server";
 import { getSessionContext } from "@/lib/session";
+import { logAiCall } from "@/lib/ai/log";
 import type { ChecklistStep } from "@/lib/types";
 
 const TTL_MS = 24 * 60 * 60 * 1000; // 24h
 const MAX_HELP_REQUESTS = 30;
 const MIN_SIGNAL = 3; // skip the AI call if there are fewer help requests than this
+const MODEL = "claude-sonnet-4-5-20250929";
 
 export type SuggestionPayload = {
   has_insights: boolean;
@@ -163,12 +165,28 @@ ${requestsText}`;
 
   // 5. Call Claude
   let payload: SuggestionPayload;
+  const startedAt = Date.now();
   try {
     const message = await anthropic.messages.create({
-      model: "claude-sonnet-4-5-20250929",
+      model: MODEL,
       max_tokens: 600,
       system,
       messages: [{ role: "user", content: user }],
+    });
+
+    await logAiCall({
+      endpoint: "suggest-edits",
+      model: MODEL,
+      user_id: session.user_id,
+      org_id: session.org_id,
+      latency_ms: Date.now() - startedAt,
+      status: "ok",
+      usage: {
+        input_tokens: message.usage?.input_tokens ?? 0,
+        output_tokens: message.usage?.output_tokens ?? 0,
+        cache_read_tokens: message.usage?.cache_read_input_tokens ?? 0,
+        cache_creation_tokens: message.usage?.cache_creation_input_tokens ?? 0,
+      },
     });
 
     const block = message.content[0];
@@ -191,6 +209,15 @@ ${requestsText}`;
     };
   } catch (err) {
     console.error("[suggest-edits] AI call failed:", err);
+    await logAiCall({
+      endpoint: "suggest-edits",
+      model: MODEL,
+      user_id: session.user_id,
+      org_id: session.org_id,
+      latency_ms: Date.now() - startedAt,
+      status: "error",
+      error: err instanceof Error ? err.message : "unknown",
+    });
     // Don't cache failures — let the next page load retry.
     return {
       payload: {

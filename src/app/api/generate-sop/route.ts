@@ -2,8 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@/lib/supabase/server";
 import { generateSopLimiter, rateLimitResponse } from "@/lib/rate-limit";
+import { logAiCall } from "@/lib/ai/log";
 
 export const maxDuration = 60;
+
+const MODEL = "claude-sonnet-4-5-20250929";
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -29,7 +32,7 @@ export async function POST(request: NextRequest) {
   // Verify user is admin or manager in their org
   const { data: membership } = await supabase
     .from("org_members")
-    .select("role")
+    .select("role, org_id")
     .eq("user_id", user.id)
     .single();
 
@@ -51,9 +54,10 @@ export async function POST(request: NextRequest) {
       ? "Write ALL content (SOP text and checklist steps) in English."
       : "Write ALL content (SOP text and checklist steps) in Romanian. Use clear, professional Romanian language.";
 
+  const startedAt = Date.now();
   try {
     const message = await anthropic.messages.create({
-      model: "claude-sonnet-4-5-20250929",
+      model: MODEL,
       max_tokens: 2048,
       messages: [
         {
@@ -73,8 +77,26 @@ Each step should start with a verb and be specific enough to verify completion.
 Do not wrap the JSON in code blocks or any other formatting.`,
     });
 
+    const usage = {
+      input_tokens: message.usage?.input_tokens ?? 0,
+      output_tokens: message.usage?.output_tokens ?? 0,
+      cache_read_tokens: message.usage?.cache_read_input_tokens ?? 0,
+      cache_creation_tokens: message.usage?.cache_creation_input_tokens ?? 0,
+    };
+    const latency_ms = Date.now() - startedAt;
+
     const content = message.content[0];
     if (content.type !== "text") {
+      await logAiCall({
+        endpoint: "generate-sop",
+        model: MODEL,
+        user_id: user.id,
+        org_id: membership.org_id,
+        latency_ms,
+        status: "error",
+        error: "unexpected_response_format",
+        usage,
+      });
       return NextResponse.json(
         { error: "Unexpected response format" },
         { status: 500 }
@@ -91,15 +113,44 @@ Do not wrap the JSON in code blocks or any other formatting.`,
     const parsed = JSON.parse(jsonText);
 
     if (!parsed.sop || !Array.isArray(parsed.checklist)) {
+      await logAiCall({
+        endpoint: "generate-sop",
+        model: MODEL,
+        user_id: user.id,
+        org_id: membership.org_id,
+        latency_ms,
+        status: "error",
+        error: "invalid_response_structure",
+        usage,
+      });
       return NextResponse.json(
         { error: "Invalid response structure from AI" },
         { status: 500 }
       );
     }
 
+    await logAiCall({
+      endpoint: "generate-sop",
+      model: MODEL,
+      user_id: user.id,
+      org_id: membership.org_id,
+      latency_ms,
+      status: "ok",
+      usage,
+    });
+
     return NextResponse.json(parsed);
   } catch (error) {
     console.error("SOP generation error:", error);
+    await logAiCall({
+      endpoint: "generate-sop",
+      model: MODEL,
+      user_id: user.id,
+      org_id: membership.org_id,
+      latency_ms: Date.now() - startedAt,
+      status: "error",
+      error: error instanceof Error ? error.message : "unknown",
+    });
 
     if (error instanceof SyntaxError) {
       return NextResponse.json(

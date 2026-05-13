@@ -2,8 +2,11 @@ import { streamText, UIMessage, convertToModelMessages } from "ai";
 import { anthropic } from "@ai-sdk/anthropic";
 import { createClient } from "@/lib/supabase/server";
 import { chatLimiter, rateLimitResponse } from "@/lib/rate-limit";
+import { logAiCall } from "@/lib/ai/log";
 
 export const maxDuration = 30;
+
+const MODEL = "claude-sonnet-4-5-20250929";
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -23,7 +26,7 @@ export async function POST(request: Request) {
 
   const { data: membership } = await supabase
     .from("org_members")
-    .select("role")
+    .select("role, org_id")
     .eq("user_id", user.id)
     .single();
 
@@ -80,11 +83,47 @@ Guidelines:
 - If the operator seems to need manager approval or intervention, suggest they use the escalation feature
 - You can reference any step in the SOP, not just the current one`;
 
+  const startedAt = Date.now();
+
   const result = streamText({
-    model: anthropic("claude-sonnet-4-5-20250929"),
+    model: anthropic(MODEL),
     system: systemPrompt,
     messages: await convertToModelMessages(messages),
     maxOutputTokens: 1024,
+    onFinish: async ({ usage }) => {
+      // Vercel AI SDK v6 reports usage as { inputTokens, outputTokens, ... }
+      // when available. Cache tokens are surfaced via providerMetadata.
+      const u = usage as unknown as {
+        inputTokens?: number;
+        outputTokens?: number;
+        cachedInputTokens?: number;
+      };
+      await logAiCall({
+        endpoint: "chat",
+        model: MODEL,
+        user_id: user.id,
+        org_id: membership.org_id,
+        latency_ms: Date.now() - startedAt,
+        status: "ok",
+        usage: {
+          input_tokens: u.inputTokens ?? 0,
+          output_tokens: u.outputTokens ?? 0,
+          cache_read_tokens: u.cachedInputTokens ?? 0,
+          cache_creation_tokens: 0,
+        },
+      });
+    },
+    onError: async ({ error }) => {
+      await logAiCall({
+        endpoint: "chat",
+        model: MODEL,
+        user_id: user.id,
+        org_id: membership.org_id,
+        latency_ms: Date.now() - startedAt,
+        status: "error",
+        error: error instanceof Error ? error.message : String(error),
+      });
+    },
   });
 
   return result.toUIMessageStreamResponse();
