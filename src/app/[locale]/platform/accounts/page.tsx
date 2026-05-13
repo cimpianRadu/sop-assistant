@@ -26,37 +26,50 @@ export default async function AccountsPage({
 
   const admin = createAdminClient();
 
-  // Pull all profiles with their org membership.
-  const { data: profiles } = await admin
-    .from("profiles")
-    .select(
-      "id, email, full_name, created_at, org_members(org_id, organizations(name))"
-    )
-    .order("created_at", { ascending: false })
-    .limit(500);
+  // Three independent queries — joining profiles ↔ org_members confuses
+  // PostgREST because org_members has two FKs back to profiles (user_id
+  // and invited_by), so we merge in JS.
+  const [
+    { data: profiles, error: profilesError },
+    { data: memberships, error: membersError },
+    { data: orgs, error: orgsError },
+    { data: authData, error: authError },
+  ] = await Promise.all([
+    admin
+      .from("profiles")
+      .select("id, email, full_name, created_at")
+      .order("created_at", { ascending: false })
+      .limit(500),
+    admin.from("org_members").select("user_id, org_id"),
+    admin.from("organizations").select("id, name"),
+    admin.auth.admin.listUsers({ page: 1, perPage: 1000 }),
+  ]);
 
-  // Pull auth users (paginated — single page of 1000 is enough for our scale).
-  const { data: authData } = await admin.auth.admin.listUsers({
-    page: 1,
-    perPage: 1000,
-  });
+  if (profilesError) console.error("[accounts] profiles:", profilesError);
+  if (membersError) console.error("[accounts] members:", membersError);
+  if (orgsError) console.error("[accounts] orgs:", orgsError);
+  if (authError) console.error("[accounts] auth:", authError);
+
+  const orgNameById = new Map<string, string>();
+  for (const o of orgs ?? []) orgNameById.set(o.id, o.name);
+
+  const orgIdByUser = new Map<string, string>();
+  for (const m of memberships ?? []) orgIdByUser.set(m.user_id, m.org_id);
+
   const signInById = new Map<string, string | null>();
   for (const u of authData?.users ?? []) {
     signInById.set(u.id, u.last_sign_in_at ?? null);
   }
 
   const rows: Row[] = (profiles ?? []).map((p) => {
-    const member = (p.org_members as unknown as Array<{
-      org_id: string;
-      organizations: { name: string } | null;
-    }>)[0];
+    const orgId = orgIdByUser.get(p.id) ?? null;
     return {
       id: p.id,
       email: p.email,
       full_name: p.full_name,
       created_at: p.created_at,
-      org_id: member?.org_id ?? null,
-      org_name: member?.organizations?.name ?? null,
+      org_id: orgId,
+      org_name: orgId ? (orgNameById.get(orgId) ?? null) : null,
       flags: flagsFor(p.email, p.full_name),
       last_sign_in_at: signInById.get(p.id) ?? null,
     };
