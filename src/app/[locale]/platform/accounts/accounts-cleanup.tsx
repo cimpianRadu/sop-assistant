@@ -42,7 +42,7 @@ export function AccountsCleanup({
   if (rows.length === 0) {
     return (
       <p className="text-sm text-muted-foreground rounded-lg border bg-card p-6">
-        No flagged accounts. ✓
+        Nothing here. ✓
       </p>
     );
   }

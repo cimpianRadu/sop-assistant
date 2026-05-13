@@ -2,6 +2,7 @@ import { setRequestLocale } from "next-intl/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { flagsFor } from "@/lib/platform/suspicious";
 import { AccountsCleanup } from "./accounts-cleanup";
+import { Link } from "@/i18n/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -16,13 +17,34 @@ type Row = {
   last_sign_in_at: string | null;
 };
 
+type FilterKey = "all" | "flagged" | "never" | "clean";
+
+const FILTER_LABELS: Record<FilterKey, string> = {
+  all: "All accounts",
+  flagged: "Flagged",
+  never: "Never signed in",
+  clean: "Clean",
+};
+
+function parseFilter(raw: string | string[] | undefined): FilterKey {
+  const v = Array.isArray(raw) ? raw[0] : raw;
+  if (v === "all" || v === "flagged" || v === "never" || v === "clean") {
+    return v;
+  }
+  return "flagged"; // default: most useful view
+}
+
 export default async function AccountsPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ filter?: string }>;
 }) {
   const { locale } = await params;
+  const { filter: rawFilter } = await searchParams;
   setRequestLocale(locale);
+  const activeFilter = parseFilter(rawFilter);
 
   const admin = createAdminClient();
 
@@ -78,60 +100,103 @@ export default async function AccountsPage({
   const flagged = rows
     .filter((r) => r.flags.length > 0)
     .sort((a, b) => b.flags.length - a.flags.length);
-
+  const neverSignedIn = rows.filter((r) => !r.last_sign_in_at);
   const clean = rows.filter((r) => r.flags.length === 0);
+
+  const visible: Row[] =
+    activeFilter === "all"
+      ? rows
+      : activeFilter === "flagged"
+        ? flagged
+        : activeFilter === "never"
+          ? neverSignedIn
+          : clean;
 
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <Kpi label="Total accounts" value={rows.length} />
-        <Kpi label="Flagged" value={flagged.length} tone="danger" />
-        <Kpi
-          label="Never signed in"
-          value={rows.filter((r) => !r.last_sign_in_at).length}
+        <KpiLink
+          href="/platform/accounts?filter=all"
+          label="Total accounts"
+          value={rows.length}
+          active={activeFilter === "all"}
         />
-        <Kpi label="Clean" value={clean.length} tone="positive" />
+        <KpiLink
+          href="/platform/accounts?filter=flagged"
+          label="Flagged"
+          value={flagged.length}
+          tone="danger"
+          active={activeFilter === "flagged"}
+        />
+        <KpiLink
+          href="/platform/accounts?filter=never"
+          label="Never signed in"
+          value={neverSignedIn.length}
+          active={activeFilter === "never"}
+        />
+        <KpiLink
+          href="/platform/accounts?filter=clean"
+          label="Clean"
+          value={clean.length}
+          tone="positive"
+          active={activeFilter === "clean"}
+        />
       </div>
 
       <section>
         <h2 className="text-lg font-semibold mb-1">
-          Flagged accounts ({flagged.length})
+          {FILTER_LABELS[activeFilter]} ({visible.length})
         </h2>
         <p className="text-sm text-muted-foreground mb-3">
-          Heuristic matches on email + name. Always review before deleting.
+          {activeFilter === "flagged"
+            ? "Heuristic matches on email + name. Always review before deleting."
+            : activeFilter === "never"
+              ? "Accounts that signed up but never logged in. Strong signal of spam or abandoned signups."
+              : activeFilter === "clean"
+                ? "No heuristic flags. Likely real users."
+                : "Every account in the database."}
         </p>
-        <AccountsCleanup rows={flagged} locale={locale} />
+        <AccountsCleanup rows={visible} locale={locale} />
       </section>
     </div>
   );
 }
 
-function Kpi({
+function KpiLink({
+  href,
   label,
   value,
   tone = "default",
+  active = false,
 }: {
+  href: string;
   label: string;
   value: number;
   tone?: "default" | "positive" | "danger";
+  active?: boolean;
 }) {
+  const base = "rounded-lg border px-4 py-3 transition-all block";
+  const toneClasses =
+    tone === "danger"
+      ? "border-destructive/25 bg-destructive/5"
+      : tone === "positive"
+        ? "border-emerald-500/25 bg-emerald-500/5"
+        : "bg-card";
+  const ring = active
+    ? tone === "danger"
+      ? "ring-2 ring-destructive/40"
+      : tone === "positive"
+        ? "ring-2 ring-emerald-500/40"
+        : "ring-2 ring-primary/40"
+    : "hover:shadow-sm";
   return (
-    <div
-      className={
-        "rounded-lg border px-4 py-3 " +
-        (tone === "danger"
-          ? "border-destructive/25 bg-destructive/5"
-          : tone === "positive"
-            ? "border-emerald-500/25 bg-emerald-500/5"
-            : "bg-card")
-      }
-    >
+    <Link href={href} className={`${base} ${toneClasses} ${ring}`}>
       <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wide">
         {label}
       </p>
       <p className="text-2xl font-bold tabular-nums mt-1">
         {value.toLocaleString("en-US")}
       </p>
-    </div>
+    </Link>
   );
 }
