@@ -50,9 +50,8 @@ export default async function AiUsagePage({
   // eslint-disable-next-line react-hooks/purity -- server component, runs per-request
   const nowMs = Date.now();
   const dayAgo = new Date(nowMs - 24 * 60 * 60 * 1000).toISOString();
-  const monthAgo = new Date(nowMs - 30 * 24 * 60 * 60 * 1000).toISOString();
 
-  const [{ data: dayCalls }, { data: monthCalls }, { data: recent }] =
+  const [{ data: dayCalls }, { data: allCalls }, { data: recent }] =
     await Promise.all([
       admin
         .from("ai_calls")
@@ -64,8 +63,7 @@ export default async function AiUsagePage({
         .from("ai_calls")
         .select(
           "id, endpoint, org_id, status, cost_usd, latency_ms, input_tokens, output_tokens, cache_read_tokens"
-        )
-        .gte("created_at", monthAgo),
+        ),
       admin
         .from("ai_calls")
         .select("*")
@@ -74,26 +72,26 @@ export default async function AiUsagePage({
     ]);
 
   const day = (dayCalls ?? []) as Partial<CallRow>[];
-  const month = (monthCalls ?? []) as Partial<CallRow>[];
+  const all = (allCalls ?? []) as Partial<CallRow>[];
   const recentRows = (recent ?? []) as CallRow[];
 
   const callsToday = day.length;
-  const mtdCost = month.reduce((s, r) => s + Number(r.cost_usd ?? 0), 0);
-  const monthLatencies = month
+  const totalCost = all.reduce((s, r) => s + Number(r.cost_usd ?? 0), 0);
+  const allLatencies = all
     .map((r) => r.latency_ms)
     .filter((x): x is number => typeof x === "number");
-  const p95 = pctile(monthLatencies, 95);
+  const p95 = pctile(allLatencies, 95);
   const errorRate =
-    month.length > 0
-      ? (month.filter((r) => r.status === "error").length / month.length) * 100
+    all.length > 0
+      ? (all.filter((r) => r.status === "error").length / all.length) * 100
       : 0;
 
-  // Per-endpoint stats over the month
+  // Per-endpoint stats (all time)
   const endpointMap = new Map<
     string,
     { calls: number; cost: number; in: number; out: number; cache_read: number }
   >();
-  for (const r of month) {
+  for (const r of all) {
     const k = r.endpoint ?? "unknown";
     const cur = endpointMap.get(k) ?? {
       calls: 0,
@@ -113,9 +111,9 @@ export default async function AiUsagePage({
     .map(([endpoint, v]) => ({ endpoint, ...v }))
     .sort((a, b) => b.cost - a.cost);
 
-  // Per-org spend over the month
+  // Per-org spend (all time)
   const orgIds = [
-    ...new Set(month.map((r) => r.org_id).filter((x): x is string => !!x)),
+    ...new Set(all.map((r) => r.org_id).filter((x): x is string => !!x)),
   ];
   const orgNameById = new Map<string, string>();
   if (orgIds.length > 0) {
@@ -126,7 +124,7 @@ export default async function AiUsagePage({
     for (const o of orgs ?? []) orgNameById.set(o.id, o.name);
   }
   const orgMap = new Map<string, { calls: number; cost: number }>();
-  for (const r of month) {
+  for (const r of all) {
     const k = r.org_id ?? "_none_";
     const cur = orgMap.get(k) ?? { calls: 0, cost: 0 };
     cur.calls += 1;
@@ -161,32 +159,37 @@ export default async function AiUsagePage({
     <div className="space-y-8">
       {/* KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <StatCard label="Calls today" value={fmtInt(callsToday)} />
         <StatCard
-          label="MTD cost"
-          value={fmtUsd(mtdCost)}
+          label="Calls today"
+          value={fmtInt(callsToday)}
+          delta="last 24h"
+          deltaTone="neutral"
+        />
+        <StatCard
+          label="Total cost"
+          value={fmtUsd(totalCost)}
           tone="primary"
-          delta={`${fmtInt(month.length)} calls`}
+          delta={`${fmtInt(all.length)} calls`}
           deltaTone="neutral"
         />
         <StatCard
           label="p95 latency"
           value={p95 > 0 ? `${(p95 / 1000).toFixed(1)}s` : "—"}
-          delta="last 30d"
+          delta="all time"
           deltaTone="neutral"
         />
         <StatCard
           label="Error rate"
           value={`${errorRate.toFixed(1)}%`}
           tone={errorRate > 5 ? "danger" : "default"}
-          delta="last 30d"
+          delta="all time"
           deltaTone={errorRate > 5 ? "danger" : "neutral"}
         />
       </div>
 
       {/* Per-endpoint */}
       <section>
-        <h2 className="text-lg font-semibold mb-3">By endpoint (30d)</h2>
+        <h2 className="text-lg font-semibold mb-3">By endpoint (all time)</h2>
         {endpointStats.length === 0 ? (
           <p className="text-sm text-muted-foreground">
             No calls logged yet. Trigger a chat, SOP generation, or operator
@@ -245,7 +248,7 @@ export default async function AiUsagePage({
 
       {/* Per-org */}
       <section>
-        <h2 className="text-lg font-semibold mb-3">By org (30d, top 20)</h2>
+        <h2 className="text-lg font-semibold mb-3">By org (all time, top 20)</h2>
         {orgStats.length === 0 ? (
           <p className="text-sm text-muted-foreground">No org data yet.</p>
         ) : (
