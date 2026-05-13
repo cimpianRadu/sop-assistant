@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Header } from "@/components/shared/header";
 import { ActivityIcon, UsersIcon } from "lucide-react";
 import { PlatformNavLink } from "./nav-link";
+import { TimeRangeFilter } from "./time-range-filter";
 
 export const metadata = {
   title: "Platform admin",
@@ -42,6 +43,9 @@ export default async function PlatformLayout({
             ↗ Founder insights
           </Link>
         </nav>
+        <div className="mb-6">
+          <TimeRangeFilter />
+        </div>
         {children}
       </div>
     </div>

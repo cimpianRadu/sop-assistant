@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { flagsFor } from "@/lib/platform/suspicious";
 import { AccountsCleanup } from "./accounts-cleanup";
 import { Link } from "@/i18n/navigation";
+import { parseRange, rangeLabel, rangeSinceIso } from "@/lib/platform/range";
 
 export const dynamic = "force-dynamic";
 
@@ -39,12 +40,17 @@ export default async function AccountsPage({
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ filter?: string }>;
+  searchParams: Promise<{ filter?: string; range?: string }>;
 }) {
   const { locale } = await params;
-  const { filter: rawFilter } = await searchParams;
+  const { filter: rawFilter, range: rawRange } = await searchParams;
   setRequestLocale(locale);
   const activeFilter = parseFilter(rawFilter);
+  const range = parseRange(rawRange);
+  // eslint-disable-next-line react-hooks/purity -- server component, runs per-request
+  const nowMs = Date.now();
+  const sinceIso = rangeSinceIso(range, nowMs);
+  const sinceMs = sinceIso ? new Date(sinceIso).getTime() : null;
 
   const admin = createAdminClient();
 
@@ -83,7 +89,7 @@ export default async function AccountsPage({
     signInById.set(u.id, u.last_sign_in_at ?? null);
   }
 
-  const rows: Row[] = (profiles ?? []).map((p) => {
+  const allRows: Row[] = (profiles ?? []).map((p) => {
     const orgId = orgIdByUser.get(p.id) ?? null;
     return {
       id: p.id,
@@ -97,51 +103,76 @@ export default async function AccountsPage({
     };
   });
 
-  const flagged = rows
+  // Time-range filter applies to last_sign_in_at for accounts that HAVE
+  // signed in. The "Never signed in" view ignores the range — by definition
+  // those accounts have no sign-in to filter on.
+  const isInRange = (r: Row): boolean => {
+    if (sinceMs === null) return true;
+    if (!r.last_sign_in_at) return false;
+    return new Date(r.last_sign_in_at).getTime() >= sinceMs;
+  };
+
+  const neverSignedIn = allRows.filter((r) => !r.last_sign_in_at);
+  const rowsInRange = allRows.filter(isInRange);
+
+  // KPIs reflect the time-filtered subset (except "Never signed in", which
+  // is independent of date — it's about the absence of a sign-in).
+  const flagged = rowsInRange
     .filter((r) => r.flags.length > 0)
     .sort((a, b) => b.flags.length - a.flags.length);
-  const neverSignedIn = rows.filter((r) => !r.last_sign_in_at);
-  const clean = rows.filter((r) => r.flags.length === 0);
+  const clean = rowsInRange.filter((r) => r.flags.length === 0);
 
   const visible: Row[] =
     activeFilter === "all"
-      ? rows
+      ? rowsInRange
       : activeFilter === "flagged"
         ? flagged
         : activeFilter === "never"
           ? neverSignedIn
           : clean;
 
+  const label = rangeLabel(range);
+  const rangeQs = range === "all" ? "" : `&range=${range}`;
+  const kpiSubtitle =
+    range === "all" ? "by last sign-in" : `signed in ${label}`;
+
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <KpiLink
-          href="/platform/accounts?filter=all"
+          href={`/platform/accounts?filter=all${rangeQs}`}
           label="Total accounts"
-          value={rows.length}
+          value={rowsInRange.length}
           active={activeFilter === "all"}
         />
         <KpiLink
-          href="/platform/accounts?filter=flagged"
+          href={`/platform/accounts?filter=flagged${rangeQs}`}
           label="Flagged"
           value={flagged.length}
           tone="danger"
           active={activeFilter === "flagged"}
         />
         <KpiLink
-          href="/platform/accounts?filter=never"
+          href={`/platform/accounts?filter=never${rangeQs}`}
           label="Never signed in"
           value={neverSignedIn.length}
           active={activeFilter === "never"}
         />
         <KpiLink
-          href="/platform/accounts?filter=clean"
+          href={`/platform/accounts?filter=clean${rangeQs}`}
           label="Clean"
           value={clean.length}
           tone="positive"
           active={activeFilter === "clean"}
         />
       </div>
+
+      {activeFilter !== "never" && (
+        <p className="text-xs text-muted-foreground -mt-4">
+          KPIs above scoped to accounts {kpiSubtitle}. &ldquo;Never signed
+          in&rdquo; is independent of the date range.
+        </p>
+      )}
 
       <section>
         <h2 className="text-lg font-semibold mb-1">
