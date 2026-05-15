@@ -9,11 +9,9 @@ cover: "/blog/en/how-to-document-tribal-knowledge-cover.jpg"
 readingTime: "10 min"
 ---
 
-It's a Tuesday morning in Portland. Sarah, ops manager at a regional specialty bakery, opens an email from Marco. He's her production lead, seven years in. He just accepted an offer at a larger operation up in Seattle. Two weeks notice.
+When your most experienced operator gives two weeks notice, you have 10 business days to extract 4 to 7 years of pattern recognition into a format your remaining team can use on Monday morning. Two weeks if they tell you. Zero if they leave abruptly.
 
-Sarah does the mental inventory. Marco knows that their flour supplier in Spokane runs 12% more expensive than the cheaper option in Boise, but the protein content is 0.3% more consistent and that matters on Monday mornings after a holiday weekend. Marco knows the proofing room thermostat has a specific drift pattern: when overnight readings start landing in two-decimal-place identical sequences, the unit is 6 to 8 weeks from failing. Marco knows that three of their wholesale accounts never put their custom-order specs in writing. They call him directly at 6 a.m., and one of them switches their delivery preference depending on what their pastry chef is making that week.
-
-None of this lives in the SOP binder. None of it is on the company shared drive. In ten business days, it walks out the door.
+In that window you lose one of two things: tens of thousands of dollars in operational mistakes and unhappy customers in the 90 days after they leave, or the structured time it takes to document how they actually work before they walk out. The difference between a useful exit and a costly one is which one you choose.
 
 If you've never lost a long-tenured employee, this article is your insurance. If you have, this is how to not do it the same way next time.
 
@@ -25,9 +23,20 @@ Every operation has two layers running in parallel. The written 70%: SOPs, train
 
 The 30% is what determines how the first 90 days after a key person leaves actually go. Most companies discover the size of the 30% only after they lose someone.
 
-A concrete example. A contract food manufacturer (CMO) running ISO 22000 has a written cleaning protocol that says "clean line between SKU changes." Their senior line operator, fifteen years in, knows that switching from SKU 47 to SKU 89 specifically requires running the allergen swab twice, not once, because residue patterns differ on this specific extruder when it has been running over 12 hours. That second part is not in the procedure. It is in her head. When she retires, your first allergen recall is 18 months away. The FSA, FDA, or USDA does not care that you had a written protocol. They care that the protocol didn't match how the line actually behaved.
+A concrete example. A contract food manufacturer (CMO) running ISO 22000 has a written cleaning protocol that says "clean line between SKU changes." Their senior line operator, fifteen years in, knows that switching from a specific high-allergen SKU to the next product specifically requires running the allergen swab twice, not once, because residue patterns differ on this particular extruder when it has been running over 12 hours. That second part is not in the procedure. It is in her head. When she retires, the first allergen recall is 18 months away. The FSA, FDA, or USDA does not care that you had a written protocol. They care that the protocol didn't match how the line actually behaved.
 
 That is tribal knowledge. And it is the most expensive thing in your operation to lose.
+
+## What it costs you when you lose it
+
+The numbers vary by industry, but the categories don't:
+
+- **Onboarding ramp doubles or triples.** A new hire reaches productive output in 6 to 12 weeks instead of 2 to 4. For one mid-level operator, that's 60 to 180 hours of senior-time spent fixing rookie mistakes, multiplied by whatever your senior labor rate is.
+- **Error rates spike for 3 to 6 months.** Customer complaints, rework, scrap, audit findings. In food manufacturing, a single misclassified allergen event can cost ,000 in product write-off and 5,000 to 2M in recall costs if it ships (FMI 2018 recall cost benchmarks).
+- **Vendor and customer relationships reset.** The buyer who only confirms orders by phone after 2 p.m. doesn't reset for the replacement. They have to discover that the hard way, after a missed delivery.
+- **Audit risk goes up.** OSHA citations average ,131 per serious violation as of 2024. An FDA Form 483 observation triggers a corrective action plan due in 15 days, with potential warning-letter escalation if the response is weak.
+
+Most of these aren't on a P&L line you can point to. They're spread across "customer service issues", "quality incidents", and "ramp inefficiency." But they're real, and they compound.
 
 ## The 4 categories of tribal knowledge worth documenting (and 1 you can skip)
 
@@ -41,13 +50,13 @@ You can't capture everything. You don't need to. Focus on four categories.
 
 **4. Decision rules.** The if-then logic an experienced person applies without thinking. "If the bake-off ratio drops below 0.7, we cut shift production by 15% and call the head baker before close." "If a customer asks for a refund within 5 days but the product has been opened, refund partial and offer a replacement. Don't argue." These are the heuristics that make a 7-year veteran 4x faster than a 2-month replacement.
 
-Skip the fifth category: personal preferences disguised as knowledge. "Marco always uses the blue pen." "Carla likes to clean station 4 first." These are style, not knowledge. Capturing them adds noise and slows you down.
+Skip the fifth category: personal preferences disguised as knowledge. "The senior baker always uses the blue pen." "The line lead likes to clean station 4 first." These are style, not knowledge. Capturing them adds noise and slows you down.
 
 ## Why traditional knowledge transfer fails
 
 Three predictable failure modes. You've probably seen at least two.
 
-**Asking the leaver to write everything down.** People who carry tribal knowledge don't carry it as documents. They carry it as patterns and judgment. When you ask them to write, they either don't (it feels like a waste of their last two weeks) or they write generalities that don't capture the actual decision logic. You end up with a Word doc that says "manage vendor relationships proactively" when what you needed was "Carla at Spokane Mills only confirms next-day delivery if you call before 2 p.m. She is the only one who answers, and her direct line is buried in the email signature she sent in March."
+**Asking the leaver to write everything down.** People who carry tribal knowledge don't carry it as documents. They carry it as patterns and judgment. When you ask them to write, they either don't (it feels like a waste of their last two weeks) or they write generalities that don't capture the actual decision logic. You end up with a Word doc that says "manage vendor relationships proactively" when what you needed was "the rep at the flour mill only confirms next-day delivery if you call before 2 p.m. She's the only one who answers, and her direct line is buried in an email signature from March."
 
 **The 1-week shadowing period.** A new hire shadows the leaver for a week. They see a hundred decisions and can't tell which twenty matter. They ask questions about the wrong ones because they don't yet know what they don't know. The leaver answers the easy questions and forgets to surface the hard ones, because for them, the hard ones aren't hard anymore. Shadowing without structured capture is theater.
 
@@ -76,7 +85,7 @@ Two weeks of notice means roughly 10 business days. Spend the first 7 capturing.
 A 40-page Word file goes in Drive and dies. What you actually need is a short, structured reference the next person can use on day 3, not just on day 90. Seven sections, each ruthlessly concrete.
 
 1. **System access map.** Logins, permissions, who has them, who needs them transferred. Passwords go into a password vault (1Password, Bitwarden), not the doc.
-2. **Vendor intelligence sheet.** Names, response patterns, escalation paths. Include the unspoken rules: "Karen at PackCo doesn't reply to email but answers her cell."
+2. **Vendor intelligence sheet.** Names, response patterns, escalation paths. Include the unspoken rules: "the packaging vendor doesn't reply to email but answers her cell."
 3. **Customer quirks.** The unwritten rules per account. Limit to your top 20 accounts.
 4. **What broke last year log.** The 5 to 10 most painful incidents, what fixed them, what the warning signs were. This single section pays for itself in six months.
 5. **Decision heuristics.** The if-then rules from Day 6.
