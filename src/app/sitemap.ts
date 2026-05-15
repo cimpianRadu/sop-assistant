@@ -32,13 +32,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogEntries: MetadataRoute.Sitemap = [
     ...roPosts.map((p) => ({
       url: `${baseUrl}/blog/${p.slug}`,
-      lastModified: new Date(p.date),
+      lastModified: new Date(p.updatedAt ?? p.date),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),
     ...enPosts.map((p) => ({
       url: `${baseUrl}/en/blog/${p.slug}`,
-      lastModified: new Date(p.date),
+      lastModified: new Date(p.updatedAt ?? p.date),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),

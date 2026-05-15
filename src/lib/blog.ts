@@ -7,7 +7,8 @@ export type BlogLocale = "ro" | "en";
 export type BlogPostFrontmatter = {
   title: string;
   description: string;
-  date: string; // ISO YYYY-MM-DD
+  date: string; // ISO YYYY-MM-DD (original publish date)
+  updatedAt?: string; // ISO YYYY-MM-DD (last meaningful content update; falls back to `date`)
   locale: BlogLocale;
   keywords?: string[];
   author?: string;
