@@ -525,6 +525,7 @@
     "weak_password": "Password is too weak. Use at least 8 characters with uppercase, lowercase, and a number.",
     "password_too_weak": "Password must be at least 8 characters and include uppercase, lowercase, and a number.",
     "invalid_email_format": "Please enter a valid email address.",
+    "captcha_required": "Please complete the captcha to continue.",
     "unknown_error": "Something went wrong. Please try again.",
     "sole_admin": "You are the only admin of your organization. Please transfer admin role to another member before deleting your account."
   },

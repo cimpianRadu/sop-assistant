@@ -18,6 +18,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { translateAuthError } from "@/lib/auth-errors";
+import { TurnstileWidget } from "@/components/auth/turnstile-widget";
 
 export function ForgotPasswordForm() {
   const t = useTranslations("Auth");
@@ -27,9 +28,11 @@ export function ForgotPasswordForm() {
   const [isPending, startTransition] = useTransition();
   const [success, setSuccess] = useState(false);
   const [email, setEmail] = useState("");
+  const [captchaToken, setCaptchaToken] = useState<string>("");
 
   function handleSubmit(formData: FormData) {
     setError(null);
+    formData.set("captchaToken", captchaToken);
     startTransition(async () => {
       const result = await forgotPassword(formData);
       if (result?.error) {
@@ -90,9 +93,18 @@ export function ForgotPasswordForm() {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
+          <TurnstileWidget
+            onVerify={setCaptchaToken}
+            onExpire={() => setCaptchaToken("")}
+            onError={() => setCaptchaToken("")}
+          />
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <Button type="submit" className="w-full" disabled={isPending}>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isPending || !captchaToken}
+          >
             {isPending && <Loader2Icon className="h-4 w-4 animate-spin" />}
             {isPending ? t("sendingResetLink") : t("sendResetLink")}
           </Button>

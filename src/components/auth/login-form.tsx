@@ -20,6 +20,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { translateAuthError } from "@/lib/auth-errors";
+import { TurnstileWidget } from "@/components/auth/turnstile-widget";
 
 export function LoginForm() {
   const t = useTranslations("Auth");
@@ -29,9 +30,11 @@ export function LoginForm() {
   const inviteToken = searchParams.get("invite");
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [captchaToken, setCaptchaToken] = useState<string>("");
 
   function handleSubmit(formData: FormData) {
     setError(null);
+    formData.set("captchaToken", captchaToken);
     startTransition(async () => {
       const result = await login(formData);
       if (result?.error) {
@@ -85,9 +88,18 @@ export function LoginForm() {
               minLength={6}
             />
           </div>
+          <TurnstileWidget
+            onVerify={setCaptchaToken}
+            onExpire={() => setCaptchaToken("")}
+            onError={() => setCaptchaToken("")}
+          />
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <Button type="submit" className="w-full" disabled={isPending}>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isPending || !captchaToken}
+          >
             {isPending && <Loader2Icon className="h-4 w-4 animate-spin" />}
             {isPending ? t("signingIn") : t("signIn")}
           </Button>

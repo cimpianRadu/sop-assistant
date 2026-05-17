@@ -525,6 +525,7 @@
     "weak_password": "Parola este prea slaba. Foloseste cel putin 8 caractere cu litere mari, litere mici si un numar.",
     "password_too_weak": "Parola trebuie sa aiba cel putin 8 caractere si sa includa litere mari, litere mici si un numar.",
     "invalid_email_format": "Te rugam introdu o adresa de email valida.",
+    "captcha_required": "Te rugam completeaza captcha pentru a continua.",
     "unknown_error": "Ceva nu a functionat corect. Te rugam sa incerci din nou.",
     "sole_admin": "Esti singurul admin al organizatiei. Te rugam sa transferi rolul de admin altui membru inainte de a-ti sterge contul."
   },

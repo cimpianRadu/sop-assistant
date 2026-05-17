@@ -10,6 +10,12 @@ export async function signup(formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const fullName = formData.get("fullName") as string;
+  const captchaToken = formData.get("captchaToken") as string | null;
+  const honeypot = formData.get("website") as string | null;
+
+  if (honeypot) {
+    return { success: true };
+  }
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return { error: "invalid_email_format" };
@@ -19,12 +25,17 @@ export async function signup(formData: FormData) {
     return { error: "password_too_weak" };
   }
 
+  if (!captchaToken) {
+    return { error: "captcha_required" };
+  }
+
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       data: { full_name: fullName || "" },
       emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/auth/callback`,
+      captchaToken,
     },
   });
 
@@ -40,10 +51,16 @@ export async function login(formData: FormData) {
 
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const captchaToken = formData.get("captchaToken") as string | null;
+
+  if (!captchaToken) {
+    return { error: "captcha_required" };
+  }
 
   const { error, data } = await supabase.auth.signInWithPassword({
     email,
     password,
+    options: { captchaToken },
   });
 
   if (error) {
@@ -72,13 +89,19 @@ export async function login(formData: FormData) {
 export async function forgotPassword(formData: FormData) {
   const supabase = await createClient();
   const email = formData.get("email") as string;
+  const captchaToken = formData.get("captchaToken") as string | null;
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return { error: "invalid_email_format" };
   }
 
+  if (!captchaToken) {
+    return { error: "captcha_required" };
+  }
+
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/auth/callback?next=/auth/reset-password`,
+    captchaToken,
   });
 
   if (error) {

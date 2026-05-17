@@ -12,6 +12,7 @@ const ERROR_MAP: Record<string, string> = {
   "Password should be at least 6 characters.": "weak_password",
   password_too_weak: "password_too_weak",
   invalid_email_format: "invalid_email_format",
+  captcha_required: "captcha_required",
 };
 
 export function translateAuthError(

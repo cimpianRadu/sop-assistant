@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/card";
 import { translateAuthError } from "@/lib/auth-errors";
 import { PasswordRules } from "@/components/auth/password-rules";
+import { TurnstileWidget } from "@/components/auth/turnstile-widget";
 import { createClient } from "@/lib/supabase/client";
 
 export function SignupForm() {
@@ -40,6 +41,7 @@ export function SignupForm() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string>("");
 
   const [resending, setResending] = useState(false);
   const [resent, setResent] = useState(false);
@@ -49,16 +51,21 @@ export function SignupForm() {
   const showEmailError = emailTouched && email.length > 0 && !isEmailValid;
 
   async function handleResend() {
-    if (!email || resending) return;
+    if (!email || resending || !captchaToken) return;
     setResending(true);
     const supabase = createClient();
-    await supabase.auth.resend({ type: "signup", email });
+    await supabase.auth.resend({
+      type: "signup",
+      email,
+      options: { captchaToken },
+    });
     setResending(false);
     setResent(true);
   }
 
   function handleSubmit(formData: FormData) {
     setError(null);
+    formData.set("captchaToken", captchaToken);
     startTransition(async () => {
       const result = await signup(formData);
       if (result?.error) {
@@ -90,7 +97,7 @@ export function SignupForm() {
             variant="outline"
             className="w-full"
             onClick={handleResend}
-            disabled={resending || resent}
+            disabled={resending || resent || !captchaToken}
           >
             {resending && <Loader2Icon className="h-4 w-4 animate-spin" />}
             {resent && <CheckCircleIcon className="h-4 w-4 text-green-600" />}
@@ -120,6 +127,21 @@ export function SignupForm() {
         {inviteToken && (
           <input type="hidden" name="inviteToken" value={inviteToken} />
         )}
+        {/* Honeypot — hidden from real users, bots fill it. */}
+        <input
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            left: "-10000px",
+            width: "1px",
+            height: "1px",
+            opacity: 0,
+          }}
+        />
         <CardContent className="space-y-4">
           {error && (
             <Alert variant="destructive">
@@ -167,9 +189,18 @@ export function SignupForm() {
             />
             <PasswordRules password={password} />
           </div>
+          <TurnstileWidget
+            onVerify={setCaptchaToken}
+            onExpire={() => setCaptchaToken("")}
+            onError={() => setCaptchaToken("")}
+          />
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <Button type="submit" className="w-full" disabled={isPending}>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isPending || !captchaToken}
+          >
             {isPending && <Loader2Icon className="h-4 w-4 animate-spin" />}
             {isPending ? t("creatingAccount") : t("createAccount")}
           </Button>
